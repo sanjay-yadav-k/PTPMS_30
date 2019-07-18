@@ -1,0 +1,145 @@
+﻿
+@{
+    ViewData["Title"] = "Remunarion";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .modal-footer {
+        padding: 15px;
+        text-align: center;
+        border-top: 1px solid #e5e5e5;
+    }
+
+    .pac-container {
+        z-index: 1051 !important;
+    }
+</style>
+
+<div class="box col-md-12" id="teacherpaymentcalculation">
+    <div class="box-inner">
+        <div class="box-header well" data-original-title="">
+            <h2>Teacher Payment Calculation</h2>
+            @*<div class="box-icon">*@
+
+            @*<a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalTeacherCalculate">
+                    <i class="glyphicon glyphicon-plus"></i>
+                </a>*@
+            <div class="box-content">
+                <table class="table">
+                    @using (Html.BeginForm("GetTeacherPayment", "Teacher", FormMethod.Get)) //, new { id = "mainForm" }
+                    {
+                        <tr>
+
+
+                            <td style="text-align:center;padding-top:15px">
+                                <input type="hidden" name="IsType" class="form-control" placeholder="Techer Name"
+                                       value="3" />
+                                <span> Month :</span>
+                            </td>
+                            <td>
+                                <select class="form-control" id="month" name="month"></select>
+                            </td>
+                            <td style="text-align:center;padding-top:15px">
+                                <span>  Year : </span>
+                            </td>
+                            <td>
+                                <select class="form-control" id="year" name="year"></select>
+                            </td>
+                            <td>
+                                <input type="submit" class="btn btn-primary" value="Submit" id="btnpayment" />
+                            </td>
+
+                        </tr>
+                    }
+                </table>
+            </div>
+
+        </div>
+        <div class="box-content">
+
+            @*<table class="table">
+                    <thead>
+                        <tr>
+
+
+                            <th>Teacher Name</th>
+                            <th>Total Class</th>
+                            <th>Total Batch</th>
+                            <th>Amount</th>
+
+
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>*@
+            @if (ViewBag.teacherMain != null)
+            {
+                @Html.Partial("_TeacherPaymentlisting")
+            }
+
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+         //// For month and year populated in two dropdowns
+        //alert('')
+        var minOffset = -10, maxOffset = 17;
+        var thisYear = (new Date()).getFullYear();
+        var m_names = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        var month = 0;
+
+        for (var j = month; j <= 11; j++) {
+            var months = m_names[0 + j];//.slice(0, 3);
+            $('<option>', { value: months, text: months }).appendTo("#month");
+        }
+
+        for (var i = minOffset; i <= maxOffset; i++) {
+            var year = thisYear + i;
+            $('<option>', { value: year, text: year }).appendTo("#year");
+        }
+        var d = new Date(),
+
+            n = d.getMonth(),
+
+            y = d.getFullYear();
+
+        var monthNum;
+
+        if (@ViewBag.mthnum!= 0) {
+
+            monthNum = @ViewBag.mthnum-1;
+            n = monthNum;
+         }
+        //debugger;
+
+        //if (monthNum != null  && monthNum!='') {
+        //    n = monthNum;
+        //}
+
+        //alert(monthNum)
+        //alert(n)
+        $('#month option:eq(' + n + ')').prop('selected', true);
+        $('#year option[value="' + y + '"]').prop('selected', true);
+
+
+        //// End of population
+        //var mt = $("#month").val();
+        //alert(mt);
+
+        //$("#btnpayment").off().on('click', function () {
+        //    var mth = $("#month").val();
+        //    var yr = $("#year").val();
+        //    alert(mth);
+        //    alert(yr);
+        //    $.ajax({
+
+        //    })
+        //})
+    });
+</script>
+
+
+

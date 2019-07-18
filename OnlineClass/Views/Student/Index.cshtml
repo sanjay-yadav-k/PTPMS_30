@@ -1,0 +1,327 @@
+﻿@*@{
+        ViewData["Title"] = "Index";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+
+    <h2>Index</h2>*@
+
+@model ReflectionIT.Mvc.Paging.PagingList<Datalayer.Models.TblBatch>
+@using Datalayer;
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@*<style>
+        .dncalendar-note-list {
+            display: none;
+        }
+    </style>*@
+<div class="row">
+    @if (@ViewBag.studentmap != null)
+    {
+        <div class="box col-md-12">
+            <form method="get" class="form-inline">
+                <input name="filter" class="form-control" placeholder="Teacher Name"
+                       value="" />
+                <button type="submit" class="btn btn-info">
+                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+                </button>
+            </form>
+            <div class="box-inner">
+                <div class="box-header well" data-original-title="">
+                    <h2>Teacher Wise Class Time (One to One)</h2>
+
+                </div>
+                <div class="box-content">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Teacher Name</th>
+                                <th>Class</th>
+                                <th>Subject</th>
+                                @*<th>Date</th>
+                                    <th>Time</th>*@
+                                @*<th>Class Start</th>
+                                    <th>Completed</th>*@
+
+                            </tr>
+                        </thead>
+                        @foreach (var item in ViewBag.studentmap)
+                        {
+                            <tbody>
+                                <tr>
+                                    <td>@Html.Label(@item.TeacherName, null, new { @onclick = "Showclander('" + @item.studentteacheridmap + "','" + @item.SudentId + "')" }) </td>
+
+                                    <td class="center">
+                                        @item.ClassName
+                                    </td>
+                                    <td class="center">@item.Subject</td>
+
+                                    @*@if (item.Date == null)
+                                        {
+                                            <td class="center"></td>
+                                        }
+                                        else
+                                        {
+                                            <td class="center"> @Convert.ToDateTime(item.Date).ToString("MM/dd/yyyy")</td>
+                                        }
+                                        <td class="center">
+                                            @item.Time
+                                        </td>*@
+                                    @*@if (item.IsStartClass == true)
+                                        {
+                                            <td>  @Html.CheckBox("StartClass", new { @value = item.IsStartClass, @checked = "checked", @disabled = "disabled" })</td>
+                                        }
+                                        else
+                                        {
+                                            <td class="center">  @Html.CheckBox("StartClass", new { @value = item.IsStartClass, @onclick = "UpdateStartclass('" + @item.studentteacheridmap + "')" })</td>
+                                        }
+                                        @if (item.IsCopletedClass == true)
+                                        {
+                                            <td class="center">
+                                                @Html.CheckBox("CopletedClass", new { @value = item.IsCopletedClass, @checked = "checked", @disabled = "disabled" })
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td class="center">
+                                                @Html.CheckBox("CopletedClass", new { @value = item.IsCopletedClass })
+                                            </td>
+                                        }*@
+
+                                    <td>@Html.Label("Show Class", null, new { @onclick = "Showclander('" + @item.studentteacheridmap + "','" + @item.TeacherId + "','student')" }) </td>
+
+                                </tr>
+                            </tbody>
+                        }
+                    </table>
+                    <nav aria-label="">
+                        @Html.Partial("_StudentPagination")
+                    </nav>
+                </div>
+            </div>
+        </div>
+    }
+
+    @if (@ViewBag.batch != null)
+    {
+        <div class="box col-md-12">
+            <form method="get" class="form-inline">
+                <input name="filter" class="form-control" placeholder="Batch Name"
+                       value="" />
+                <button type="submit" class="btn btn-info">
+                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+                </button>
+            </form>
+            <div class="box-inner">
+                <div class="box-header well" data-original-title="">
+                    <h2>Batch Time</h2>
+
+                </div>
+                <div class="box-content">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Batch Name</th>
+                                <th>Class</th>
+                                <th>Subjects</th>
+                                <th>Teacher</th>
+                                @*<th>Date</th>
+                                    <th>Time</th>*@
+                                @*<th>Class Start</th>
+                                    <th>Completed</th>*@
+
+                            </tr>
+                        </thead>
+                        @foreach (var item in ViewBag.batch)
+                        {
+                            <tbody>
+                                <tr>
+                                    <td>@item.BatchName</td>
+
+                                    <td class="center">
+                                        @item.ClassName
+                                    </td>
+                                    <td>@item.Subjects</td>
+                                    <td>@item.Teacher</td>
+
+                                    @*@if (item.Date == null)
+                                        {
+                                            <td class="center"></td>
+                                        }
+                                        else
+                                        {
+                                            <td class="center"> @Convert.ToDateTime(item.Date).ToString("MM/dd/yyyy")</td>
+                                        }
+                                        <td class="center">
+                                            @item.Time
+                                        </td>*@
+                                    @*@if (item.IsStartClass == false)
+                                        {
+                                            <td>  @Html.CheckBox("StartClass", new { @value = item.IsStartClass, @checked = "checked", @disabled = "disabled" })</td>
+                                        }
+                                        else
+                                        {
+                                            <td class="center">  @Html.CheckBox("StartClass", new { @value = item.IsStartClass , @disabled = "disabled" })</td>
+                                        }
+                                        @if (item.IsCopletedClass == false)
+                                        {
+                                            <td class="center">
+                                                @Html.CheckBox("CopletedClass", new { @value = item.IsCopletedClass, @checked = "checked", @disabled = "disabled" })
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td class="center">
+                                                @Html.CheckBox("CopletedClass", new { @value = item.IsCopletedClass, @disabled = "disabled" })
+                                            </td>
+                                        }*@
+
+                                    <td>@Html.Label("Show Class", null, new { @onclick = "Showclander('" + @item.teacherbatchid + "','" + @item.TeacherId + "','batch')" }) </td>
+
+                                </tr>
+                            </tbody>
+                        }
+                    </table>
+                    <nav aria-label="">
+                        @*@Html.Partial("Batchpaging")*@
+                    </nav>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+<div class="modal fade" id="modalStudentclassForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div id="dncalendar-container">
+            </div>
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    var my_calendar = $("#dncalendar-container").dnCalendar({
+                        minDate: "2019-01-15",
+                        maxDate: "2025-12-02",
+                        defaultDate: "2019-05-10",
+                        monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+                        monthNamesShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                        dayNames: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+                        dayNamesShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+                        dataTitles: { defaultDate: '', today: '' },
+                        notes: [
+                            { "date": "2019-05-25", "note": ["Natal"] },
+                            { "date": "2019-05-12", "note": ["Tahun Baru"] }
+                        ],
+                        showNotes: true,
+                        startWeek: 'monday',
+                        dayClick: function (date, view) {
+                            alert(date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear());
+                        }
+                    });
+
+                    // init calendar
+                    my_calendar.build();
+
+                    // update calendar
+                    // my_calendar.update({
+                    // 	minDate: "2016-01-05",
+                    // 	defaultDate: "2016-05-04"
+                    // });
+                });
+            </script>
+        </div>
+    </div>
+</div>
+<script>
+
+    function UpdateStartclass(id) {
+       // alert(id);
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("Updateisclass", "Teacher")',
+            datatype: "Json",
+            data: { id: id },
+            success: function (data) {
+
+            }
+
+        });
+    }
+
+    @*function Showclander(studentteacheridmap, teacher) {
+         $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetScheduleDate", "Teacher")',
+            datatype: "Json",
+             data: { id: studentteacheridmap, Teacherid: teacher},
+            success: function (data) {
+
+                //    var Datearry = new Array();
+                //    $.each(data, function (i) {
+                //        var tempDate = data[i].date;
+                //        Datearry.push(tempDate);
+
+                //});
+                //dateselecte = Datearry;
+                //$('#datedata').val(Datearry.join());
+                //$('#TeacherStudentid').val(studentteacheridmap);
+                //$('#Teacherid').val(teacher);
+                $("#dncalendar-container").dnCalendar({
+                    notes: data,
+                }).build();
+
+                   // my_calendar.build();
+                    $("#modalStudentclassForm").modal("show");
+
+                    // });
+                }
+                // location.reload();
+
+            //}
+
+            //  dateselecte = fetchdate.join();
+
+        });
+       // $("#modalStudentclassForm").modal("show");
+    }*@
+     function Showclander(studentteacheridmap, teacher, typess) {
+         $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetScheduleDate", "Teacher")',
+            datatype: "Json",
+             data: { id: studentteacheridmap, Teacherid: teacher, types: typess},
+            success: function (data) {
+
+                //    var Datearry = new Array();
+                //    $.each(data, function (i) {
+                //        var tempDate = data[i].date;
+                //        Datearry.push(tempDate);
+
+                //});
+                //dateselecte = Datearry;
+                //$('#datedata').val(Datearry.join());
+                //$('#TeacherStudentid').val(studentteacheridmap);
+                //$('#Teacherid').val(teacher);
+                $("#dncalendar-container").dnCalendar({
+                    notes: data,
+                }).build();
+
+                   // my_calendar.build();
+                    $("#modalStudentclassForm").modal("show");
+
+                    // });
+                }
+                // location.reload();
+
+            //}
+
+            //  dateselecte = fetchdate.join();
+
+        });
+       // $("#modalStudentclassForm").modal("show");
+    }
+
+</script>
+

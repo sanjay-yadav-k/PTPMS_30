@@ -1,0 +1,109 @@
+﻿@model ReflectionIT.Mvc.Paging.PagingList<Datalayer.Models.Tblsubject>
+
+<div class="box col-md-6" id="subjectconfig">
+    <div class="box-inner">
+        <div class="box-header well" data-original-title="">
+            <h2>Subject Configuration</h2>
+            <div class="box-icon">
+
+                <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalSubjectForm">
+                    <i class="glyphicon glyphicon-plus"></i>
+                </a>
+            </div>
+
+        </div>
+        <div class="box-content">
+            <table class="table">
+                <thead>
+                    <tr>
+
+
+                        <th>Subject Name</th>
+
+
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var cls in ViewBag.Subject)
+                    {
+                        <tr>
+
+                            <td>@cls.Subjectname</td>
+                            <td>
+                                <a href=#; onclick="GetSubject(@cls.Subjectid);">
+                                    <i class="fa fa-edit" aria-hidden="true">Edit</i>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="#" onclick="DeleteData(@cls.Subjectid,'Subject');">
+                                    <i class="fa fa-trash" aria-hidden="true">Delete</i>
+                                </a>
+                            </td>
+                        </tr>
+
+                    }
+
+
+                </tbody>
+            </table>
+            <nav aria-label="">
+                @Html.Partial("_subjectpagination")
+            </nav>
+        </div>
+    </div>
+</div>
+
+
+<div class="box col-md-6" id="Classsubjectconfig">
+    <div class="box-inner">
+        <div class="box-header well" data-original-title="">
+            <h2>Class Subject maping</h2>
+            <div class="box-icon">
+
+                <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalClassSubjectForm">
+                    <i class="glyphicon glyphicon-plus"></i>
+                </a>
+            </div>
+
+        </div>
+        <div class="box-content">
+            <table class="table">
+                <thead>
+                    <tr>
+
+
+                        <th>Class</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var cls in ViewBag.Class_Subject)
+                    {
+                        <tr>
+
+                            <td>@Html.Label(@cls.Classname, null, new { @onclick = "ShowSubjects('" + @cls.ClassId + "')" })  </td>
+
+                            <td>
+                                <a href=#; onclick="GetSelectedSubject(@cls.ClassId);">
+                                    <i class="fa fa-edit" aria-hidden="true">Edit</i>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="#" onclick="DeleteData(@cls.ClassId,'ClassSubjectMap');">
+                                    <i class="fa fa-trash" aria-hidden="true">Delete</i>
+                                </a>
+                            </td>
+                        </tr>
+
+                    }
+
+
+                </tbody>
+            </table>
+            <nav aria-label="">
+                @Html.Partial("_SubjectClasspagination")
+            </nav>
+        </div>
+    </div>
+</div>

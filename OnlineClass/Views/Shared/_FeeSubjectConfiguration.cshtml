@@ -1,0 +1,137 @@
+﻿@model Datalayer.BusinessLogic.fee_SubjectBatchModel
+
+<div class="modal fade" id="modalfeeSubject" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title w-100 font-weight-bold">Add Fee Subjectwise</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body mx-3">
+                @using (Html.BeginForm("FeeDetailsubject", "Home", FormMethod.Post, new { @id = "login-form", role = "form" }))
+                {
+                    @Html.HiddenFor(m=>m.sfeeid)
+                <div class="md-form mb-5">
+                    @*<i class="fas fa-user prefix grey-text"></i>*@
+
+                    @Html.Label("Class Name")
+                    @Html.DropDownListFor(model => model.ClassId, (SelectList)ViewBag.BatchClassName, "Select Class", new { @class = "form-control ddlfeeclass" , @onchange = "getsubject(this.value)" })
+                    @*, @onchange = "getsubject(this.value)*@
+                </div>
+
+                    <div class="md-form mb-5">
+
+                      
+                        @Html.Label("Subject Name")
+                        @Html.DropDownListFor(model => model.SubjecBatchtId, new SelectList(string.Empty, "Value", "Text"), "Select Subject", new { @class = "form-control ddlfeesubject ddlfeesubjectsel" })
+
+                    </div>
+                    <div class="md-form mb-4">
+
+
+                        @Html.Label("Plan Type")
+
+                        @Html.DropDownListFor(model => model.durationid, (SelectList)ViewBag.Subscription, "Select Plan Type", new { @class = "form-control ddlfeeplan" })
+
+                    </div>
+
+
+                    <div class="md-form mb-4">
+
+
+                        @Html.Label("Fee")
+                        @Html.TextBoxFor(model => model.feenew, new { @class = "form-control " })
+                    </div>
+                    <input type="hidden" id="BatchName" name="BatchName" value="test" />
+                    <div class="modal-footer d-flex justify-content-center">
+                        <button class="btn btn-deep-orange">Submit</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@*<script>
+    function getsubject(clsId)
+    {
+        alert(clsId);
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetSubjectMapClass", "Home")',
+            datatype: "Json",
+            data: { id: clsId },
+            success: function (datam) {
+                debugger
+                if (datam == null) {
+                    $(".ddlfeesubject").val(datam[0]);
+                }
+                else {
+                    $(".ddlfeesubject").val(datam[0].value);
+
+                }
+                     
+                      
+                    }
+
+         });
+    }
+
+
+</script>*@
+
+<script>
+
+     //$(document).ready(function () {
+     //   debugger;
+     //    $("#ClassId").change(
+    function getsubject(clsId) {
+        $("#SubjecBatchtId").empty();
+        debugger
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("getSubjectlist")',
+                dataType: 'json',
+                data: { id: clsId },
+                success: function (subject) {
+                    debugger
+                    //$.each(subject, function (i, subject) {
+                    //    $("#SubjecBatchtId").append('<option value="'
+                    //        + subject.Value + '">'
+                    //        + subject.Text + '</option>');
+                    //});
+
+
+
+                    $(".ddlfeesubject").each(function () {
+                        for (var i = 0; i < subject.length; i++) {
+                            //alert(subject[i].text);
+                            $("#SubjecBatchtId").append('<option value="'
+                                + subject[i].value + '">'
+                                + subject[i].text + '</option>');
+
+
+                            // $(this).Value == subject[i].value;
+                            //  $(this).text == subject[i].text;
+
+
+                        }
+                    });
+
+
+
+                }
+               
+                
+            
+            //return false;
+    });
+    }
+    
+</script>

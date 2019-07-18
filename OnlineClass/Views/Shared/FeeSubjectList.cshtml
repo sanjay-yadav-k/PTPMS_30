@@ -1,0 +1,120 @@
+﻿<div class="box col-md-6" id="feeSubject">
+    <div class="box-inner">
+        <div class="box-header well" data-original-title="">
+            <h2>Fee Subject Configuration</h2>
+            <div class="box-icon">
+
+                <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalfeeSubject">
+                    <i class="glyphicon glyphicon-plus"></i>
+                </a>
+            </div>
+
+        </div>
+        <div class="box-content">
+            <table class="table">
+                <thead>
+                    <tr>
+
+                        <th>Class Name</th>
+                        <th>Subject Name</th>
+                        <th>Plan Type </th>
+                        <th>Fees</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var cls in ViewBag.subjectdees)
+                    {
+                        <tr>
+                            <td>@cls.ClassName</td>
+                            <td>@cls.subjectname</td>
+                            <td>@cls.DurationType</td>
+                            <td>@cls.feenew</td>
+                            <td>
+
+
+                                <a href=#; onclick="GetFee(@cls.feeid);">
+                                    <i class="fa fa-edit" aria-hidden="true">Edit</i>
+                                </a>
+
+
+                            </td>
+                            <td>
+                                <a href="#" onclick="DeleteData(@cls.feeid,'FeeSetting');">
+                                    <i class="fa fa-trash" aria-hidden="true">Delete</i>
+                                </a>
+                            </td>
+                        </tr>
+
+                    }
+
+
+                </tbody>
+            </table>
+            <nav aria-label="">
+                @Html.Partial("_FeeSubjectPagination")
+            </nav>
+        </div>
+    </div>
+</div>
+<!--/span-->
+
+
+<div class="box col-md-6" id="feeBatch">
+    <div class="box-inner">
+        <div class="box-header well" data-original-title="">
+            <h2> Fee Batch Configuration</h2>
+            <div class="box-icon">
+
+                <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalfeeBatch">
+                    <i class="glyphicon glyphicon-plus"></i>
+                </a>
+            </div>
+
+        </div>
+        <div class="box-content">
+            <table class="table">
+                <thead>
+                    <tr>
+
+                        <th>Class Name</th>
+                        <th>Batch Name</th>
+                        <th>Plan Type </th>
+                        <th>Fees</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var cls in ViewBag.Batchfees)
+                    {
+                        <tr>
+                            <td>@cls.ClassName</td>
+                            <td>@cls.subjectname</td>
+                            <td>@cls.DurationType</td>
+                            <td>@cls.feenew</td>
+                            <td>
+
+
+                                <a href=#; onclick="GetFeeBatch(@cls.feeid);">
+                                    <i class="fa fa-edit" aria-hidden="true">Edit</i>
+                                </a>
+
+
+                            </td>
+                            <td>
+                                <a href="#" onclick="DeleteData(@cls.feeid,'FeeSetting');">
+                                    <i class="fa fa-trash" aria-hidden="true">Delete</i>
+                                </a>
+                            </td>
+                        </tr>
+
+                    }
+
+
+                </tbody>
+            </table>
+            
+            <nav aria-label="">
+                @Html.Partial("_FeeBatchpagination")
+            </nav>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,1269 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+
+    <environment include="Development">
+        @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/css/site.css" />*@
+
+        <!-- The styles -->
+        <link href="~/css/charisma-app.css" rel="stylesheet" />
+        <link id="bs-css" href="~/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+        <link href="~/bootstrap-tour/build/css/bootstrap-tour.css" rel="stylesheet" />
+        <link href="~/css/jquery.noty.css" rel="stylesheet" />
+        <link href="~/css/noty_theme_default.css" rel="stylesheet" />
+        <link href="~/css/elfinder.min.css" rel="stylesheet" />
+        <link href="~/css/elfinder.theme.css" rel="stylesheet" />
+        <link href="~/css/jquery.iphone.toggle.css" rel="stylesheet" />
+        <link href="~/css/uploadify.css" rel="stylesheet" />
+        <link href="~/css/animate.min.css" rel="stylesheet" />
+        <link href="~/css/site.css" rel="stylesheet" />
+        <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
+        <link href="~/bootstrap/dist/css/bootstrap-datetimepicker.css" rel="stylesheet" />
+        <link href="~/bootstrap/dist/css/calendar.css" rel="stylesheet" />
+        <link href="~/bootstrap/dist/css/responsive-calendar.css" rel="stylesheet" />
+        <!-- jQuery -->
+
+
+        <script src="~/jquery/jquery.min.js"></script>
+        <script src="~/bootstrap/dist/js/bootstrap.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+        <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+        <script src="~/bootstrap/dist/js/common.js"></script>
+        <script src="~/bootstrap/js/bootstrap-datepicker.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        @*<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />*@
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+        <link href="~/css/charisma-app.css" rel="stylesheet" />
+        <link id="bs-css" href="~/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+        <link href="~/bootstrap-tour/build/css/bootstrap-tour.css" rel="stylesheet" />
+        <link href="~/css/jquery.noty.css" rel="stylesheet" />
+        <link href="~/css/noty_theme_default.css" rel="stylesheet" />
+        <link href="~/css/elfinder.min.css" rel="stylesheet" />
+        <link href="~/css/elfinder.theme.css" rel="stylesheet" />
+        <link href="~/css/jquery.iphone.toggle.css" rel="stylesheet" />
+        <link href="~/css/uploadify.css" rel="stylesheet" />
+        <link href="~/css/animate.min.css" rel="stylesheet" />
+        <link href="~/css/site.css" rel="stylesheet" />
+        <link href="~/bootstrap/dist/css/bootstrap-datetimepicker.css" rel="stylesheet" />
+        <link href="~/bootstrap/dist/css/calendar.css" rel="stylesheet" />
+        <link href="~/bootstrap/dist/css/responsive-calendar.css" rel="stylesheet" />
+        <!-- jQuery -->
+        <script src="~/jquery/jquery.min.js"></script>
+        <script src="~/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+        <script src="~/bootstrap/dist/js/common.js"></script>
+        <script src="~/bootstrap/js/bootstrap-datepicker.js" asp-append-version="true"></script>
+    </environment>
+   
+    <title>Login</title>
+</head>
+<body>
+   
+    <div class="ch-container ">
+        <div class="row ">
+
+            <div class="row " style="padding-top:-5px">
+                <div class="col-md-12 center ">
+                    <h2>Student Registration </h2>
+                </div>
+                <div class="col-md-12 center" style="color:blueviolet;width:100%">
+                    <span id="genmsg" style="font-size:large"></span>
+                </div>
+                <!--/span-->
+            </div><!--/row-->
+            @*<form asp-action="Registration">*@
+            <div class="row well login-box">
+                <div class="col-md-11 center">
+                    <div class="text-justify text-left" style="font-size:18px;">
+                        Student Details
+                    </div>
+                    <form class="form-horizontal" id="frmRegistration">
+                        <div class="input-group-lg col-md-6">
+                            <fieldset>
+
+                                <div class="text-justify text-left">
+                                    First Name*
+                                </div>
+                                <div class="input-group input-group-lg col-md-11">
+                                    <span class="input-group-addon"><i class="glyphicon red"></i></span>
+                                    <input type="text" class="form-control" placeholder="FirstName" id="txtFirstName">
+                                    <div style="color:blueviolet;width:100%">
+                                        <span class="pay" id="msgfirstname" style=" font-weight:bold;font-size:12px"></span>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div><br>
+                                <div class="text-justify text-left">
+                                    Father/Mother Name*
+                                </div>
+                                <div class="input-group input-group-lg col-md-11">
+                                    <span class="input-group-addon"><i class="glyphicon red"></i></span>
+                                    <input type="text" class="form-control" placeholder="Parent Name" id="txtParent">
+                                    <div style="color:blueviolet;width:100%">
+                                        <span class="pay" id="msgparentname" style=" font-weight:bold;font-size:12px"></span>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="clearfix"></div><br>
+
+
+
+                                <div class="clearfix"></div>
+                                <div class="clearfix"></div><br />
+                                <div class="col-md-12 center">
+                                    <div class="text-justify text-left" style="font-size:18px;">
+                                        Contact Details
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="clearfix"></div><br />
+
+                                <div class="text-justify text-left">
+                                    Full Address*
+                                </div>
+                                <div class="input-group input-group-lg col-md-11">
+                                    <span class="input-group-addon"><i class="glyphicon red"></i></span>
+                                    <input type="text" class="form-control" placeholder="Address" id="txtAddress">
+                                    <div style="color:blueviolet;width:100%">
+                                        <span class="pay" id="msgaddress" style=" font-weight:bold;font-size:12px"></span>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div><br>
+                                <div class="text-justify text-left">
+                                    City*
+                                </div>
+                                <div class="input-group input-group-lg col-md-11">
+                                    <span class="input-group-addon"><i class="glyphicon red"></i></span>
+                                    <input type="text" class="form-control" placeholder="City" id="txtCity">
+                                    <div style="color:blueviolet;width:100%">
+                                        <span class="pay" id="msgcity" style=" font-weight:bold;font-size:12px"></span>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div><br>
+                                <div class="text-justify text-left">
+                                    State*
+                                </div>
+                                <div class="input-group input-group-lg col-md-11">
+                                    <span class="input-group-addon"><i class="glyphicon red"></i></span>
+                                    <input type="text" class="form-control" placeholder="State" id="txtState">
+                                    <div style="color:blueviolet;width:100%">
+                                        <span class="pay" id="msgstate" style=" font-weight:bold;font-size:12px"></span>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="clearfix"></div><br>
+                                <div class="text-justify text-left">
+                                    Pin/Zip*
+                                </div>
+                                <div class="input-group input-group-lg col-md-11">
+                                    <span class="input-group-addon"><i class="glyphicon red"></i></span>
+                                    <input type="text" class="form-control" placeholder="Pin Code" id="txtPin">
+                                    <div style="color:blueviolet;width:100%">
+                                        <span class="pay" id="msgpin" style=" font-weight:bold;font-size:12px"></span>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div><br />
+                                <div class="clearfix"></div>
+                                <div class="col-md-12 center">
+                                    <div class="text-justify text-left" style="font-size:18px;">
+                                        Login Details
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div><br>
+
+                                <div class="text-justify text-left">
+                                    User Name*
+                                </div>
+                                <div class="input-group input-group-lg col-md-11">
+                                    <span class="input-group-addon"><i class="glyphicon red"></i></span>
+                                    <input type="text" class="form-control" placeholder="User Name" id="txtUserName">
+                                    <div style="color:blueviolet;width:100%">
+                                        <span class="pay" id="messageUser" style=" font-weight:bold;font-size:12px"></span>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div><br>
+                                <div class="text-justify text-left">
+                                    Skype Id*
+                                </div>
+                                <div class="input-group input-group-lg col-md-11">
+                                    <span class="input-group-addon"><i class="glyphicon red"></i></span>
+                                    <input type="text" class="form-control" placeholder="SkypeId" id="txtskype">
+                                    <div style="color:blueviolet;width:100%">
+                                        <span class="pay" id="msgskype" style=" font-weight:bold;font-size:12px"></span>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div><br>
+                                <div class="text-justify text-left">
+                                    Link to Skype*
+                                </div>
+                                <div class="input-group input-group-lg col-md-11">
+                                    @*<span class="input-group-addon"><i class="glyphicon red"></i></span>*@
+                                    <a href="https://www.skype.com/en/" id="skype">Use This link To Create New Skype Id and download</a>
+                                    @*<input type="text" class="form-control" placeholder="Confirm Password" id="txtConfirmPassword">*@
+                                    @*<div style="color:blueviolet;width:100%">
+                <span class="pay" id="msgconfirm" style=" font-weight:bold;font-size:12px"></span>
+            </div>*@
+                                </div>
+                                <div class="clearfix"></div><br />
+                                <div class="col-md-12 center">
+                                    <div class="text-justify text-left" style="font-size:18px;">
+                                        Subject Batch Details
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div><br>
+                                <div class="input-group input-group-lg col-md-11">
+                                    <input type="radio" name="subjectBatch"  id="rbsub" checked="checked" value="subject"/><b>Subject</b>
+                                    <input type="radio" name="subjectBatch"  id="rbbatch" value="batch" /><b>Batch</b>
+                                </div>
+                                <div class="text-justify text-left" id="classtxt">
+                                    Class *
+                                </div>
+                                <div class="input-group input-group-lg col-md-11" id="classselect">
+                                    <span class="input-group-addon"><i class="glyphicon red"></i></span>
+                                    <select class="form-control" id="class"></select>
+                                    @*<input type="" class="form-control" placeholder="Parent Name">*@
+                                    <div style="color:blueviolet;width:100%">
+                                        <span class="pay" id="msgclass" style=" font-weight:bold;font-size:12px"></span>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div><br>
+                                <div class="text-justify text-left">
+                                    Choose Batch/Subject(s)*
+                                </div>
+                                <div class="input-group input-group-lg col-md-11">
+                                    <span class="input-group-addon"><i class="glyphicon red"></i></span>
+                                    <select class="form-control" id="batchsubject"></select>
+                                    @*<input type="" class="form-control" placeholder="Parent Name">*@
+                                    <div style="color:blueviolet;width:100%">
+                                        <span class="pay" id="msgbatchsubject" style=" font-weight:bold;font-size:12px"></span>
+                                    </div>
+                                </div>
+
+                                @*<div class="clearfix"></div><br />
+        <div class="text-justify text-left">
+            Choose Batch/Subject Timing*
+        </div>
+        <div class="input-group input-group-lg col-md-11">
+            <span class="input-group-addon"><i class="glyphicon red"></i></span>
+            <select class="form-control" id="batchsubjecttimming"></select>
+            @*<input type="" class="form-control" placeholder="Parent Name">
+            <div style="color:blueviolet;width:100%">
+                <span class="pay" id="msgbatchsubjecttimming" style=" font-weight:bold;font-size:12px"></span>
+            </div>
+        </div>*@
+                                <div class="clearfix"></div><br>
+                                <div class="text-justify text-left">
+                                    Course Duration(Hour/Month/Year)*
+                                </div>
+                                <div class="input-group input-group-lg col-md-11">
+                                    <span class="input-group-addon"><i class="glyphicon red"></i></span>
+                                    <select class="form-control" id="duration"></select>
+                                    @*<input type="" class="form-control" placeholder="Parent Name">*@
+                                    <div style="color:blueviolet;width:100%">
+                                        <span class="pay" id="msgduration" style=" font-weight:bold;font-size:12px"></span>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="nput-group input-group-lg col-md-11">
+                                    <p class="center col-md-12">
+                                        <button type="button" class="btn btn-primary" id="btnSubmit">Student Registration/Payment</button>
+                                        @*<button type="reset" class="btn btn-primary">Cancel</button>*@
+                                    </p>
+                                </div>
+
+
+                            </fieldset>
+                        </div>
+                        <div class="input-group-lg col-md-6">
+                            <fieldset>
+
+                                <div class="text-justify text-left">
+                                    Last Name*
+                                </div>
+                                <div class="input-group input-group-lg col-md-11">
+                                    <span class="input-group-addon"><i class="glyphicon red"></i></span>
+                                    <input type="text" class="form-control" placeholder="LastName" id="txtLastName">
+                                    <div style="color:blueviolet;width:100%">
+                                        <span class="pay" id="msglastname" style=" font-weight:bold;font-size:12px"></span>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div><br>
+                                <div class="text-justify text-left">
+                                    Date Of Birth*
+                                </div>
+                                <div class='input-group date input-group-lg col-md-11'>
+                                    <input type='text' class="form-control" id='txtDob' placeholder="DOB" datepicker readonly="readonly" />
+                                    <div style="color:blueviolet;width:100%">
+                                        <span class="pay" id="msgdob" style=" font-weight:bold;font-size:12px"></span>
+                                    </div>
+                                    @*<span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>*@
+                                </div>
+
+
+                            </fieldset>
+                        </div>
+
+                        <div class="input-group-lg col-md-6" style="padding-top:85px">
+                            <fieldset>
+                                <div class="text-justify text-left">
+                                    Country*
+                                </div>
+                                <div class="input-group input-group-lg col-md-11">
+                                    <span class="input-group-addon"><i class="glyphicon red"></i></span>
+                                    @*<select class="form-control" id="grade"></select>*@
+                                    <input type="text" class="form-control" placeholder="Country" id="txtCountry">
+                                    <div style="color:blueviolet;width:100%">
+                                        <span class="pay" id="msgcountry" style=" font-weight:bold;font-size:12px"></span>
+                                    </div>
+                                    @*<input type="" class="form-control" placeholder="Parent Name">*@
+                                </div>
+                                <div class="clearfix"></div><br>
+
+                                <div class="text-justify text-left">
+                                    Email*
+                                </div>
+                                <div class="input-group input-group-lg col-md-11">
+                                    <span class="input-group-addon"><i class="glyphicon red"></i></span>
+                                    <input type="email" class="form-control" placeholder="Email" id="txtemail">
+                                    <div style="color:blueviolet;width:100%">
+                                        <span class="pay" id="msgemail" style=" font-weight:bold;font-size:12px"></span>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div><br>
+
+                                <div class="text-justify text-left">
+                                    CellPhone*
+                                </div>
+                                <div class="input-group input-group-lg col-md-11">
+                                    <span class="input-group-addon"><i class="glyphicon red"></i></span>
+                                    <input type="text" class="form-control" placeholder="CellPhone" id="txtcellPhone" maxlength="10">
+                                    <div style="color:blueviolet;width:100%">
+                                        <span class="pay" id="msgcellphone" style=" font-weight:bold;font-size:12px"></span>
+                                    </div>
+                                </div>
+
+                            </fieldset>
+                        </div>
+                        <div class="input-group-lg col-md-6" style="padding-top:160px">
+                            <fieldset>
+
+                                <div class="text-justify text-left">
+                                    Password*
+                                </div>
+                                <div class="input-group input-group-lg col-md-11">
+                                    <span class="input-group-addon"><i class="glyphicon red"></i></span>
+                                    <input type="password" class="form-control" placeholder="Password" id="txtPassword">
+                                    <div style="color:blueviolet;width:100%">
+                                        <span class="pay" id="msgpassword" style=" font-weight:bold;font-size:12px"></span>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div><br>
+                                <div class="text-justify text-left">
+                                    Confirm Password*
+                                </div>
+                                <div class="input-group input-group-lg col-md-11">
+                                    <span class="input-group-addon"><i class="glyphicon red"></i></span>
+                                    <input type="password" class="form-control" placeholder="Confirm Password" id="txtConfirmPassword">
+                                    <div style="color:blueviolet;width:100%">
+                                        <span class="pay" id="msgconfirm" style=" font-weight:bold;font-size:12px"></span>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div><br />
+
+
+                            </fieldset>
+                        </div>
+                        <div class="input-group-lg col-md-6" style="padding-top:125px">
+                            <fieldset>
+                                <div class="text-justify text-left">
+                                    No of(Hour/Month/Year)*
+                                </div>
+                                <div class="input-group input-group-lg col-md-11">
+                                    <span class="input-group-addon"><i class="glyphicon red"></i></span>
+                                    <input type="text" class="form-control" placeholder="Period" id="txtperiod">
+                                    <div style="color:blueviolet;width:100%">
+                                        <span class="pay" id="msgperiod" style=" font-weight:bold;font-size:12px"></span>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div><br>
+                                <div class="text-justify text-left">
+                                    subscription Amount*
+                                </div>
+                                <div class="input-group input-group-lg col-md-11">
+                                    <span class="input-group-addon"><i class="glyphicon red"></i></span>
+                                    <input type="text" class="form-control" placeholder="Amount" readonly="readonly" id="amount">
+                                </div>
+                                <div class="clearfix"></div><br>
+
+                                <div class="text-justify text-left">
+                                    Subjects*
+                                </div>
+                                <div class="input-group input-group-lg col-md-11">
+                                    <span class="input-group-addon"><i class="glyphicon red"></i></span>
+                                    <input type="text" class="form-control" placeholder="Subjects" readonly="readonly" id="subjects">
+                                    @*<select class="form-control" id="subjects"></select>*@
+                                    @*<input type="" class="form-control" placeholder="Parent Name">*@
+                                </div>
+
+                                @*<div class="clearfix"></div><br>*@
+                                <div class="nput-group input-group-lg col-md-11">
+                                    <p class="center col-md-12">
+                                        @*<button type="submit" class="btn btn-primary">Student Registration</button>*@
+                                        <button type="button" class="btn btn-primary" id="btnCancel">Back</button>
+                                    </p>
+                                </div>
+                                @*<div class="text-justify text-left">
+                    CellPhone*
+                </div>
+                <div class="input-group input-group-lg col-md-11">
+                    <span class="input-group-addon"><i class="glyphicon red"></i></span>
+                    <input type="text" class="form-control" placeholder="Cell/Mobile">
+                </div>*@
+
+                            </fieldset>
+                        </div>
+                    </form>
+                </div>
+                <!--/span-->
+            </div><!--/row-->
+            @*</form>*@
+        </div><!--/fluid-row-->
+    </div>
+</body>
+</html>
+<script>
+    $(document).ready(function () {
+        init();
+        $("input:text").focus(function () { $(this).select(); });
+        $('a#skype').click(function () {
+            var oldUrl = $(this).attr("href");
+            //alert(oldUrl);
+            window.open(oldUrl);//, 'window name', 'window settings'
+            return false;
+        });
+        
+        $('input[type="radio"]').click(function () {
+            var inputValue = $(this).attr("value");
+           // alert(inputValue);
+            if (inputValue == "batch") {
+                //$("#classselect").hide();
+                //$("#classtxt").hide();
+            $.ajax({
+            url: "@Url.Action("GetSubjectBatch", "StudentRegistration", new { area = "" })",
+            type: "Get",
+            data: { "value": 0 },
+            contentType: "application/json; charset=utf-8",
+            dataType: "JSON",
+            success: function (data) {
+                $('#batchsubject').empty();
+                var newOption = $('<option selected="selected">Select Batch/Subject</option>');
+                $('#batchsubject').append(newOption);
+                for (var i = 0; i < data.length; i++) {
+                    var opt = new Option(data[i].name, data[i].id);
+                    $('#batchsubject').append(opt);
+                }
+            },
+            error: function (ex) {
+                //alert(ex)
+            }
+
+        });
+
+      }
+            else if (inputValue == "subject") {
+                //$("#classselect").show();
+                //$("#classtxt").show();
+
+             $.ajax({
+            url: "@Url.Action("GetSubjectBatch", "StudentRegistration", new { area = "" })",
+            type: "Get",
+            data: { "value": 1 },
+            contentType: "application/json; charset=utf-8",
+            dataType: "JSON",
+            success: function (data) {
+                $('#batchsubject').empty();
+                var newOption = $('<option selected="selected">Select Batch/Subject</option>');
+                $('#batchsubject').append(newOption);
+                for (var i = 0; i < data.length; i++) {
+                    var opt = new Option(data[i].name, data[i].id);
+                    $('#batchsubject').append(opt);
+                }
+            },
+            error: function (ex) {
+                //alert(ex)
+            }
+           });
+         }
+     });
+        // Subject Batch
+        $.ajax({
+            url: "@Url.Action("GetSubjectBatch", "StudentRegistration", new { area = "" })",
+            type: "Get",
+            data: { "value": 1 },
+            contentType: "application/json; charset=utf-8",
+            dataType: "JSON",
+            success: function (data) {
+                $('#batchsubject').empty();
+                var newOption = $('<option selected="selected">Select Batch/Subject</option>');
+                $('#batchsubject').append(newOption);
+                for (var i = 0; i < data.length; i++) {
+                    var opt = new Option(data[i].name, data[i].id);
+                    $('#batchsubject').append(opt);
+                }
+            },
+            error: function (ex) {
+                //alert(ex)
+            }
+
+        });
+
+         $.ajax({
+            url: "@Url.Action("GetClassName", "StudentRegistration", new { area = "" })",
+            type: "Get",
+            //data: { "user": user },
+            contentType: "application/json; charset=utf-8",
+            dataType: "JSON",
+             success: function (data) {
+                //alert(JSON.stringify(data))
+                $('#class').empty();
+                var newOption = $('<option selected="selected">Select Class</option>');
+                $('#class').append(newOption);
+                for (var i = 0; i < data.length; i++) {
+                    var opt = new Option(data[i].className, data[i].classId);
+                    $('#class').append(opt);
+                }
+            },
+            error: function (ex) {
+                //alert(ex)
+            }
+
+        });
+        // End  Subject Batch
+        // Duration
+        $.ajax({
+            url: "@Url.Action("GetDuration", "StudentRegistration", new { area = "" })",
+            type: "Get",
+            //data: { "user": user },
+            contentType: "application/json; charset=utf-8",
+            dataType: "JSON",
+            success: function (data) {
+               
+                $('#duration').empty();
+                var newOption = $('<option selected="selected">Select Duration</option>');
+                $('#duration').append(newOption);
+                for (var i = 0; i < data.length; i++) {
+                    var opt = new Option(data[i].durationname, data[i].durationid);
+                    $('#duration').append(opt);
+                }
+            },
+            error: function (ex) {
+                //alert(ex)
+            }
+
+        })
+        // End of duration
+        $("#message").text('');
+        $('#txtFirstName').focus();
+     
+        $('#txtFirstName').on('keydown', function (e) {
+            var key = (e.keyCode ? e.keyCode : e.which);
+             if (key == 13 || key == 9) {
+                $("#txtLastName").focus();
+                e.preventDefault();
+            }
+        });
+
+       $('#txtLastName').on('keydown', function (e) {
+            var key = (e.keyCode ? e.keyCode : e.which);
+            if (key == 13 || key == 9) {
+                $("#txtParent").focus();
+                e.preventDefault();
+            }
+        });
+       
+        $('#txtParent').on('keydown', function (e) {
+            var key = (e.keyCode ? e.keyCode : e.which);
+            if (key == 13 || key == 9) {
+                $("#txtDob").focus();
+                e.preventDefault();
+            }
+        });
+
+        $('#txtAddress').on('keydown', function (e) {
+            var key = (e.keyCode ? e.keyCode : e.which);
+            if (key == 13 || key == 9) {
+                $("#txtCity").focus();
+                e.preventDefault();
+            }
+        });
+        //City
+  
+        $('#txtCity').on('keydown', function (e) {
+            var key = (e.keyCode ? e.keyCode : e.which);
+            if (key == 13 || key == 9) {
+                $("#txtState").focus();
+                e.preventDefault();
+            }
+        });
+        //State
+       
+        $('#txtState').on('keydown', function (e) {
+            //var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
+            var key = (e.keyCode ? e.keyCode : e.which);
+            if (key == 13 || key == 9) {
+                $("#txtPin").focus();
+                e.preventDefault();
+            }
+        });
+        //Pin
+   
+        $('#txtPin').on('keydown', function (e) {
+           // var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
+            var key = (e.keyCode ? e.keyCode : e.which);
+            if (key != 8 && key != 0 && key != 127 && (key < 48 || key > 57) && key != 13 && key != 9 && key != 46 && key != 37 && key != 38 && key != 39 && key != 40 && (key < 96 || key > 105)) {
+                return false;
+            }
+            if (key == 13 || key == 9) {
+                $("#txtCountry").focus();
+                e.preventDefault();
+            }
+        });
+        //Country
+     
+        $('#txtCountry').on('keydown', function (e) {
+            var key = (e.keyCode ? e.keyCode : e.which);
+            if (key == 13 || key == 9) {
+                $("#txtemail").focus();
+                e.preventDefault();
+            }
+        });
+        //Email
+       
+        $('#txtemail').on('keydown', function (e) {
+            var key = e.keyCode ? e.keyCode : e.which;
+            if (key == 13 || key == 9) {
+                $("#txtcellPhone").focus();
+                e.preventDefault();
+            }
+            
+        });//txtcellPhone
+
+      
+        $('#txtcellPhone').on('keydown', function (e) {
+            //var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
+            var key = e.keyCode ? e.keyCode : e.which;
+            if (key != 8 && key != 0 && key != 127 && (key < 48 || key > 57) && key != 13 && key != 9 && key != 46 && key != 37 && key != 38 && key != 39 && key != 40 && (key < 96 || key > 105)) {
+                return false;
+            }
+            //alert(key);
+            if (key == 13 || key == 9) {
+                $("#txtUserName").focus();
+                e.preventDefault();
+            }
+          
+            
+        });
+        //Password
+        $('#txtUserName').off().on('blur', function () {
+            // e.preventDefault();
+            var user = $("#txtUserName").val();
+            //alert(user);
+            $.ajax({
+                url: "@Url.Action("CheckUser", "StudentRegistration", new { area = "" })",
+                type: "Get",
+                data: { "user": user },
+                contentType: "application/json; charset=utf-8",
+                dataType: "JSON",
+                success: function (data) {
+                    if (data == '') {
+                        $("#txtskype").focus();
+                    }
+                    else {
+                        //location = data.url;
+                        $("#messageUser").html(data);
+                        $("#messageUser").show().delay(3000).fadeOut();
+                        $('#txtUserName').val('');
+                    }
+                },
+
+            })
+        });
+        $('#txtUserName').on('keydown', function (e) {
+            var key = (e.keyCode ? e.keyCode : e.which);
+            if (key == 13 || key == 9) {
+                $("#txtskype").focus();
+                e.preventDefault();
+            }
+        });
+        $('#txtskype').on('keydown', function (e) {
+            var key = (e.keyCode ? e.keyCode : e.which);
+            if (key == 13 || key == 9) {
+                $("#txtPassword").focus();
+                e.preventDefault();
+            }
+        });
+       
+        $('#txtPassword').on('keydown', function (e) {
+            //var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
+            var key = e.keyCode ? e.keyCode : e.which;
+            if (key == 13 || key == 9) {
+                $("#txtConfirmPassword").focus();
+                e.preventDefault();
+            }
+        });
+        $('#txtConfirmPassword').on('keydown', function (e) {
+            //var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
+            var key = e.keyCode ? e.keyCode : e.which;
+            if (key == 13 || key == 9) {
+                $("#batchsubject").focus();
+                e.preventDefault();
+            }
+        });
+
+        $('#batchsubject').on('keydown', function (e) {
+            //var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
+            var key = e.keyCode ? e.keyCode : e.which;
+            if (key == 13 || key == 9) {
+                $("#class").focus();
+                e.preventDefault();
+            }
+        });
+        //batchsubjecttimming
+        $('#class').on('keydown', function (e) {
+            //var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
+            var key = e.keyCode ? e.keyCode : e.which;
+            if (key == 13 || key == 9) {
+                $("#duration").focus();
+                e.preventDefault();
+            }
+        });
+        $('#duration').on('keydown', function (e) {
+            //var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
+            var key = e.keyCode ? e.keyCode : e.which;
+            if (key == 13 || key == 9) {
+                $("#txtperiod").focus();
+                e.preventDefault();
+            }
+        });
+        $('#txtDob').on('click', function (e) {
+            $('#txtDob').datepicker({
+                dateFormat: "dd MM yy",
+                changeMonth: true,
+                changeYear: true,
+                constrainInput: true,
+                maxDate: '-3y',
+                onClose: function () {
+                    $("#txtAddress").focus();
+                }
+                //.attr("placeholder", "dd MM yyyy").
+            });
+
+        });
+        $("#txtperiod").on('blur', function () {
+            //var amt = $("#amount").val();
+            var digit = $("#txtperiod").val();
+            var batchSubjectid = $("#batchsubject").val();
+            var batchSubject = $("#batchsubject").find("option:selected").text();
+            if (batchSubject == 'Select Batch/Subject' || batchSubject == '') {
+                //alert(firstname)
+                $("#msgbatchsubject").html("This is Mandatory Field Please Select a value ");
+                $("#msgbatchsubject").show().delay(3000).fadeOut();
+                $("#batchsubject").focus();
+                return false;
+            }
+            var id = $("#duration").val();
+            var duration = $("#duration").find("option:selected").text();
+            if (duration == '' || duration == 'Select Duration') {
+                $("#msgduration").html("This is Mandatory Field Please select a value");
+                $("#msgduration").show().delay(3000).fadeOut();
+                $("#duration").focus();
+                return false;
+            }
+            var classid = $("#class").val();
+            var classname=$("#class").find("option:selected").text();
+            if (classname === 'Select class') {
+                $("#msgclass").html("* Please Select A Class.......*");
+                $("#msgclass").show().delay(3000).fadeOut();
+                $("#class").focus();
+                return false;
+            }
+            //alert(digit)
+           GetAmount(digit, batchSubjectid, classid, id);
+           
+        })
+
+        $("#txtDob").off().on('focusin', function (e) {
+            e.preventDefault();
+            $('#txtDob').datepicker({
+                dateFormat: "dd M yy",
+                changeMonth: true,
+                changeYear: true,
+                constrainInput: true,
+                maxDate : '-3y',
+                onClose: function (selectedDate) {
+                    $("#txtAddress").focus();
+                }
+                //.attr("placeholder", "dd MMM yyyy")
+            });
+        });
+        $("#batchsubject").change(function () {
+            $("#txtperiod").val("");
+            //e.preventDefault();
+            var batchSubjectid = $(this).val();
+            var depttext = $(this).find("option:selected").text();
+            //////////////////////////////////
+            if (batchSubjectid == 'Select Batch/Subject' || batchSubjectid == '') {
+                //alert(firstname)
+                $("#msgbatchsubject").html("This is Mandatory Field Please Select a value ");
+                $("#msgbatchsubject").show().delay(3000).fadeOut();
+                $("#batchsubject").focus();
+                return false;
+            }
+            var id = $("#duration").val();
+            ///var batchSubjectText = $("#batchsubject").find("option:selected").text();
+            //alert(batchSubjectText);
+            var classid = $("#class").val();
+            //var classText = $("#class").find("option:selected").text();
+            // alert(classText)
+            $.ajax({
+                url: "@Url.Action("GetAmountAndSubjects", "StudentRegistration", new { area = "" })",
+                type: "Get",
+                data: { "BatchSubjectid": batchSubjectid, "Classid": classid, "Durationid": id },
+                success: function (data) {
+                    $('#amount').val('');
+                    $("#subjects").val('');
+                    $("#amount").val(data.fees);
+                    $("#subjects").val(data.subjects);
+                },
+                error: function (ex) {
+                    //alert(ex)
+                }
+            })
+        })
+
+             $("#class").change(function () {
+                 //e.preventDefault();
+                 $("#txtperiod").val("");
+                 var classid = $(this).val();
+                 var depttext = $(this).find("option:selected").text();
+                 //////////////////////////////////
+                 if (depttext === 'Select class') {
+                     $("#msgclass").html("* Please Select A Class.......*");
+                     $("#msgclass").show().delay(3000).fadeOut();
+                     $("#class").focus();
+                     return false;
+                 }
+                 var batchSubjectid = $("#batchsubject").val();
+                
+                 var id = $("#duration").val();
+      
+                 $.ajax({
+                     url: "@Url.Action("GetAmountAndSubjects", "StudentRegistration", new { area = "" })",
+                     type: "Get",
+                     data: { "BatchSubjectid": batchSubjectid, "Classid": classid, "Durationid": id },
+                     success: function (data) {
+
+                         //alert(parseFloat(data.fees));
+                         //alert(data.subjects);
+                         $('#amount').val('');
+                         $("#subjects").val('');
+                         $("#amount").val(data.fees);
+                         $("#subjects").val(data.subjects);
+                     },
+                     error: function (ex) {
+                         //alert(ex)
+                     }
+                 })
+             })
+
+        $("#duration").change(function () {
+            //e.preventDefault();
+            $("#txtperiod").val("");
+            var id = $(this).val();
+            var depttext = $(this).find("option:selected").text();
+            //////////////////////////////////
+            if (depttext === 'Select Duration') {
+                $("#msgduration").html("* Please Select A Duration.......*");
+                $("#msgduration").show().delay(3000).fadeOut();
+                $("#duration").focus();
+                return false;
+            }
+            var batchSubjectid = $("#batchsubject").val();
+   
+            var classid=$("#class").val();
+
+            $.ajax({
+                url: "@Url.Action("GetAmountAndSubjects", "StudentRegistration", new { area = "" })",
+                type: "Get",
+                data: { "BatchSubjectid": batchSubjectid,"Classid":classid, "Durationid": id },
+                success: function (data) {
+                    $('#amount').val('');
+                    $("#subjects").val('');
+                    $("#amount").val(data.fees)  ;
+                    $("#subjects").val(data.subjects) ;
+                },
+                error: function (ex) {
+                    //alert(ex)
+                }
+            })
+           
+        });
+       
+        $("#txtperiod").on('keydown', function (e) {
+            var key = e.keyCode ? e.keyCode : e.which;
+            if (key != 8 && key != 0 && key != 127 && (key < 48 || key > 57) && key != 13 && key != 9 && key != 46 && key != 37 && key != 38 && key != 39 && key != 40 && (key<96 || key>105)) {
+                return false;
+            }
+            if (key === 13 || key === 9) {
+                
+                $("#btnSubmit").focus();
+                e.preventDefault();
+            }
+  
+        });
+
+        $("#btnSubmit").off().on('click', function (e) {
+            var firstname = $("#txtFirstName").val();
+            if (firstname == '') {
+                //alert(firstname)
+                $("#msgfirstname").html("This is Mandatory Field Please Enter");
+                $("#msgfirstname").show().delay(3000).fadeOut();
+                $("#txtFirstName").focus();
+                return false;
+            }
+            //LastName
+            var lastname = $("#txtLastName").val();
+            if (lastname == '') {
+                //alert(firstname)
+                $("#msglastname").html("This is Mandatory Field Please Enter LastName");
+                $("#msglastname").show().delay(3000).fadeOut();
+                $("#txtLastName").focus();
+                return false;
+            }
+            //Parent
+            var parentname = $("#txtParent").val();
+            if (parentname == '') {
+                //alert(firstname)
+                $("#msgparentname").html("This is Mandatory Field Please Enter Parent Name");
+                $("#msgparentname").show().delay(3000).fadeOut();
+                $("#txtParent").focus();
+                return false;
+            }
+            //DOB
+            var dob = $("#txtDob").val();
+            var curdate = Date.now();
+            if (Date.parse(dob) > Date.now()) {
+                $("#msgdob").html("Date of Birth Can not be greater than todays date Please enter Valid date ");
+                $("#msgdob").show().delay(3000).fadeOut();
+                $("#txtDob").focus();
+                return false;
+            }
+            if (dob == '') {
+                //alert(firstname)
+                $("#msgdob").html("This is Mandatory Field Please Enter");
+                $("#msgdob").show().delay(3000).fadeOut();
+                $("#txtDob").focus();
+                return false;
+            }
+            //Addresss
+            var address = $("#txtAddress").val();
+            if (address == '') {
+                //alert(firstname)
+                $("#msgaddress").html("This is Mandatory Field Please Enter");
+                $("#msgaddress").show().delay(3000).fadeOut();
+                $("#txtAddress").focus();
+                return false;
+            }
+            //City
+            var city = $("#txtCity").val();
+            if (city == '') {
+                //alert(firstname)
+                $("#msgcity").html("This is Mandatory Field Please Enter City");
+                $("#msgcity").show().delay(3000).fadeOut();
+                $("#txtCity").focus();
+                return false;
+            }
+            //State
+            var state = $("#txtState").val();
+            if (state == '') {
+                //alert(firstname)
+                $("#msgstate").html("This is Mandatory Field Please Enter State");
+                $("#msgstate").show().delay(3000).fadeOut();
+                $("#txtState").focus();
+                return false;
+            }
+            //Pin
+            var pin = $("#txtPin").val();
+            if (pin == '') {
+                //alert(firstname)
+                $("#msgpin").html("This is Mandatory Field Please Enter Pin");
+                $("#msgpin").show().delay(3000).fadeOut();
+                $("#txtPin").focus();
+                return false;
+            }
+            //Country
+            var country = $("#txtCountry").val();
+            if (country == '') {
+                //alert(firstname)
+                $("#msgcountry").html("This is Mandatory Field Please Enter Country");
+                $("#msgcountry").show().delay(3000).fadeOut();
+                $("#txtCountry").focus();
+                return false;
+            }
+            //Email
+            var email = $("#txtemail").val();
+            if (email == '' || ValidateEmail(email)==false) {
+                //alert(firstname)
+                $("#msgemail").html("This is Mandatory Field Please Enter Valid Email");
+                $("#msgemail").show().delay(3000).fadeOut();
+                $("#txtemail").focus();
+                return false;
+            }
+            //CellPhone
+            var cell = $("#txtcellPhone").val();
+            if (cell == '') {
+                //alert(firstname)
+                $("#msgcellphone").html("This is Mandatory Field Please Enter valid Cellphone");
+                $("#msgcellphone").show().delay(3000).fadeOut();
+                $("#txtcellPhone").focus();
+                return false;
+            }
+            //UserName
+            var user = $("#txtUserName").val();
+            if (user == '') {
+                //alert(firstname)
+                $("#messageUser").html("This is Mandatory Field Please Enter UserName");
+                $("#messageUser").show().delay(3000).fadeOut();
+                $("#txtUserName").focus();
+                return false;
+            }
+
+            //Skypeid
+            var skype = $('#txtskype').val();
+            if (skype == '') {
+                $("#msgskype").html("This is Mandatory Field Please Enter Skypeid");
+                $("#msgskype").show().delay(3000).fadeOut();
+                $("#txtskype").focus();
+                return false;
+            }
+            //Password
+            var password = $("#txtPassword").val();
+            if (password == '') {
+                //alert(firstname)
+                $("#msgpassword").html("This is Mandatory Field Please Enter password");
+                $("#msgpassword").show().delay(3000).fadeOut();
+                $("#txtPassword").focus();
+                return false;
+            }
+            //Confirm  Password
+            var confirmPass = $("#txtConfirmPassword").val();
+            if (confirmPass == '') {
+                //alert(firstname)
+                $("#msgconfirm").html("This is Mandatory Field Please Enter Confirm Password");
+                $("#msgconfirm").show().delay(3000).fadeOut();
+                $("#txtConfirmPassword").focus();
+                return false;
+            }
+            // check confirm password
+            if (password != confirmPass) {
+                $("#msgpassword").html("Your Pasword Does not match with Confirm Password Field");
+                $("#msgpassword").show().delay(3000).fadeOut();
+                $("#txtPassword").val('');
+                $("#txtConfirmPassword").val('');
+                $("#txtPassword").focus();
+                return false; 
+            }
+            //Batch Subject
+            var batchsubject = $("#batchsubject").val();
+            var batchsubjecttext = $("#batchsubject").find("option:selected").text();
+                      //alert(batchsubject)
+            if (batchsubject == 'Select Batch/Subject' || batchsubject == '') {
+                //alert(firstname)
+                $("#msgbatchsubject").html("This is Mandatory Field Please Select a value ");
+                $("#msgbatchsubject").show().delay(3000).fadeOut();
+                $("#batchsubject").focus();
+                return false;
+            }
+
+            //Batch subject timing
+            var classname = $("#class").val();
+            if (classname == '' || classname == 'Select Class') {
+                $("#msgclass").html("This is Mandatory Field Please Select a value");
+                $("#msgclass").show().delay(3000).fadeOut();
+                $("#class").focus();
+                return false;
+            }
+            //Duration
+            var duration = $("#duration").val();
+            if (duration == '' || duration == 'Select Duration') {
+                $("#msgduration").html("This is Mandatory Field Please select a value");
+                $("#msgduration").show().delay(3000).fadeOut();
+                $("#duration").focus();
+                return false;
+            }
+            //Period
+            var period = $("#txtperiod").val();
+            if (period == '' ||parseInt(period) == 0) {
+                $("#msgperiod").html('This is Mandatory Field Please enter a value other than 0')
+                $("#msgperiod").show().delay(3000).fadeOut();
+                $("#txtperiod").focus();
+                return false;
+            }
+            ///// Mobile no check
+            var mobile = $("#txtcellPhone").val();
+            var mob_length = mobile.length;
+            var first = mobile.substring(0, 1);
+
+            if (mob_length != 10) {
+                $("#msgcellphone").html('Mobile no must be of 10 digit')
+                $("#msgcellphone").show().delay(3000).fadeOut();
+                $("#txtcellPhone").focus();
+                e.preventDefault();
+                return false;
+            }
+            else if (first<7) {
+                $("#msgcellphone").html('MObile no starts with either 7,8,9')
+                $("#msgcellphone").show().delay(3000).fadeOut();
+                $("#txtcellPhone").focus();
+                e.preventDefault();
+                return false;
+                //alert("Working");
+            }
+
+            var amount = $("#amount").val();
+            var OP = 0;
+      
+            $.ajax({
+                url: "@(Url.Action("InsertUpdateStudentRegistration", "StudentRegistration", new { area = "" }))",
+                type: "POST",
+                data: {
+                    "OP":OP,
+                    "FirstName": firstname, "LastName": lastname, "ParentName": parentname, "Dob": dob, "Address": address, "City": city,
+                    "State": state, "Pin": pin, "Country": country, "Email": email, "Cell": cell, "User": user, "Skype": skype, "Password": password,
+                    "ConfirmPass": confirmPass, "BatchSubject": batchsubject, "Class": classname, "Duration": duration, "Period": period,
+                    "Amount": amount
+                },
+                //contentType: "application/json; charset=utf-8",
+                dataType: "JSON",
+                success: function (data) {
+                    //alert(JSON.stringify(data))
+                    $("#genmsg").html(JSON.stringify(data));
+                    $("#genmsg").show().delay(5000).fadeOut();
+                    init();
+
+                }
+
+            })
+            window.location.href = '/Logins/Login';
+
+            //alert('after');
+        });
+
+        $("#btnCancel").off().on('click', function () {
+            window.location.href = '/Onlineclasses/index';
+        });
+      
+
+
+    });
+
+        function ValidateEmail(sEmail) {
+            //alert(sEmail);
+                var filter =/^([\w-\.]+)@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+            //alert(filter.test(sEmail));
+            if (filter.test(sEmail)) {
+                //alert(filter.test(sEmail))
+                    return true;
+                }
+            else {
+                    return false;
+                }
+    }
+
+    function GetAmount(digit, batchSubjectid, classid, id) {
+        //alert('within function')
+            var amount ;
+       
+        //alert(classid);
+            $.ajax({
+                url: "@Url.Action("GetAmountAndSubjects", "StudentRegistration", new { area = "" })",
+                type: "Get",
+                data: { "BatchSubjectid": batchSubjectid, "Classid": classid, "Durationid": id },
+                contentType: "application/json; charset=utf-8",
+                dataType: "JSON",
+                success: function (data) {
+                    //alert(JSON.stringify(data))
+                    var amt = data.fees;
+                    amount = parseFloat(amt) * parseInt(digit);
+                    $("#amount").val(amount);
+                    //alert(amount);
+                },
+                error: function (ex) {
+                    //alert(ex)
+                }
+            })
+       
+       
+        return 
+    }
+
+    function check() {
+
+        var pass1 = document.getElementById('mobile');
+
+
+        var message = document.getElementById('message');
+
+        var goodColor = "#0C6";
+        var badColor = "#FF9B37";
+
+        if (mobile.value.length != 10) {
+
+            mobile.style.backgroundColor = badColor;
+            message.style.color = badColor;
+            message.innerHTML = "required 10 digits, match requested format!"
+        }
+    }
+
+    function init() {
+        $("#txtFirstName").val('');
+        $("#txtLastName").val('');
+        $("#txtParent").val('');
+        $("#txtDob").val('');
+        $("#txtAddress").val('');
+        $("#txtCity").val('');
+        $("#txtState").val('');
+        $("#txtPin").val('');
+        $("#txtCountry").val('');
+        $("#txtemail").val('');
+        $("#txtcellPhone").val('');
+        $("#txtUserName").val('');
+        $('#txtskype').val('');
+        $("#txtPassword").val('');
+        $("#txtConfirmPassword").val('');
+        $("#txtperiod").val('');
+        $("#amount").val('');
+        $("#subjects").val('');
+    }
+
+
+</script>
+

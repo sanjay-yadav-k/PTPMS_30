@@ -1,0 +1,519 @@
+﻿
+@{
+    ViewData["Title"] = "Add subject";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Class :- @TempData["ClassName"]</h2>
+<style>
+
+
+    .checkbox-custom, .radio-custom {
+        opacity: 0;
+        position: absolute;
+    }
+
+    .checkbox-custom, .checkbox-custom-label, .radio-custom, .radio-custom-label {
+        display: block;
+        vertical-align: middle;
+        padding: 2px;
+        cursor: pointer;
+    }
+
+    .checkbox-custom-label, .radio-custom-label {
+        position: relative;
+        border-radius: 10px;
+        background: #fff;
+        width: 97%;
+        transition: all 0.2s ease-in-out 0s;
+        border: 2px solid #079ad9;
+        color: #079ad9;
+    }
+
+    .report-form {
+        padding: 25px !important;
+    }
+
+    .checkbox-custom + .checkbox-custom-label:before, .radio-custom + .radio-custom-label:before {
+        transform: scale(1.02);
+    }
+
+    .checkbox-custom:checked + .checkbox-custom-label {
+        color: #fff;
+        background-color: #079ad9;
+        transform: scale(1.02);
+    }
+
+
+
+    .radio-custom:checked + .radio-custom-label {
+        color: #fff;
+        background-color: #079ad9;
+        transform: scale(1.02);
+    }
+
+
+    .radiosec {
+        width: 32%;
+        color: #fff;
+        float: left;
+        /*margin: 0 10px 15px 0;*/
+        text-align: center;
+        font-size: 13px;
+    }
+</style>
+<h2>Add subject</h2>
+<div class="row">
+    @if (ViewBag.subjectlist != null)
+    {
+        int i = 1;
+        foreach (var item1 in ViewBag.subjectlist)
+        {
+            <div class="radiosec">
+                <input id="chk1@(item1.SubjectId)" class="checkbox-custom subjectvalue" name="@item1.subjectname" type="checkbox" value="@item1.SubjectId" checked="@item1.Selected">
+                <label for="chk1@(item1.SubjectId)" class="checkbox-custom-label">@item1.subjectname</label>
+            </div>
+            i++;
+            if (i % 3 == 1)
+            {
+                <div class="clearfix"></div>
+            }
+        }
+    }
+</div>
+<input type="hidden" id="udf5" name="udf5" value="BOLT_KIT_ASP.NET" />
+<input type="hidden" id="surl" name="surl" value="https://localhost:44366/PayUmoneyresponse/Index"/>
+<input type="hidden" id="studentid" value="@TempData["studenid"]" />
+ <div class="row" id="displayfees">
+    <table class="table table-responsive pull-right" id="tblfees" style="font-size:x-small;color:blueviolet;width:550px">
+        <thead>
+            <tr style="height:7px">
+                @*<th style="font-size: x-small;width:25px" class="pay"></th>*@
+                <th style="width:175px" class="pay">Subject</th>
+                <th style="width:140px" class="pay">Payment Type</th>
+                <th style="width:60px" class="pay">Hour</th>
+                <th style="width:175px" class="pay">Amount</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+</div>
+
+<div class="row" id="Totalfees">
+    <table class="table table-responsive pull-right" id="tblTotalfees" style="font-size:x-small;color:blueviolet;width:550px">
+        <thead>
+            <tr style="height:7px">
+                <th style="width:400px" class="pay">Total</th>
+                <th style="width:180px" class="pay">Amount To Be Paid</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr style="height:7px">
+                <td style="font-size: x-small;width:400px" class="pay"></td>
+                <td style="font-size: x-small;width:150px" class="pay"><span id="totA" style="padding-left:60px;"></span></td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+
+<div class="row">
+    <div>
+        <button type="button" id="btnOpenModal" class="btn btn-primary pull-right btn-lg" onclick="OpenDialog()">Pay Ammount</button>
+        <div class="clearfix"></div>
+    </div>
+
+</div>
+<script>
+    $(document).ready(function () {
+        $("#displayfees").hide();
+        $("#Totalfees").hide();
+        //$("#btnOpenModal").attr("disabled", true);
+        $("#btnOpenModal").hide();
+        $(".subjectvalue").off().on('change', function () {
+            $("#displayfees").show();
+            $("#Totalfees").show();
+            $("#totA").val("0.00");
+            var ids = "";
+            var names = "";
+            if ($(this).prop("checked") == true) {
+                ids = $(this).val();
+                names = $(this).next().text();
+                populate_Fees_table(ids, names)
+            }
+            if ($(this).prop("checked") == false) {
+                ids = $(this).val();
+                //alert(ids)
+                names = $(this).next().text();
+                //alert(names)
+                Remove_Rows_From_table(ids, names)
+                var rows = $('#tblfees tbody tr').length;
+                if (rows == 0) {
+                    $("#displayfees").hide();
+                    $("#Totalfees").hide();
+                    $("#btnOpenModal").hide();
+                }
+            }
+
+        })
+
+        $(document).on('change', '#tblfees .duration', function (e) {
+
+            var $row = $(this).closest("tr")
+            var myRow = $("#tblfees tr").index($row);
+            var value = $(this).find(":selected").val();
+            var subjectid = $row.find(".subjectid").val();
+            if (value == 2 || value == 3) {
+                $row.find('.RUNHR').val("");
+                $row.find('.RUNHR').attr("disabled", true);
+            }
+            else {
+                $row.find('.RUNHR').attr("disabled", false);
+                $row.find('.RUNHR').val("1")
+                $row.find('.RUNHR').focus();
+            }
+            $.ajax({
+            url: "@Url.Action("GetAmount", "Student", new { area = "" })",
+            type: "Get",
+                data: { "value": value, "subjectid": subjectid},
+            contentType: "application/json; charset=utf-8",
+            dataType: "JSON",
+                success: function (data) {
+                    $row.find('.amt').text(data);
+                //$(".amount" + subjectid).text(data);
+
+                var prodA = 0;
+                $('#tblfees tbody tr').each(function (row, tr) {
+
+                    var amt = $(this).closest('tr').find('.amt').text();
+                    if (amt!='') {
+                        prodA = parseFloat(prodA) + parseFloat(amt)
+                     }
+                    $("#totA").text(prodA.toFixed(0));
+                    Button_Enable_Disable();
+                })
+            },
+            error: function (ex) {
+               // alert(ex)
+            }
+
+        })
+
+        })
+
+        $(document).on('blur', '#tblfees .RUNHR', function (event) {
+            var $row = $(this).closest("tr")
+            var hr = $row.find("td:eq(2) input[type='text']").val()
+            if (hr == '' || hr == 0) {
+                //alert('Please Enter Some numeric value in this Hourly Field')
+            }
+            var subjectid = $(this).closest('tr').find('.subjectid').val();
+            ////
+            $.ajax({
+            url: "@Url.Action("GetAmount", "Student", new { area = "" })",
+            type: "Get",
+                data: { "value": 1, "subjectid": subjectid},
+            contentType: "application/json; charset=utf-8",
+            dataType: "JSON",
+                success: function (data) {
+                    //$row.find('.amt').text(data);
+                    var amt = data;
+                   // alert(amt);
+                    var totAmt = parseInt(parseFloat(amt) * parseFloat(hr));
+                   // alert(totAmt);
+                    $row.find('.amt').text(totAmt);
+                    //$(this).closest('tr').find('.amt').text(totAmt);
+                    //$(".amount" + subjectid).text(totAmt);
+                    var prodA = 0;
+                    $('#tblfees tbody tr').each(function (row, tr) {
+
+                        var amt = $(this).closest('tr').find('.amt').text();
+                        if (amt != '') {
+                            prodA = parseFloat(prodA) + parseFloat(amt)
+                        }
+                        $("#totA").text(prodA.toFixed(0));
+                        Button_Enable_Disable();
+                    })
+
+            },
+            error: function (ex) {
+                //alert(ex)
+            }
+
+        })
+            ////
+      })
+
+
+
+    })
+
+    function populate_Fees_table(ids, names) {
+        var Srl = 0;
+        var amt1 = 0;
+        $.ajax({
+            url: "@Url.Action("GetAmount", "Student", new { area = "" })",
+            type: "Get",
+            data: { "value": 3, "subjectid": ids },
+            contentType: "application/json; charset=utf-8",
+            dataType: "JSON",
+            success: function (data) {
+                amt1 = data;
+                var prodA = 0;
+
+
+                // Find No of rows
+
+                tr = $('<tr/>');
+                //tr.append("<td class='subject' style='width:15px;font-size:x-small;color:blueviolet'>" + name[i] + "</td>");
+                //tr.append("<td class='pay Srl' style='width:25px;font-size:x-small;color:blueviolet'>" + Srl + "</td>");
+                tr.append('<td style="width:175px"><span class="subject">' + names + '</span><input type="hidden" class="subjectid" value="' + ids + '" subid='+ids+'"/></td>'); //<span class="subject "style="color:blueviolet;font-size:xx-small">' + id[i] + '</span>
+                get_Values_To_populate_dropdown(ids);
+                //tr.append('<td style="width:175px"><span class="subject "style="color:blueviolet;font-size:xx-small">' + name[i] + '</span></td>');
+                tr.append('<td style="width:140px"><select class="form-control duration" value=' + ids + ' id="d' + ids + '" style="width :130px"></select></td>');
+                tr.append('<td style="width:60px"><input type="text" class="RUNHR form-control pay" style="width:45px;text-align:right"  max="999" maxlength="3" disabled="disabled" ></td>');
+                //alert(amt1)
+                tr.append('<td style="width:175px" class="amt"><span class="amount' + ids + ' ">' + amt1 + '</span></td>');
+                $('#tblfees tbody').append(tr);
+                $('#tblfees tbody tr').each(function (row, tr) {
+                    var amt = $(this).closest('tr').find('.amt').text();
+                    if (amt != '') {
+                        prodA = parseFloat(prodA) + parseFloat(amt)
+                    }
+                    $("#totA").text(prodA.toFixed(0));
+                    Button_Enable_Disable();
+
+                })
+                //alert("#d" + ids + " option[value = 3]");
+                //("#d" +ids+ " option[value=3]").attr('selected', 'selected');
+               // $(".duration option[value=3]").attr('selected', 'selected');
+              //  return data;
+            },
+            error: function (ex) {
+                //alert(ex)
+            }
+         })
+
+        }
+
+    function Remove_Rows_From_table(ids, names) {
+        //alert('Within Remove_Rows')
+        $("#tblfees").find("td:contains('" + names + "')").closest('tr').remove();
+        var prodA = 0;
+        $('#tblfees tbody tr').each(function (row, tr) {
+            var amt = $(this).closest('tr').find('.amt').text();
+            if (amt != '') {
+                prodA = parseFloat(prodA) + parseFloat(amt)
+            }
+            $("#totA").text(prodA.toFixed(0));
+            Button_Enable_Disable();
+        })
+     };
+        //})
+
+
+
+    function get_Values_To_populate_dropdown(id) {
+        //alert(id);
+         // Duration
+        $.ajax({
+            url: "@Url.Action("GetDuration", "StudentRegistration", new { area = "" })",
+            type: "Get",
+            //data: { "user": user },
+            contentType: "application/json; charset=utf-8",
+            dataType: "JSON",
+            success: function (data) {
+
+                $('#d' + id).empty();
+                //var newOption = $('<option selected="selected">Select Duration</option>');
+                //$('.duration').append(newOption);
+                for (var i = 0; i < data.length; i++) {
+                    //var opt = new Option(data[i].durationname, data[i].durationid);
+                   var  $option = $('<option value="' + data[i].durationid + '">' + data[i].durationname + '</option>');
+                    if (data[i].durationid == 3) {
+                         $option.attr('selected', 'selected');
+                    }
+                    $('#d' + id).append($option);
+                    $('#d' + id).focus();
+                }
+
+
+                //getAmount()
+
+            },
+            error: function (ex) {
+               // alert(ex)
+            }
+
+        })
+
+    }
+    function TotalProductionA() {
+        var prodA = 0;
+        $('#tblfees tbody tr').each(function (row, tr) {
+           var amt = $(this).closest('tr').find('.amt').text();
+
+            if (!isNaN(amt)) {
+                prodA = parseFloat(prodA) + parseFloat(amt)
+            }
+            $("#totA").text(prodA.toFixed(0));
+        })
+
+        $("#totA").text(prodA.toFixed(0));
+    }
+    function Button_Enable_Disable() {
+        var amt = $("#totA").text();
+        if (amt > 0) {
+            $("#btnOpenModal").show();
+        }
+        else {
+            $("#btnOpenModal").hide();
+        }
+    }
+
+    function getAmount(subjectid, value) {
+        //alert(subjectid);
+        //alert(value);
+        var amt1 = 0;
+        $.ajax({
+            url: "@Url.Action("GetAmount", "Student", new { area = "" })",
+            type: "Get",
+                data: { "value": value, "subjectid": subjectid},
+            contentType: "application/json; charset=utf-8",
+            dataType: "JSON",
+            success: function (data) {
+                amt1 = data;
+                //alert('From Data '+amt1)
+                var prodA = 0;
+                $('#tblfees tbody tr').each(function (row, tr) {
+
+                    var amt = $(this).closest('tr').find('.amt').text();
+                    if (amt!='') {
+                        prodA = parseFloat(prodA) + parseFloat(amt)
+                     }
+                    $("#totA").text(prodA.toFixed(0));
+                    Button_Enable_Disable();
+                })
+                return data;
+            },
+            error: function (ex) {
+                //alert(ex)
+            }
+
+        })
+    }
+
+     function ValidateNumberWithoutDecimal(e) {
+        var evt = (e) ? e : window.event;
+        //alert(e)
+        var charCode = (evt.keyCode) ? evt.keyCode : evt.which
+        if (charCode > 31 && (charCode != 46 && charCode != 37 && charCode != 39 && (charCode < 48 || charCode > 57))) {
+            return false;
+        }
+        return true;
+    };
+    function OpenDialog() {
+        ////////
+        var subjectid;
+        var duration;
+        var runhr;
+        var amt;
+        var ammount = $("#totA").text();
+        var totAmt = $("#totA").text();
+        var subject = [];
+        $('#tblfees tbody tr').each(function (row, tr) {
+            var $row = $(this).closest("tr")
+            subjectid = $row.find(".subjectid").val();//$row.find("td:eq(2) input[type='text']").val().split(':')
+            duration = $row.find(".duration").val();//$row.find("td:eq(4) input[type='text']").val() + ':' + $row.find("td:eq(5) input[type='text']").val()
+            runhr = $row.find(".RUNHR").val();
+            //var subid = $("#subid").val();
+            //alert(subjectid)
+             amt = $row.find(".amt").text();
+            //alert(amt)
+             subject[row] = {
+                subjectid: subjectid,
+                duration: duration,
+                runhr: runhr,
+                amt: amt,
+                totAmt: totAmt,
+                studentid: $("#studentid").val(),
+                //Srl: $row.find('td:eq(0)').text(),
+                //machine: $row.find("td:eq(1) input[type='text']").val(),
+                //product: productarr[0],
+                //runhr: runhr,
+                //qty: $row.find("td:eq(6) input[type='text']").val(),
+                //dt: dt,
+                //mill: mill,
+                //shift: shift
+
+            };
+        });
+
+         
+        var SubjectModel = {
+            subjectDetail: subject
+        }
+       // alert(JSON.stringify(SubjectModel));
+       // alert(ammount)
+        ///////
+        var jsonString = JSON.stringify(SubjectModel)
+        $.ajax({
+            //contentType: 'application/json; charset=utf-8',
+            url: '@Url.Action("Generatehascode", "Student")',
+           // type: "POST",
+            data: { jsonString: jsonString, Ammounts: ammount}, //jsonString, //{'jsonString':'','Ammounts':ammount},
+            datatype: "JSON",
+            success: function (data) {
+                if (data=='error') {
+                    $('#alertinfo').html('<i class="fa fa-info-circle"></i>' + data);
+                }
+                else {
+                    bolt.launch({
+                        key: data.key,
+                        txnid: data.txnid,
+                        hash: data.hashcode,
+                        amount: data.ammount,
+                        firstname: data.fname,
+                        email: data.email,
+                        phone: data.phone,
+                        productinfo: "subject",
+                        udf5: "BOLT_KIT_ASP.NET",
+                        surl:"https://localhost:44366/PayUmoneyresponse/Index",
+                        furl: "https://localhost:44366/PayUmoneyresponse/Index"
+                    }, {
+                        responseHandler: function (BOLT) {
+                            console.log(BOLT.response.txnStatus);
+                            if (BOLT.response.txnStatus != 'CANCEL') {
+                                var fr = '<form action=\"' + BOLT.response.surl + '\" method=\"post\">' +
+                                    '<input type=\"hidden\" name=\"key\" value=\"' + BOLT.response.key + '\" />' +
+                                    '<input type=\"hidden\" name=\"salt\" value=\"' + $('#salt').val() + '\" />' +
+                                    '<input type=\"hidden\" name=\"txnid\" value=\"' + BOLT.response.txnid + '\" />' +
+                                    '<input type=\"hidden\" name=\"amount\" value=\"' + BOLT.response.amount + '\" />' +
+                                    '<input type=\"hidden\" name=\"productinfo\" value=\"' + BOLT.response.productinfo + '\" />' +
+                                    '<input type=\"hidden\" name=\"firstname\" value=\"' + BOLT.response.firstname + '\" />' +
+                                    '<input type=\"hidden\" name=\"email\" value=\"' + BOLT.response.email + '\" />' +
+                                    '<input type=\"hidden\" name=\"udf5\" value=\"' + BOLT.response.udf5 + '\" />' +
+                                    '<input type=\"hidden\" name=\"mihpayid\" value=\"' + BOLT.response.mihpayid + '\" />' +
+                                    '<input type=\"hidden\" name=\"status\" value=\"' + BOLT.response.status + '\" />' +
+                                    '<input type=\"hidden\" name=\"hash\" value=\"' + BOLT.response.hash + '\" />' +
+                                    '</form>';
+                                var form = jQuery(fr);
+                                jQuery('body').append(form);
+                                form.submit();
+                            }
+                        },
+                            catchException: function (BOLT) {
+                                alert(BOLT.message);
+                            }
+                        });
+                }
+            },
+            error: function (ex) {
+                //alert(ex)
+            }
+
+        })
+    }
+
+
+</script>

@@ -1,0 +1,140 @@
+﻿<div class="row" id="studentmap">
+
+    <div class="box col-md-12">
+        <form action="TeacherConfiguration" method="get" class="form-inline">
+            <input name="filter" class="form-control" placeholder="Techer Name"
+                   value="" />
+            <input type="hidden" name="IsType" class="form-control" placeholder="Student Name"
+                   value="1" />
+            <button type="submit" class="btn btn-info">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+            </button>
+        </form>
+        <div class="box-inner">
+            <div class="box-header well" data-original-title="">
+                <h2>Student map</h2>
+                <div class="box-icon">
+
+                    <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalTeacherStudentmap">
+                        <i class="glyphicon glyphicon-plus"></i>
+                    </a>
+
+                </div>
+            </div>
+            <div class="box-content">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Student Name</th>
+                            <th>Skype Id</th>
+                            <th>Class</th>
+                            <th>State</th>
+                            <th>Teacher name</th>
+                            <th>Class</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var cls in ViewBag.teacherstudentmap)
+                        {
+                            <tr>
+                                <td>@cls.StudentName</td>
+
+                                <td></td>
+
+                                <td>@cls.ClassName</td>
+
+                                <td>@cls.Subject</td>
+                                <td>
+                                    @cls.teachername
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0);" onclick="fnAddClass(@cls.studentteacheridmap,@cls.TeacherId,'student');">
+                                        <i class="fa" aria-hidden="true">Add Class</i>
+                                    </a>
+                                </td>
+                                <td>
+
+                                    <a href="javascript:void(0);" onclick="fnEdit(@cls.studentteacheridmap);">
+                                        <i class="fa fa-edit" aria-hidden="true">Edit</i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <nav aria-label="">
+                    @Html.Partial("_Studetmaplistpagination")
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" id="Bartchmap">
+
+    <div class="box col-md-12">
+        <form action="TeacherConfiguration" method="get" class="form-inline">
+            <input name="filter" class="form-control" placeholder="Techer Name"
+                   value="" />
+            <input type="hidden" name="IsType" class="form-control" placeholder="Batch Name"
+                   value="2" />
+            <button type="submit" class="btn btn-info">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+            </button>
+        </form>
+        <div class="box-inner">
+            <div class="box-header well" data-original-title="">
+                <h2>Bartch</h2>
+                <div class="box-icon">
+
+                    <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalTeacherBatchmap">
+                        <i class="glyphicon glyphicon-plus"></i>
+                    </a>
+
+                </div>
+            </div>
+            <div class="box-content">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Batch Name</th>
+                            <th>Class</th>
+                            <th>Subject</th>
+                            <th>Teacher</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var cls in ViewBag.teacherbatch)
+                        {
+                            <tr>
+                                <td>@cls.BatchName</td>
+
+                                <td>@cls.ClassName</td>
+
+                                <td>@cls.Subject</td>
+                                <td>@cls.Teacher</td>
+                                <td>
+                                    <a href="javascript:void(0);" onclick="fnAddClass(@cls.Techermapid,@cls.TeacherId,'batch');">
+                                        <i class="fa" aria-hidden="true">Add Class</i>
+                                    </a>
+                                </td>
+                                @*<td>@cls.Time</td>*@
+                                <td>
+                                    <a href="#" onclick="DeleteData(@cls.Techermapid,'teacherbatchmap');">
+                                        <i class="fa fa-trash" aria-hidden="true">Delete</i>
+                                    </a>
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <nav aria-label="">
+                    @Html.Partial("_StudentBatchlistpagination")
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>

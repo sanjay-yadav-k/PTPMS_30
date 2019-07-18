@@ -1,0 +1,136 @@
+﻿@model Datalayer.Models.Tbllogin
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+
+    <environment include="Development">
+     
+        <link href="~/css/charisma-app.css" rel="stylesheet" />
+        <link id="bs-css" href="~/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+        <link href="~/bootstrap-tour/build/css/bootstrap-tour.css" rel="stylesheet" />
+        <link href="~/css/jquery.noty.css" rel="stylesheet" />
+        <link href="~/css/noty_theme_default.css" rel="stylesheet" />
+        <link href="~/css/elfinder.min.css" rel="stylesheet" />
+        <link href="~/css/elfinder.theme.css" rel="stylesheet" />
+        <link href="~/css/jquery.iphone.toggle.css" rel="stylesheet" />
+        <link href="~/css/uploadify.css" rel="stylesheet" />
+        <link href="~/css/animate.min.css" rel="stylesheet" />
+        <link href="~/css/site.css" rel="stylesheet" />
+       
+        <script src="~/jquery/jquery.min.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link href="~/css/charisma-app.css" rel="stylesheet" />
+        <link id="bs-css" href="~/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+        <link href="~/bootstrap-tour/build/css/bootstrap-tour.css" rel="stylesheet" />
+        <link href="~/css/jquery.noty.css" rel="stylesheet" />
+        <link href="~/css/noty_theme_default.css" rel="stylesheet" />
+        <link href="~/css/elfinder.min.css" rel="stylesheet" />
+        <link href="~/css/elfinder.theme.css" rel="stylesheet" />
+        <link href="~/css/jquery.iphone.toggle.css" rel="stylesheet" />
+        <link href="~/css/uploadify.css" rel="stylesheet" />
+        <link href="~/css/animate.min.css" rel="stylesheet" />
+        <link href="~/css/site.css" rel="stylesheet" />
+        <!-- jQuery -->
+        <script src="~/jquery/jquery.min.js"></script>
+    </environment>
+    <title>Login</title>
+</head>
+<body>
+    <hr />
+
+
+    <div class="ch-container">
+        <div class="row">
+
+            <div class="row">
+                <div class="col-md-12 center login-header">
+                    <h2>Welcome to Online Class</h2>
+                </div>
+                
+            </div>
+            <form asp-action="Login">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="row">
+                    <div class="well col-md-5 center login-box">
+                        <div class="alert alert-info">
+                            Please login with your Email and Password.
+                        </div>
+                        <fieldset>
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-user red"></i></span>
+                                <input asp-for="UserName" class="form-control" placeholder="UserName" />
+                                <span asp-validation-for="UserName" class="text-danger"></span>
+                            </div>
+                            <div class="clearfix"></div><br>
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock red"></i></span>
+                                <input asp-for="Password" class="form-control" placeholder="Password" type="password" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+                            <div class="clearfix"></div>
+                            
+                            <span class="text-danger">@ViewBag.msg</span>
+                            <div class="clearfix"></div>
+
+                            <p class="center col-md-5">
+                                <button type="submit" class="btn btn-primary">Login</button>
+                            </p>
+                        </fieldset>
+
+                    </div>
+                   
+                </div>
+            </form>
+        </div>    </div>
+    @*<div class="row">
+            <div class="col-md-4">
+                <form asp-action="Login">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="UserEmail" class="control-label"></label>
+                        <input asp-for="UserEmail" class="form-control" />
+                        <span asp-validation-for="UserEmail" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Password" class="control-label"></label>
+                        <input asp-for="Password" class="form-control" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="StudientId" class="control-label"></label>
+                        <input asp-for="StudientId" class="form-control" />
+                        <span asp-validation-for="StudientId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Userid" class="control-label"></label>
+                        <input asp-for="Userid" class="form-control" />
+                        <span asp-validation-for="Userid" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Isstudent" class="control-label"></label>
+                        <input asp-for="Isstudent" class="form-control" />
+                        <span asp-validation-for="Isstudent" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-default" />
+                    </div>
+                </form>
+            </div>
+        </div>*@
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }
+</body>
+</html>

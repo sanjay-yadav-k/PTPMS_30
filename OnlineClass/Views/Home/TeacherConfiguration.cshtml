@@ -1,0 +1,766 @@
+﻿@model Datalayer.BusinessLogic.TeacherModelNew
+@{
+    var i = 0;
+}
+<style>
+    input.invalid, textarea.invalid {
+        border: 2px solid red;
+    }
+
+    input.valid, textarea.valid {
+        border: 2px solid green;
+    }
+
+    .required:after {
+        content: " *";
+        color: Tomato;
+    }
+
+    #map {
+        height: 100%;
+    }
+    /* Optional: Makes the sample page fill the window. */
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    .pac-container {
+        z-index: 1051 !important;
+    }
+</style>
+
+<div class=" row">
+    <input type="hidden" id="datedata" />
+    <input type="hidden" id="Teacherid" />
+    <input type="hidden" id="TeacherStudentid" />
+    <input type="hidden" id="studentbatchtype" name="studentbatchtype" />
+    <div class="col-md-3 col-sm-3 col-xs-6">
+        <a data-toggle="tooltip" title="" class="well top-block" href="#" onclick="showstudent()">
+            <i class="glyphicon glyphicon-user blue"></i>
+            <div>Student Map</div>
+            <div></div>
+
+        </a>
+    </div>
+    <div class="col-md-3 col-sm-3 col-xs-6">
+        <a data-toggle="tooltip" title="228 Total Class" class="well top-block" href="#" onclick="showBatch()">
+            <i class="glyphicon glyphicon-star green"></i>
+            <div>Batch Map</div>
+            <div></div>
+
+        </a>
+    </div>
+    @*<div class="col-md-3 col-sm-3 col-xs-6">
+            <a data-toggle="tooltip" title="228 Total Class" class="well top-block" href="#" onclick="showTeacher()">
+                <i class="glyphicon glyphicon-star green"></i>
+                <div>Add New Teacher</div>
+                <div></div>
+
+            </a>
+        </div>*@
+
+</div>
+@*<div class="row" id="TeacherConfiguration">
+
+        <div class="box col-md-12">
+            <div class="box-inner">
+                <div class="box-header well" data-original-title="">
+                    <h2>Teacher's</h2>
+                    <div class="box-icon">
+
+                        <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalTeacherForm">
+                            <i class="glyphicon glyphicon-plus"></i>
+                        </a>
+
+                    </div>
+                </div>
+                <div class="box-content">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Teacher Name</th>
+                                <th>Email Id</th>
+                                <th>Contact No.</th>
+                                <th>State</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var cls in ViewBag.Teacher)
+                            {
+                                <tr>
+                                    <td>@cls.Fname  @cls.Lname</td>
+
+                                    <td>@cls.Email</td>
+
+                                    <td>@cls.MobileNo</td>
+
+                                    <td>@cls.State</td>
+                                    <td>
+
+
+                                        <a href=#; onclick="GetTeacherData(@cls.TeacherId);">
+                                            <i class="fa fa-edit" aria-hidden="true">Edit</i>
+                                        </a>
+                                    </td>
+
+                                    <td>
+
+
+                                        <a href=#; onclick="DeleteTeacher(@cls.TeacherId,'Teacher');">
+                                            <i class="fa fa-trash" aria-hidden="true">Delete</i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <ul class="pagination pagination-centered">
+                        <li><a href="#">Prev</a></li>
+                        <li class="active">
+                            <a href="#">1</a>
+                        </li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">Next</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+@Html.Partial("StudetBatchmaplist")
+
+<div class="modal fade" id="modalTeacherStudentmap" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content modelscroll">
+            <div class="modal-header text-center">
+                <h4 class="modal-title w-100 font-weight-bold">Student Teacher Configuration</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Student Name</th>
+                        <th>Class name</th>
+                        <th>subject name</th>
+                        <th>Teacher</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{var counter = 1; }
+                    @foreach (var item in ViewBag.studentlist)
+                    {
+
+
+                        <tr>
+                            <td>@item.studentname</td>
+
+                            <td> @item.Classname</td>
+
+                            <td>@item.subjectname</td>
+                            @*<td>@Html.TextBoxFor(m=>m.startdate,null,new { @class="form-control datepicker datepicker-bg"})</td>*@
+                            @if (item.Ispresent == true)
+                            {
+                                <td>
+                                    @*@Html.DropDownList("Teachers", new SelectList(ViewBag.Teachers, "teacherid", "name"), "Select Teacher", new { @onchange = "UpdateTeacherstudent('" + @item.studentid + "','" + @item.subjectid + "',this.value)" })*@
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    <select id="teacherid_@counter@item.subjectid" name="teacherid_@counter@item.subjectid" class="form-control" onchange="UpdateTeacherstudent( @item.studentid, @item.subjectid,this.value)"></select>
+
+                                    @*<td>
+                                            @Html.DropDownList("Teachers", new SelectList(ViewBag.Teachers, "teacherid", "name"), "Select Teacher", new { @onchange = "UpdateTeacherstudent('" + @item.studentid + "','" + @item.subjectid + "',this.value)" })
+                                        </td>*@
+                                </td>
+
+                            }
+
+                            <script>
+                                 $.ajax({
+                                    type: "GET",
+                                    url: '@Url.Action("TeacherBasedOnsubject", "Home")',
+                                    datatype: "Json",
+                                    data: { subid: @item.subjectid},
+                  success: function (data) {
+                     // debugger
+                      var count =@counter;
+                      var sub =@item.subjectid;
+
+                    //  $('#teacherid_' + count+sub).empty().append('<option selected="selected" value="0" disabled = "disabled">Loading.....</option>');
+                      var s = '<option value="-1">Please Select a Teacher</option>';
+                      for (var i = 0; i < data.length; i++) {
+                           s += '<option value="' + data[i].value + '">' + data[i].text + '</option>';
+
+
+
+                      }
+                    //  $('#teacherid_@counter@item.subjectid').html(s);
+
+                         $('#teacherid_@counter@item.subjectid').html(s);
+
+                    //  alert(s);
+
+
+
+            }
+
+            });
+
+                            </script>
+                        </tr>
+                        counter++;
+
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="modalTeacherBatchmap" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title w-100 font-weight-bold">Batch Teacher Configuration</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Batch Name</th>
+                        <th>Class name</th>
+                        <th>Subject name</th>
+                        <th>Teacher</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <td> @Html.DropDownList("Batch_id", new SelectList(ViewBag.Batchlist, "BatchId", "BatchName"), "Select Batch", new { @class = "form-control" })</td>
+
+                        <td>  @Html.DropDownList("Class_id", new SelectList(ViewBag.Classlist, "ClassId", "ClassName"), "Select Class", new { @class = "form-control" })</td>
+                        <td>  @Html.DropDownList("Subject_id", new SelectList(ViewBag.subjectlist, "Subjectid", "Subjectname"), "Select Subject", new { @class = "form-control" })</td>
+                        <td>  @Html.DropDownList("Teachers_id", new SelectList(ViewBag.Teachers, "teacherid", "name"), "Select Teacher", new { @class = "form-control" })</td>
+
+                    </tr>
+
+                </tbody>
+            </table>
+            <div><button id="submit" style="margin-left: 258px;" onclick="savebatchmap()">Submit</button></div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="modalTeacherStudentmapEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title w-100 font-weight-bold">Student Teacher Configuration</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Teacher</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>
+                            <select id="teachers" onchange="UpdateTeacherstudentEdit(this.value)"></select>
+                        </th>
+                    </tr>
+
+
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalTiming" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title w-100 font-weight-bold">Class Timing</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <input type="hidden" id="dataarrey" />
+            <input type="hidden" id="Selecteddate" />
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>From time</th>
+                        <th>To time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td> <input type="text" id="fromtime" class="clockpicker" /></td>
+                        <td> <input type="text" id="Totime" class="clockpicker" /></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button class="btn btn-deep-orange" onclick="savetime('student')">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalStudentclassForm1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div id="dncalendar-container1">
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+        $(document).ready(function () {
+        //var batch = $('#Batch_id').val();
+        $("#Batch_id").off().on('change', function () {
+            var ids = $('#Batch_id').val();
+            var names = $("#Batch_id option:selected").text();
+           // alert(names);
+           // alert(ids);
+            if (ids == 'Select Batch') { return false; }
+            $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("GetsubjectBasedOnBatch", "Teacher")',
+                    datatype: "Json",
+                    data: { batchid: ids},
+                success: function (data) {
+                    debugger
+                        $('#Subject_id').empty();
+                        var newOption = $('<option selected="selected">Select Subject</option>');
+                        $('#Subject_id').append(newOption);
+                        for (var i = 0; i < data.length; i++) {
+                            var opt = new Option(data[i].name, data[i].id);
+                            $('#Subject_id').append(opt);
+                        }
+
+
+
+                }
+            })
+            })
+
+
+
+            var batch = $("#Batch_id option:selected").val();
+
+            $("#Subject_id").off().on('change', function () {
+                var ids2 = $('#Subject_id').val();
+                var ids3 = $('#Batch_id').val();
+
+                var names2 = $("#Subject_id option:selected").text();
+
+                    if (ids2 == 'Select Subject') { return false; }
+            $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("GetTeacherbasedonBatchSubject", "Teacher")',
+                    datatype: "Json",
+                data: { batchid: ids3, subjectId: ids2},
+                success: function (data) {
+                    debugger
+
+
+                        $('#Teachers_id').empty();
+                        var newOption2 = $('<option selected="selected">Select Teacher</option>');
+                        $('#Teachers_id').append(newOption2);
+                        for (var i = 0; i < data.length; i++) {
+                            var opt = new Option(data[i].teachername, data[i].teacherid);
+                            $('#Teachers_id').append(opt);
+                        }
+                }
+            })
+            })
+
+
+
+
+
+
+
+
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+    var datearry = new Array();
+    function fnAddClass(studentteacheridmap, teacher, typess) {
+        $('#studentbatchtype').val(typess);
+        datearry = new Array();
+        $('#datedata').val("");
+      //  clrdataarey();
+       // alert($('#datedata').val());
+        var fetchdate = new Array();
+        var datdata = "";
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetScheduleDate", "Teacher")',
+            datatype: "Json",
+            data: { id: studentteacheridmap, Teacherid: teacher, types: typess},
+            success: function (data) {
+
+                    var Datearry1 = new Array();
+                    $.each(data, function (i) {
+                        var tempDate = data[i].date;
+                        Datearry1.push(tempDate);
+
+                });
+                //dateselecte = Datearry;
+                $('#datedata').val(Datearry1.join());
+                $('#TeacherStudentid').val(studentteacheridmap);
+                $('#Teacherid').val(teacher);
+                $("#dncalendar-container1").dnCalendar({
+                    notes: data,
+                }).build();
+
+                   // my_calendar.build();
+                    $("#modalStudentclassForm1").modal("show");
+
+                    // });
+                }
+                // location.reload();
+
+            //}
+
+            //  dateselecte = fetchdate.join();
+
+        });
+
+
+
+       // alert(dateselecte);
+
+    }
+    function GetTodayDate() {
+        var tdate = new Date();
+        var dd = tdate.getDate(); //yields day
+        var MM = tdate.getMonth(); //yields month
+        var yyyy = tdate.getFullYear(); //yields year
+        var currentDate = yyyy + "-" + (MM + 1) + "-" + dd;
+
+        return currentDate;
+    }
+        $(document).ready(function () {
+            $('#TeacherConfiguration').hide();
+        if (@ViewBag.Types== 0) {
+            $('#studentmap').hide();
+            $('#Bartchmap').hide();
+        }
+        else if (@ViewBag.Types== 1)
+        {
+            $('#studentmap').show();
+            $('#Bartchmap').hide();
+        }
+          else if (@ViewBag.Types== 2)
+        {
+            $('#studentmap').hide();
+            $('#Bartchmap').show();
+        }
+          
+            $('.calendarClick').click(function (event) {
+                $(event).addClass('note');
+            })
+
+
+            var surrentselectdate="";
+                var my_calendar = $("#dncalendar-container1").dnCalendar({
+                    minDate: "2019-01-15",
+                    maxDate: "2025-12-02",
+                    defaultDate: "2019-05-10",
+                    monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+                    monthNamesShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    dayNames: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+                    dayNamesShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+                    dataTitles: { defaultDate: '', today: '' },
+                    notes: [
+                        { "date": "2019-05-25", "note": ["Natal"] },
+                        { "date": "2019-05-12", "note": ["Tahun Baru"] }
+                    ],
+                    showNotes: true,
+                    startWeek: 'monday',
+                    dayClick: function (date, view) {
+                        var datevalue = $('#datedata').val();
+                        //alert(datevalue);
+                        var datevaluesplit = datevalue.split(',');
+                        if (datevaluesplit.length > 1 && datearry.length==0) {
+                            $.each(datevaluesplit, function (i) {
+                                var tempDate = datevaluesplit[i+1];
+                                datearry.push(tempDate);
+
+                            });
+                        }
+                        $(this).toggleClass('note');
+                         surrentselectdate = (date.getMonth() + 1) + "-" + date.getDate() + "-" + date.getFullYear();
+                       // alert("gg" + surrentselectdate + "pp" + surrentselectdate);
+                        if ($(this).hasClass('note')) {
+                            datearry.push(surrentselectdate);
+                            $('#modalTiming').modal('show');
+                            $("#modalStudentclassForm1").modal("hide");
+                            $('#dataarrey').val(datearry.join());
+                            $('#Selecteddate').val(surrentselectdate);
+                    }
+                        else {
+                            surrentselectdate = ((date.getMonth() + 1) < 10 ? ("0" + (date.getMonth() + 1)) : (date.getMonth() + 1)) + "-" + (date.getDate() < 10 ? ("0" + date.getDate()) : date.getDate()) + "-" + date.getFullYear();
+                          //  alert("ff" + datearry + "pp" + surrentselectdate);
+                            datearry.splice(datearry.indexOf(surrentselectdate), 1);
+                            Removedatetime(surrentselectdate);
+                            $("#modalStudentclassForm1").modal("show");
+                    }
+                        // alert("ffff" + datearry.join());
+
+                       // SaveSchedules(datearry.join());
+
+                    }
+                });
+
+                // init calendar
+                my_calendar.build();
+
+                // update calendar
+                // my_calendar.update({
+                // 	minDate: "2016-01-05",
+                // 	defaultDate: "2016-05-04"
+                // });
+
+        });
+        function showstudent() {
+           // $('#TeacherConfiguration').hide();
+            $('#studentmap').show();
+            $('#Bartchmap').hide();
+
+        }
+        //function showTeacher() {
+        //    $('#TeacherConfiguration').show();
+        //    $('#studentmap').hide();
+        //    $('#Bartchmap').hide();
+        //}
+        function showBatch() {
+          //  $('#TeacherConfiguration').hide();
+            $('#studentmap').hide();
+            $('#Bartchmap').show();
+        }
+
+
+    function savetime(studentbatch) {
+
+              $.ajax({
+            type: "GET",
+            url: '@Url.Action("SaveScheduleTime", "Teacher")',
+            datatype: "Json",
+                  data: { id: $('#TeacherStudentid').val(), fromtime: $('#fromtime').val(), ToTime: $('#Totime').val(), scheduledate: $('#dataarrey').val(), Teacherid: $('#Teacherid').val(), isstudentbatch: $('#studentbatchtype').val(), selecteddate:$('#Selecteddate').val()},
+                  success: function (data) {
+                      $("#modalStudentclassForm1").modal("show");
+                      $('#modalTiming').modal('hide');
+                     // return false;
+               // location.reload();
+            }
+
+        });
+    }
+     function Removedatetime(removedate) {
+
+              $.ajax({
+            type: "GET",
+            url: '@Url.Action("RemoveScheduleDateTime", "Teacher")',
+            datatype: "Json",
+                  data: { id: $('#TeacherStudentid').val(), Teacherid: $('#Teacherid').val(), isstudentbatch: $('#studentbatchtype').val(), selecteddate: removedate},
+                  success: function (data) {
+                      $("#modalStudentclassForm1").modal("show");
+                      $('#modalTiming').modal('hide');
+               // location.reload();
+            }
+
+        });
+    }
+    function SaveSchedules(Datearry) {
+       // $('#datedata').val();
+        ///var datedata = $('#datedata').val() + "," + Datearry;
+        //alert(Teacherid);
+              $.ajax({
+            type: "GET",
+            url: '@Url.Action("SaveScheduleDate", "Teacher")',
+            datatype: "Json",
+                  data: { id: $('#TeacherStudentid').val(), scheduledate: Datearry, Teacherid: $('#Teacherid').val(), isstudentbatch: $('#studentbatchtype').val()},
+                  success: function (data) {
+                      return false;
+               // location.reload();
+            }
+
+        });
+    }
+
+    function UpdateTeacherstudent(studentid, subjectid, Teacherid) {
+        alert(Teacherid);
+              $.ajax({
+            type: "GET",
+            url: '@Url.Action("UpdateTeacherstudent", "Teacher")',
+            datatype: "Json",
+                  data: { id: studentid, subjectid: subjectid, Teacherid: Teacherid},
+            success: function (data) {
+                location.reload();
+            }
+
+        });
+    }
+
+     function UpdateTeacherstudentEdit(studentidtechermap) {
+         //alert(studentidtechermap);
+              $.ajax({
+            type: "GET",
+            url: '@Url.Action("UpdateTeacherstudentedits", "Teacher")',
+            datatype: "Json",
+                  data: { id:studentidtechermap},
+            success: function (data) {
+                location.reload();
+            }
+
+        });
+    }
+    function fnEdit(studentmapid) {
+
+          $.ajax({
+            type: "GET",
+            url: '@Url.Action("UpdateTeacherstudentEdit", "Teacher")',
+            datatype: "Json",
+              data: { id: studentmapid},
+              success: function (data) {
+                  $("#teachers").html('');
+               var optionhtml1 = '<option value="' +
+                 0 + '">' + "--Select Teacher--" + '</option>';
+                $("#teachers").append(optionhtml1);
+
+                $.each(data, function (i) {
+
+                    var optionhtml = '<option value="' + data[i].teacherid + '_' + studentmapid +'">' + data[i].name + '</option>';
+                    $("#teachers").append(optionhtml);
+                });
+                $('#modalTeacherStudentmapEdit').modal("show");
+            }
+
+        });
+    }
+    function UserCheck() {
+        $("#Status").html("Checking...");
+        $.post("@Url.Action("CheckUserNamePassword", "Home")",
+            {
+                userdata: $("#UserName").val()
+
+            },
+        function (data) {
+            if (data == 0) {
+                $("#Status").html('<font color="Green">Available !. you can take it.</font>');
+                $("#UserName").css("border-color", "Green");
+
+            }
+            else {
+                $("#Status").html('<font color="Red">That name is taken.Try Another.</font>');
+                $("#UserName").css("border-color", "Red");
+            }
+            });
+
+
+    }
+    function ShowStudentModel() {
+        $('#modalTeacherStudentmap').modal("show");
+    }
+
+    function savebatchmap() {
+        //alert($('#Batch_id').val());
+        //alert($('#Class_id').val());
+        //alert($('#Subject_id').val());
+        //alert($('#Teachers_id').val());
+
+         $.ajax({
+            type: "GET",
+            url: '@Url.Action("savebatchmapdata", "Teacher")',
+            datatype: "Json",
+             data: { Batch_id: $('#Batch_id').val(), classid: $('#Class_id').val(), subjectid: $('#Subject_id').val(), teacherid: $('#Teachers_id').val()},
+              success: function (data) {
+                  alertify.alert("Save successfully", function () { location.reload(); }).setHeader('Edu Solution');
+            }
+
+        });
+    }
+
+    //$('.alphaonly').bind('keyup blur', function () {
+    //    var node = $(this);
+    //    node.val(node.val().replace(/[^a-z]/g, ''));
+    //}
+    //);
+
+
+
+
+      function DeleteData(id, type) {
+       // alert(type);
+        var data1 = '@ViewBag.Message';
+       // debugger
+
+    $.ajax({
+            type: "post",
+            url: "@Url.Action("DeleteConfirmed", "Home")",
+            ajaxasync: true,
+        data: { Id:id, Tabletype: type },
+        success: function (data) {
+           // debugger
+                //alert("Data Deleted Successfully");
+             //url: "@Url.Action("DeleteConfirmed", "Home")",
+            var data1 = '@TempData["DeleteMsg"]';
+            alertify.alert("Delete successfully", function () { location.reload(); }).setHeader('Edu Solution');
+                showClass();
+            },
+            error: function (data) {
+                alert("something went wrong");
+            }
+        });
+    }
+
+
+
+
+</script>

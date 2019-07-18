@@ -1,0 +1,185 @@
+﻿@model ReflectionIT.Mvc.Paging.PagingList<Datalayer.Models.TblBatch>
+@using Datalayer;
+
+
+@{
+    ViewData["Title"] = "Home Page";
+
+
+}
+
+<div class=" row">
+    <div class="col-md-3 col-sm-3 col-xs-6">
+        <a data-toggle="tooltip" title="507 Total Students" class="well top-block" href="#" onclick="showTotalStudent()">
+            <i class="glyphicon glyphicon-user blue"></i>
+            <div>Total Students</div>
+            <div>@ViewBag.StuCount</div>
+
+        </a>
+    </div>
+    <div class="col-md-3 col-sm-3 col-xs-6">
+        <a data-toggle="tooltip" title="228 Total Class" class="well top-block" href="#" onclick="showTotalClass()">
+            <i class="glyphicon glyphicon-star green"></i>
+            <div>Total Class</div>
+            <div> @ViewBag.TotalClass</div>
+
+        </a>
+    </div>
+    <div class="col-md-3 col-sm-3 col-xs-6">
+        <a data-toggle="tooltip" title="13320 New student" class="well top-block" href="#" onclick="showTotalNewStudent()">
+            <i class="glyphicon glyphicon-user red"></i>
+            <div>New student</div>
+            <div>@ViewBag.NewStuCount</div>
+
+        </a>
+    </div>
+    <div class="col-md-3 col-sm-3 col-xs-6">
+        <a data-toggle="tooltip" title="12 new messages." class="well top-block" href="#"  onclick="showTotalBatch()">
+            <i class="glyphicon glyphicon-star red"></i>
+            <div>Batch</div>
+            <div>@ViewBag.BatchTotalCount</div>
+
+        </a>
+    </div>
+</div>
+<div class="row">
+    <div class="box col-md-6">
+        <div class="box-inner">
+            <div class="box-header well" data-original-title="">
+                <h2>Student Wise Class Time</h2>
+
+            </div>
+            <div class="box-content">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Student Name</th>
+                            <th>Class</th>
+                            <th>Subject</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    @foreach (var item in ViewBag.studentmap)
+                    {
+                        <tbody>
+                            <tr>
+                                <td>@item.Fname</td>
+
+                                <td class="center">
+                                    @item.ClassName
+                                </td>
+                                <td class="center">@item.Subject</td>
+                                @if (item.Date == null)
+                                {
+                                    <td class="center"></td>
+                                }
+                                else
+                                {
+                                    <td class="center"> @Convert.ToDateTime(item.Date).ToString("MM/dd/yyyy")</td>
+                                }
+
+                            </tr>
+                        </tbody>
+                    }
+                </table>
+                <nav aria-label="">
+                    @Html.Partial("Pagingstudent")
+                </nav>
+            </div>
+        </div>
+    </div>
+    <!--/span-->
+
+
+    <div class="box col-md-6">
+        <div class="box-inner">
+            <div class="box-header well" data-original-title="">
+                <h2>Batch Wise Time</h2>
+
+            </div>
+            <div class="box-content">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Date </th>
+                            @*<th>Time</th>*@
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    @foreach (var item in Model)
+                    {
+                        <tbody>
+                            <tr>
+                                <td>@item.BatchName</td>
+                                @if (item.Dateofcommencement == null)
+                                {
+                                    <td class="center"></td>
+                                }
+                                else
+                                {
+                                    <td class="center">@item.Dateofcommencement.Value.GetExactValue()</td>
+                                }
+
+                                @*<td class="center">@item.Timing </td>*@
+                                <td class="center">
+                                    <span class="label-success label label-default">Active</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    }
+
+                </table>
+                <nav aria-label="">
+                    @Html.Partial("SmallPager", this.Model)
+                </nav>
+                @*<ul class="pagination pagination-centered">
+                        <li><a href="#">Prev</a></li>
+                        <li class="active">
+                            <a href="#">1</a>
+                        </li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">Next</a></li>
+                    </ul>*@
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <!--/span-->
+</div><!--/row-->
+@Html.Partial("_TotalClass")
+
+
+
+
+
+<script>
+    function showTotalClass() {
+      
+
+        $('#totalclassconfigs').modal('show');
+    }
+
+    function showTotalStudent() {
+        
+        $('#totalStudentconfigs').modal('show');
+
+    }
+
+    function showTotalNewStudent() {
+        $('#totalNewStudentconfigs').modal('show');
+
+    }
+
+    function showTotalBatch() {
+        
+        $('#totalBatchconfigs').modal('show');
+    }
+</script>
+
+

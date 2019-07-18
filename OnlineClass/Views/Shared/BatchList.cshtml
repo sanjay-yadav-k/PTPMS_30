@@ -1,0 +1,119 @@
+﻿  <!--/span-->
+<div class="box col-md-6">
+    <div class="box-inner">
+        <div class="box-header well" data-original-title="">
+            <h2>Batch Configuration</h2>
+            <div class="box-icon">
+                @*<a href="#" class="btn btn-setting btn-round btn-default">
+                        <i class="glyphicon glyphicon-cog"></i>
+                    </a>*@
+
+                <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalBatchForm">
+                    <i class="glyphicon glyphicon-plus"></i>
+                </a>
+
+            </div>
+        </div>
+        <div class="box-content">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Batch Name</th>
+                        @*<th>Class Name</th>*@
+                        @*<th>Duration Type</th>
+                    <th>Fees</th>*@
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var cls in ViewBag.Batch)
+                    {
+                        //  TblClass cls1 = cls.Class;
+                        <tr>
+                            <td>@cls.BatchName</td>
+
+                            @*<td>@cls1.ClassName.ToString()<td>*@
+
+
+                            @*<td>@cls.DurationTypeId</td>*@
+
+
+                            @*<td>@cls.Fees</td>*@
+                            <td>
+                                <a href=#; onclick="GetBatch(@cls.BatchId);">
+                                    <i class="fa fa-edit" aria-hidden="true">Edit</i>
+                                </a>
+                            </td>
+                            <td>
+                                @*<a href="@Url.Action("Delete", "Home", new { id = 1 })">
+                                <i class="fa fa-trash" aria-hidden="true">Delete</i>
+                            </a>*@
+
+                                <a href="#" onclick="DeleteData(@cls.BatchId,'Batch');">
+                                    <i class="fa fa-trash" aria-hidden="true">Delete</i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <nav aria-label="">
+                @Html.Partial("_BatchPagination")
+            </nav>
+        </div>
+    </div>
+</div>
+<!--/span-->
+
+
+
+<div class="box col-md-6" id="BatchSubjectconfig">
+    <div class="box-inner">
+        <div class="box-header well" data-original-title="">
+            <h2>Batch Subject Maping</h2>
+            <div class="box-icon">
+
+                <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalBatchSubjectForm">
+                    <i class="glyphicon glyphicon-plus"></i>
+                </a>
+            </div>
+
+        </div>
+        <div class="box-content">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Batch</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var cls in ViewBag.Batch_Subject)
+                    {
+                        <tr>
+
+                            <td>@Html.Label(@cls.BatchName, null, new { @onclick = "ShowSubjectsnew('" + @cls.BatchId + "')" })  </td>
+
+                            <td>
+                                <a href=#; onclick="GetSelectedBatchSubject(@cls.BatchId);">
+                                    <i class="fa fa-edit" aria-hidden="true">Edit</i>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="#" onclick="DeleteData(@cls.BatchId,'BatchSubjectMap');">
+                                    <i class="fa fa-trash" aria-hidden="true">Delete</i>
+                                </a>
+                            </td>
+                        </tr>
+
+                    }
+
+
+                </tbody>
+            </table>
+            <nav aria-label="">
+                @Html.Partial("_BatchSubjectpagination")
+            </nav>
+        </div>
+    </div>
+</div>

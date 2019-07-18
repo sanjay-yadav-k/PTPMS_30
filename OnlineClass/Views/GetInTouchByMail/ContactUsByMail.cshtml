@@ -1,0 +1,221 @@
+﻿@model Datalayer.BusinessLogic.contactByMail
+@{
+    string mail = "";
+}
+<link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css' integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' crossorigin='anonymous'>
+
+<div class="row" id="mailsendHistory">
+    <input type="hidden" id="studentbatchtype" name="studentbatchtype" />
+    <div class="box col-md-12">
+        <div class="box-inner">
+            <div class="box-header well" data-original-title="">
+                <h2>Mail Sent History</h2>
+                <div class="box-icon ">
+
+                    <a href="#" class="fas fa-envelope" style='font-size:28px' data-toggle="modal" data-target="#composemail">
+                        @*<i class="glyphicon glyphicon-envelope"></i>*@
+                        @*<i class="fas fa-envelope" style='font-size:28px'></i>*@
+                    </a>
+
+                </div>
+            </div>
+            <div class="box-content">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            @*<th>Sender EmailId</th>*@
+                            @*<th>RecieverName</th>*@
+                            <th>Reciever EmailId</th>
+                          
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        @foreach (var cls in ViewBag.listing)
+                        {
+                        <tr>
+
+                            @*<td>@cls.TeacherName</td>*@
+                            @if (ViewBag.type == 2)
+                            {
+                                <td>@cls.TeacherName</td>
+                            }
+                            @if (ViewBag.type == 3)
+                            {
+                                <td>@cls.StudentName</td>
+                            }
+
+                            @if (ViewBag.type == 1)
+                            {
+                                if (@cls.StudentName == null)
+                                {
+                                    <td>@cls.TeacherName</td>
+                                }
+                                else
+                                {
+                                    <td>@cls.StudentName </td>
+                                }
+                            }
+
+                            <td>
+
+
+                                <a class="ajax-link" href="@Url.Action("CommunicationWindow", "GetInTouchByMail", new { senderEmail=@cls.SendEmail,recieverEmail=@cls.RecieveEmail})">
+                                    Detail
+                                </a>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@using (Html.BeginForm("SendMailtoTeacher", "GetInTouchByMail", FormMethod.Post))
+{
+
+    <div class="modal fade" id="composemail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100 font-weight-bold">Compose Mail</h4>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body mx-3">
+
+                    <div class="md-form mb-4 ">
+
+                        @Html.Hidden("SenderMailId", (string)ViewBag.senderMail)
+                        @Html.Hidden("SenderTypeId", (int)ViewBag.senderType)
+                        @*@Html.Hidden("SenderUserId", (int)ViewBag.userId)*@
+                        @Html.Hidden("RecieverTypeId", (int)ViewBag.RecieverTypeId)
+                        @Html.Label("Send To")
+                        @if (ViewBag.type == 2)
+                        {
+                            @Html.DropDownListFor(e => e.TeacherId, (SelectList)ViewBag.ReciepintList, "Select Teacher", new { @class = "form-control " })
+                            @*@Html.Hidden("StudentId", (int)ViewBag.studentid)*@
+                        }
+                        @if (ViewBag.type == 3 )
+                        {
+                            @Html.DropDownListFor(e => e.StudentId, (SelectList)ViewBag.ReciepintList, "Select Student", new { @class = "form-control " })
+                            @*@Html.Hidden("TeacherId", (int)ViewBag.teacherid)*@
+                        }
+
+                        @if (ViewBag.type == 1)
+                        {
+                            @Html.DropDownListFor(e => e.TeacherOrStudentMailid, (SelectList)ViewBag.ReciepintList, "Select Student or Teacher", new { @class = "form-control " })
+                            @*@Html.Hidden("TeacherId", (int)ViewBag.teacherid)*@
+                        }
+                        <span style="color:red;" id="errSender"></span>
+
+
+                    </div>
+                    <div class="md-form mb-4 ">
+
+
+                        @Html.Label("Mail Subject")
+                        @Html.TextBoxFor(e => e.Subject, new { @class = "form-control" })
+                        <span style="color:red;" id="errsubject"></span>
+
+
+                    </div>
+                    <div class="md-form mb-8 ">
+
+                        @Html.Label("Mail Body")
+                        @Html.TextAreaFor(e => e.Body,new { @class = "form-control", @rows = 20 })
+                        <span style="color:red;" id="errBody"></span>
+
+                    </div>
+
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button class="btn btn-deep-orange" type="submit" onclick="return CheckValidation();">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+
+<script>
+
+    function CheckValidation() {
+
+        debugger;
+
+        var tomail = document.getElementById("RecieverMailId").value;
+        var sub = document.getElementById("Subject").value;
+        var body = document.getElementById("Body").value;
+
+        if (tomail == '') {
+
+            //  document.getElementById("sender").value = "";
+            document.getElementById("errSender").innerHTML = "Please Select Teacher Mail Id";
+
+            return false;
+        }
+        if (tomail != '') {
+
+            document.getElementById("errSender").innerHTML = "";
+        }
+
+        //////////Subject//////////////////
+        if (sub == '') {
+
+            // document.getElementById("Subject").value = "";
+            document.getElementById("errsubject").innerHTML = "Please Provide Subject";
+
+            return false;
+        }
+        if (sub != '') {
+
+            document.getElementById("errsubject").innerHTML = "";
+        }
+        ////////////Body/////////////////
+        if (body == '') {
+
+            // document.getElementById("Body").value = "";
+            document.getElementById("errBody").innerHTML = "Please Provide Subject";
+
+            return false;
+        }
+        if (body != '') {
+
+            document.getElementById("errBody").innerHTML = "";
+        }
+
+    }
+
+    $(document).ready(function () {
+        $('#mailsendHistory').show();
+
+    });
+
+
+    function ViewDetail(RecieverMailId,sendermailId)
+    {
+
+        debugger
+              $.ajax({
+            type: "GET",
+            url: '@Url.Action("CommunicationWindow","GetInTouchByMail")',
+            datatype: "Json",
+                  data: { RecMId:RecieverMailId,senMId:sendermailId},
+                  success: function (data) {
+
+            }
+
+        });
+    }
+
+
+</script>

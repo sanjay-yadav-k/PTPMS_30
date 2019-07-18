@@ -1,0 +1,566 @@
+﻿@model Datalayer.BusinessLogic.ClassBatchSubjectTeacherModel
+@using Datalayer.BusinessLogic
+
+
+
+<div class=" row">
+    <div class="col-md-3 col-sm-3 col-xs-6">
+        <a data-toggle="tooltip" title="" class="well top-block" href="#" onclick="showClass()">
+            <i class="glyphicon glyphicon-star green"></i>
+            <div>Class Configuration</div>
+            <div></div>
+
+        </a>
+    </div>
+
+    <div class="col-md-3 col-sm-3 col-xs-6">
+        <a data-toggle="tooltip" title="228 Total Class" class="well top-block" href="#" onclick="showSubject()">
+            <i class="glyphicon glyphicon-star green"></i>
+            <div>Subject Configuration</div>
+            <div></div>
+
+        </a>
+    </div>
+    <div class="col-md-3 col-sm-3 col-xs-6">
+        <a data-toggle="tooltip" title="228 Total Class" class="well top-block" href="#" onclick="showBatch()">
+            <i class="glyphicon glyphicon-star green"></i>
+            <div>Batch Configuration</div>
+            <div></div>
+
+        </a>
+    </div>
+    <div class="col-md-3 col-sm-3 col-xs-6">
+        <a data-toggle="tooltip" title="228 Total Class" class="well top-block" href="#" onclick="showFee()">
+            <i class="glyphicon glyphicon-star green"></i>
+            <div>Fees Configuration</div>
+            <div></div>
+
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    @Html.Partial("Classlist")
+    @Html.Partial("SubjectList")
+    <!--/span-->
+</div>
+
+
+<div class="row">
+    @Html.Partial("FeeSubjectList")
+    <!--/span-->
+</div>
+
+
+
+
+
+<div class="row" id="batchconfig">
+
+    @Html.Partial("BatchList")
+</div>
+
+
+
+@using (Html.BeginForm("ClassDetail", "Home", FormMethod.Post))
+{
+    <div class="modal fade" id="modalClassForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog  modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100 font-weight-bold">Add Class</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body mx-3">
+                    <div class="md-form mb-5">
+                        @*<i class="fas fa-user prefix grey-text"></i>*@
+                        @Html.HiddenFor(model => model.ClassId)
+                        @Html.Label("Class Name")
+                        @Html.TextBoxFor(model => model.ClassName, new { @class = "form-control" })
+
+                    </div>
+
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button class="btn btn-deep-orange">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+@using (Html.BeginForm("BatchDetail", "Home", FormMethod.Post))
+{
+    <div class="modal fade" id="modalBatchForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100 font-weight-bold">Add Batch</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body mx-3">
+                    <div class="md-form mb-5">
+                        @Html.HiddenFor(model => model.BatchId)
+                        @Html.Label("Batch Name")
+                        @Html.TextBoxFor(model => model.BatchName, new { @class = "form-control" })
+
+                    </div>
+
+
+                    @*<div class="md-form mb-4">
+
+
+                            @Html.Label("Subscription Type")
+                            @Html.DropDownListFor(e => e.DurationType, (SelectList)ViewBag.Subscription, "Select Plan", new { @class = "form-control ddlDuration" })
+
+                        </div>*@
+
+
+
+                    @*<div class="md-form mb-4">
+
+                            @Html.Label("Class")
+
+                            @Html.DropDownListFor(e => e.ClassName, (SelectList)ViewBag.BatchClassName, "Select Class", new { @class = "form-control ddlbatchClass" })
+
+                        </div>*@
+                    @*<div class="md-form mb-4">
+
+                            @Html.Label("Fees")
+                            @Html.TextBoxFor(model => model.Fees, new { @class = "form-control" })
+
+                        </div>*@
+
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button class="btn btn-deep-orange">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+
+
+@using (Html.BeginForm("SubjectDetail", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="modal fade" id="modalSubjectForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100 font-weight-bold">Add Subject</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body mx-3">
+                    <div class="md-form mb-5">
+                        @*<i class="fas fa-user prefix grey-text"></i>*@
+
+                        @Html.Label("Subject Name")
+                        @Html.HiddenFor(model => model.SubjectId)
+                        @Html.TextBoxFor(model => model.SubjectName, new { @class = "form-control" })
+
+                    </div>
+                    <div class="md-form mb-5">
+                        @*<i class="fas fa-user prefix grey-text"></i>*@
+
+                        @Html.Label("Image Upload")
+
+                        <input type="file" id="uploadimage" name="uploadimage" />
+                    </div>
+                    <div class="md-form mb-5">
+                        @Html.Label("Image Show In Home page")
+                        @Html.CheckBoxFor(model => model.IsShow, new { })
+
+                    </div>
+                    @*<div class="md-form mb-4">
+
+
+                            @Html.Label("Class")
+
+                            @Html.DropDownListFor(e => e.ClassName, (SelectList)ViewBag.BatchClassName, "Select Class", new { @class = "form-control ddlclassSubject" })
+
+                        </div>*@
+                    @*<div class="md-form mb-5">
+
+
+                            @Html.LabelFor(model => model.CourseDuration, "Course Duration")
+                            @Html.TextBoxFor(model => model.CourseDuration, new { @class = "form-control" })
+
+                        </div>*@
+
+                    @*<div class="md-form mb-4">
+
+
+                            @Html.Label("Fee")
+                            @Html.TextBoxFor(model => model.Fees, new { @class = "form-control subject_class" })
+                        </div>*@
+
+                    <div class="modal-footer d-flex justify-content-center">
+                        <button class="btn btn-deep-orange">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+
+@Html.Partial("_Classsubject")
+@Html.Partial("_BatchSubject")
+@Html.Partial("_FeeSubjectConfiguration")
+@Html.Partial("_FeeBatchtConfiguration")
+
+
+
+
+<script>
+
+    $(document).ready(function () {
+        if (@ViewBag.Types== 0) {
+            $('#classconf').hide();
+            $('#subjectconfig').hide();
+            $('#batchconfig').hide();
+            $('#Classsubjectconfig').hide();
+
+            $('#feeSubject').hide();
+            $('#feeBatch').hide();
+        }
+        else if (@ViewBag.Types== 1)
+        {
+            $('#classconf').show();
+            $('#subjectconfig').hide();
+            $('#batchconfig').hide();
+            $('#Classsubjectconfig').hide();
+
+            $('#feeSubject').hide();
+            $('#feeBatch').hide();
+        }
+          else if (@ViewBag.Types== 2)
+        {
+            $('#classconf').hide();
+            $('#subjectconfig').show();
+            $('#batchconfig').hide();
+            $('#Classsubjectconfig').show();
+
+            $('#feeSubject').hide();
+            $('#feeBatch').hide();
+        }
+        else if (@ViewBag.Types== 3)
+        {
+            $('#classconf').hide();
+            $('#subjectconfig').show();
+            $('#batchconfig').hide();
+            $('#Classsubjectconfig').show();
+
+            $('#feeSubject').hide();
+            $('#feeBatch').hide();
+
+        }
+        else if (@ViewBag.Types== 4)
+        {
+            $('#classconf').hide();
+            $('#subjectconfig').hide();
+            $('#batchconfig').show();
+            $('#Classsubjectconfig').hide();
+
+            $('#feeSubject').hide();
+            $('#feeBatch').hide();
+        }
+        else if (@ViewBag.Types== 5)
+        {
+            $('#classconf').hide();
+            $('#subjectconfig').hide();
+            $('#batchconfig').show();
+            $('#Classsubjectconfig').hide();
+
+            $('#feeSubject').hide();
+            $('#feeBatch').hide();
+        }
+        else if (@ViewBag.Types== 6)
+        {
+            $('#classconf').hide();
+            $('#subjectconfig').hide();
+            $('#batchconfig').hide();
+            $('#Classsubjectconfig').hide();
+
+            $('#feeSubject').show();
+            $('#feeBatch').show();
+        }
+        else if (@ViewBag.Types== 7)
+        {
+            $('#classconf').hide();
+            $('#subjectconfig').hide();
+            $('#batchconfig').hide();
+            $('#Classsubjectconfig').hide();
+
+            $('#feeSubject').show();
+            $('#feeBatch').show();
+        }
+       
+
+        });
+        function showClass() {
+            $('#classconf').show();
+            $('#subjectconfig').hide();
+            $('#batchconfig').hide();
+            $('#feeSubject').hide();
+            $('#feeBatch').hide();
+            $('#Classsubjectconfig').hide();
+        }
+        function showSubject() {
+            $('#classconf').hide();
+            $('#subjectconfig').show();
+            $('#batchconfig').hide();
+            $('#feeSubject').hide();
+            $('#feeBatch').hide();
+            $('#Classsubjectconfig').show();
+        }
+        function showBatch() {
+            $('#classconf').hide();
+            $('#subjectconfig').hide();
+            $('#batchconfig').show();
+            $('#feeSubject').hide();
+            $('#feeBatch').hide();
+            $('#Classsubjectconfig').hide();
+    }
+    function showFee() {
+        $('#classconf').hide();
+        $('#subjectconfig').hide();
+        $('#batchconfig').hide();
+        $('#feeSubject').show();
+        $('#feeBatch').show();
+        $('#Classsubjectconfig').hide();
+    }
+
+function GetClass(classid) {
+
+
+
+       // alert(classid);
+              $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetClassdata", "Home")',
+            datatype: "Json",
+                  data: { ClassId: classid },
+                  success: function (data) {
+                      $('#ClassName').val(data[0].className),
+                      $('#ClassId').val(classid)
+            $('#modalClassForm').modal('show');
+            }
+
+            });
+        }
+
+
+
+        function GetSubject(subjectid)
+        {
+
+           // alert(subjectid);
+              $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetSubjectData", "Home")',
+            datatype: "Json",
+                  data: { subjectId: subjectid },
+                  success: function (data) {
+                     // debugger
+                      if (data != null) {
+                          $('#SubjectId').val(subjectid),
+                              $('#SubjectName').val(data[0].subjectName)
+                          //alert(data[0].Isshowimage);
+                          if (data[0].Isshowimage == true) {
+                              $('#IsShow').is(":checked")
+                          }
+
+                          $('#modalSubjectForm').modal('show');
+                      }
+                      else {
+                          alert("Something went wrong!");
+                      }
+            }
+
+            });
+        }
+
+
+
+        function GetBatch(batchid) {
+            //alert(batchid);
+            //debugger
+              $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetBatchData", "Home")',
+            datatype: "Json",
+                  data: { Batchid: batchid },
+                  success: function (data) {
+                      debugger
+                      $('#BatchId').val(batchid);
+                          $('#BatchName').val(data[0].batchName);
+
+                     // $(".ddlbatchClass").val(data[0].className[0].text);
+                     //$(".ddlDuration").val(data[0].durationtype[0].text);
+                     //     $('#Fees').val(data[0].fees);
+
+                           $('#modalBatchForm').modal('show');
+                }
+
+            });
+        }
+</script>
+
+<script>
+    function DeleteData(id, type) {
+       // alert(type);
+        var data1 = '@ViewBag.Message';
+       // debugger
+
+    $.ajax({
+            type: "post",
+            url: "@Url.Action("DeleteConfirmed", "Home")",
+            ajaxasync: true,
+        data: { Id:id, Tabletype: type },
+        success: function (data) {
+           // debugger
+                //alert("Data Deleted Successfully");
+             //url: "@Url.Action("DeleteConfirmed", "Home")",
+            var data1 = '@TempData["DeleteMsg"]';
+            alertify.alert(data, function () { location.reload(); }).setHeader('Edu Solution');
+                showClass();
+            },
+            error: function (data) {
+                alert("something went wrong");
+            }
+        });
+    }
+
+
+
+
+
+    function GetFee(feeid) {
+
+      //  debugger
+
+        //alert(feeid);
+              $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetFeeSubjectData", "Home")',
+            datatype: "Json",
+                  data: { FeeId: feeid },
+                  success: function (data) {
+                     // debugger
+                      setTimeout(function () { getsubject(data[0].className[0].value); }, 1000);
+
+                      $(".ddlfeeclass").val(data[0].className[0].value);
+                      $(".ddlfeeplan").val(data[0].planType[0].value);
+                      $('#feenew').val(data[0].fees);
+                      $('#sfeeid').val(data[0].feeId)
+                      $(".ddlfeesubjectsel").val(data[0].feesubjectName[0].value);
+                      $('#modalfeeSubject').modal('show');
+            }
+
+            });
+    }
+
+
+
+    function GetFeeBatch(feeid) {
+
+      //  debugger
+
+       // alert(feeid);
+              $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetFeeSubjectData", "Home")',
+            datatype: "Json",
+                  data: { FeeId: feeid },
+                  success: function (datam) {
+                      debugger
+                      $(".ddlFeeBatch").val(datam[0].feeBatchName[0].value);
+                      $(".ddlfeeClass").val(datam[0].className[0].value);
+                      $(".ddlFeePlan").val(datam[0].planType[0].value);
+                      $("#feenew2").val(datam[0].fees);
+                      $("#feeid").val(datam[0].feeId);
+                      alert($("#feeid").val())
+
+                      $('#modalfeeBatch').modal('show');
+            }
+
+            });
+        }
+
+     function GetSelectedSubject(cid) {
+
+       // alert(cid);
+         $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetSubjectMapClass", "Home")',
+            datatype: "Json",
+             data: { id: cid },
+                  success: function (datam) {
+
+                      $(".ddlfeeClass").val(cid);
+
+                      $(".subjectvalue").each(function () {
+                          for (var i = 0; i < datam.length; i++) {
+
+                              if ($(this).val() == datam[i].subjectid) {
+                                  $(this).attr("checked", true);
+                              }
+                          }
+                      });
+
+                      $('#modalClassSubjectForm').modal('show');
+             }
+
+         });
+
+    }
+
+
+
+
+    function GetSelectedBatchSubject(bid) {
+
+        //alert(bid);
+         $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetSubjectMapBatch", "Home")',
+            datatype: "Json",
+             data: { id: bid },
+             success: function (datam) {
+                 debugger
+                      $(".ddlbatchclass").val(bid);
+
+                      $(".subjectvalue2").each(function () {
+                          for (var i = 0; i < datam.length; i++) {
+
+                              if ($(this).val() == datam[i].subjectid) {
+                                  $(this).attr("checked", true);
+                              }
+                          }
+                      });
+
+                      $('#modalBatchSubjectForm').modal('show');
+             }
+
+         });
+
+    }
+</script>
+
+
+
+

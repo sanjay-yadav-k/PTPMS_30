@@ -1,0 +1,58 @@
+﻿@model ReflectionIT.Mvc.Paging.IPagingList
+@using ReflectionIT.Mvc.Paging
+@using Datalayer.BusinessLogic
+@{
+    var obj = (PagingList<Tsubject>)ViewBag.Subject;
+    var start = obj.StartPageIndex;
+    var stop = obj.StopPageIndex;
+}
+
+@if (obj.PageCount > 1)
+{
+    <ul class="pagination pagination-sm">
+
+        @if (start > 1)
+        {
+            <li>
+                <a href="@Url.Action("Configuration","Home",new {page=1,IsType=2 } )" aria-label="First">
+                    <span aria-hidden="true">1</span>
+                </a>
+            </li>
+        }
+
+        @if (obj.PageIndex > 1)
+        {
+            <li>
+                <a href="@Url.Action("Configuration","Home",new {page=(obj.PageIndex - 1),IsType=2 })" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+        }
+
+        @for (int i = start; i <= stop; i++)
+        {
+            <li class="@((obj.PageIndex == i) ? "active" : null)">
+                @Html.ActionLink(i.ToString(), "Configuration", "Home", new { page = i, IsType = 2 })
+            </li>
+        }
+
+        @if (obj.PageIndex < obj.PageCount)
+        {
+            <li>
+                <a href="@Url.Action("Configuration","Home", new { page =(obj.PageIndex + 1), IsType = 2 })" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        }
+
+        @if (stop < obj.PageCount)
+        {
+            <li>
+                <a href="@Url.Action("Configuration","Home", new { page =(obj.PageCount), IsType = 2 })" aria-label="Last">
+                    <span aria-hidden="true">@obj.PageCount</span>
+                </a>
+            </li>
+        }
+
+    </ul>
+}

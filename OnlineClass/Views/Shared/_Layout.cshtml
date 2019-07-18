@@ -1,0 +1,429 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewBag.titles - Edu Solution</title>
+    <style>
+
+
+        .checkbox-custom, .radio-custom {
+            opacity: 0;
+            position: absolute;
+        }
+
+        .checkbox-custom, .checkbox-custom-label, .radio-custom, .radio-custom-label {
+            display: block;
+            vertical-align: middle;
+            padding: 2px;
+            cursor: pointer;
+        }
+
+        .checkbox-custom-label, .radio-custom-label {
+            position: relative;
+            border-radius: 10px;
+            background: #fff;
+            width: 97%;
+            transition: all 0.2s ease-in-out 0s;
+            border: 2px solid #079ad9;
+            color: #079ad9;
+        }
+
+        .report-form {
+            padding: 25px !important;
+        }
+
+        .checkbox-custom + .checkbox-custom-label:before, .radio-custom + .radio-custom-label:before {
+            transform: scale(1.02);
+        }
+
+        .checkbox-custom:checked + .checkbox-custom-label {
+            color: #fff;
+            background-color: #079ad9;
+            transform: scale(1.02);
+        }
+
+
+
+        .radio-custom:checked + .radio-custom-label {
+            color: #fff;
+            background-color: #079ad9;
+            transform: scale(1.02);
+        }
+
+
+        .radiosec {
+            width: 32%;
+            color: #fff;
+            float: left;
+            /*margin: 0 10px 15px 0;*/
+            text-align: center;
+            font-size: 13px;
+        }
+    </style>
+    <environment include="Development">
+        @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/css/site.css" />*@
+
+        <!-- The styles -->
+        <link href="~/css/charisma-app.css" rel="stylesheet" />
+        <link id="bs-css" href="~/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+        <link href="~/bootstrap-tour/build/css/bootstrap-tour.css" rel="stylesheet" />
+        <link href="~/css/jquery.noty.css" rel="stylesheet" />
+        <link href="~/css/noty_theme_default.css" rel="stylesheet" />
+        <link href="~/css/elfinder.min.css" rel="stylesheet" />
+        <link href="~/css/elfinder.theme.css" rel="stylesheet" />
+        <link href="~/css/jquery.iphone.toggle.css" rel="stylesheet" />
+        <link href="~/css/uploadify.css" rel="stylesheet" />
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+        <link href="~/css/animate.min.css" rel="stylesheet" />
+        <link href="~/css/site.css" rel="stylesheet" />
+        <link href="~/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+        <link href="~/css/dncalendar-skin.css" rel="stylesheet" />
+        <link href="~/bootstrap/dist/css/bootstrap-datetimepicker.css" rel="stylesheet" />
+        <link href="~/bootstrap/dist/css/bootstrap-clockpicker.min.css" rel="stylesheet" />
+        <link href="~/bootstrap/dist/css/calendar.css" rel="stylesheet" />
+        <link href="~/bootstrap/dist/css/responsive-calendar.css" rel="stylesheet" />
+        <link href="~/css/jquery.dataTables.min.css" rel="stylesheet" />
+        <link href="~/Timer/jquery.countdownTimer.css" rel="stylesheet" />
+        <link href="~/css/alertify.css" rel="stylesheet" />
+        <link href="~/ckeditor/samples/toolbarconfigurator/lib/codemirror/neo.css" rel="stylesheet" />
+        <!-- jQuery -->
+        @*<script src="~/jquery/jquery.min.js"></script>*@
+
+        <script src="~/jquery/jquery-2.0.3.js"></script>
+        <script src="~/Timer/jquery.countdownTimer.js"></script>
+
+        <script id="bolt" src="https://sboxcheckout-static.citruspay.com/bolt/run/bolt.min.js" bolt-color="e34524" bolt-logo="~/images/logo.png"></script>
+        <script src="~/ckeditor/ckeditor.js"></script>
+        <script src="~/ckeditor/samples/js/sample.js"></script>
+ 
+        @*<style>
+            .dncalendar-note-list {
+                display: none;
+            }
+        </style>*@
+    </environment>
+    <environment exclude="Development">
+        <link href="~/css/charisma-app.css" rel="stylesheet" />
+        <link id="bs-css" href="~/css/bootstrap-cerulean.min.css" rel="stylesheet" />
+        <link href="~/bootstrap-tour/build/css/bootstrap-tour.css" rel="stylesheet" />
+        <link href="~/css/jquery.noty.css" rel="stylesheet" />
+        <link href="~/css/noty_theme_default.css" rel="stylesheet" />
+        <link href="~/css/elfinder.min.css" rel="stylesheet" />
+        <link href="~/css/elfinder.theme.css" rel="stylesheet" />
+        <link href="~/css/jquery.iphone.toggle.css" rel="stylesheet" />
+        <link href="~/css/uploadify.css" rel="stylesheet" />
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+        <link href="~/css/animate.min.css" rel="stylesheet" />
+        <link href="~/css/site.css" rel="stylesheet" />
+        <link href="~/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+        <link href="~/css/dncalendar-skin.css" rel="stylesheet" />
+        <link href="~/bootstrap/dist/css/bootstrap-datetimepicker.css" rel="stylesheet" />
+        <link href="~/bootstrap/dist/css/bootstrap-clockpicker.min.css" rel="stylesheet" />
+        <link href="~/bootstrap/dist/css/calendar.css" rel="stylesheet" />
+        <link href="~/bootstrap/dist/css/responsive-calendar.css" rel="stylesheet" />
+        <link href="~/css/jquery.dataTables.min.css" rel="stylesheet" />
+        <link href="~/Timer/jquery.countdownTimer.css" rel="stylesheet" />
+        <link href="~/css/alertify.css" rel="stylesheet" />
+        <link href="~/ckeditor/samples/toolbarconfigurator/lib/codemirror/neo.css" rel="stylesheet" />
+        <!-- jQuery -->
+        @*<script src="~/jquery/jquery.min.js"></script>*@
+
+        <script src="~/jquery/jquery-2.0.3.js"></script>
+        <script src="~/Timer/jquery.countdownTimer.js"></script>
+
+        <script id="bolt" src="https://sboxcheckout-static.citruspay.com/bolt/run/bolt.min.js" bolt-color="e34524" bolt-logo="~/images/logo.png"></script>
+        <script src="~/ckeditor/ckeditor.js"></script>
+        <script src="~/ckeditor/samples/js/sample.js"></script>
+    </environment>
+</head>
+<body>
+    @if (ViewBag.Success == 1)
+    {
+    <script>
+        alertify.alert("Save successfully").setHeader('Edu Solution');
+    </script>
+    }
+    <div class="navbar navbar-default" role="navigation">
+        <div class="navbar-inner">
+            <button type="button" class="navbar-toggle pull-left animated flip">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="sizename" href="index.html">
+                <img src="~/images/logo.png" class="hidden-xs" />
+            </a>
+            <!-- user dropdown starts -->
+            <div class="btn-group pull-right">
+                <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    <i class="glyphicon glyphicon-user"></i><span class="hidden-sm hidden-xs"> @ViewBag.user</span>
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Profile</a></li>
+                    <li class="divider"></li>
+                    <li>@Html.ActionLink("Log Out", "Logout", new { Area = "", Controller = "Logins" })</li>
+                </ul>
+            </div>
+            <!-- user dropdown ends -->
+            <!-- theme selector starts -->
+            @*<div class="btn-group pull-right theme-container animated tada">
+                    <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        <i class="glyphicon glyphicon-tint"></i><span class="hidden-sm hidden-xs">Change Theme / Skin</span>
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" id="themes">
+                        <li><a data-value="classic" href="#"><i class="whitespace"></i> Classic</a></li>
+                        <li><a data-value="cerulean" href="#"><i class="whitespace"></i> Cerulean</a></li>
+                        <li><a data-value="cyborg" href="#"><i class="whitespace"></i> Cyborg</a></li>
+                        <li><a data-value="simplex" href="#"><i class="whitespace"></i> Simplex</a></li>
+                        <li><a data-value="darkly" href="#"><i class="whitespace"></i> Darkly</a></li>
+                        <li><a data-value="lumen" href="#"><i class="whitespace"></i> Lumen</a></li>
+                        <li><a data-value="slate" href="#"><i class="whitespace"></i> Slate</a></li>
+                        <li><a data-value="spacelab" href="#"><i class="whitespace"></i> Spacelab</a></li>
+                        <li><a data-value="united" href="#"><i class="whitespace"></i> United</a></li>
+                    </ul>
+                </div>*@
+            <!-- theme selector ends -->
+            @*<ul class="collapse navbar-collapse nav navbar-nav top-menu">
+                    <li><a href="#"><i class="glyphicon glyphicon-globe"></i> Visit Site</a></li>
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown">
+                            <i class="glyphicon glyphicon-star"></i> Dropdown <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">Separated link</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">One more separated link</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <form class="navbar-search pull-left">
+                            <input placeholder="Search" class="search-query form-control col-md-10" name="query"
+                                   type="text">
+                        </form>
+                    </li>
+                </ul>*@
+        </div>
+    </div>
+    <partial name="_CookieConsentPartial" />
+
+    <div class="ch-container">
+        <div class="row">
+
+            <!-- left menu starts -->
+            <div class="col-sm-2 col-lg-2">
+                <div class="sidebar-nav">
+                    <div class="nav-canvas">
+                        <div class="nav-sm nav nav-stacked">
+                        </div>
+                        @if (ViewBag.type == 1)
+                        {
+                        <ul class="nav nav-pills nav-stacked main-menu">
+                            <li class="nav-header">Main</li>
+                            <li>
+                                <a class="ajax-link" href="@Url.Action("Index", "Home", new {   })">
+                                    <span class="glyphicon glyphicon-home"></span>
+                                    Dashboard
+                                </a>
+                            </li>
+                            <li>
+                                <a class="ajax-link" href="@Url.Action("Configuration", "Home", new {   })">
+                                    <span class="glyphicon glyphicon-cog"></span>
+                                    Configuration
+                                </a>
+                            </li>
+                            <li>
+                                <a class="ajax-link" href="@Url.Action("TeacherConfiguration", "Home", new {   })">
+                                    <span class="glyphicon glyphicon-cog"></span>
+                                    Class Allotment Configuration
+                                </a>
+                            </li>
+                            <li>
+                                <a class="ajax-link" href="@Url.Action("StudentConfiguration", "Student", new {   })">
+                                    <span class="glyphicon glyphicon-cog"></span>
+                                    Student Configuration
+                                </a>
+                            </li>
+                            <li>
+                                <a class="ajax-link" href="@Url.Action("TeacherPayment", "TeacherPayment", new {   })">
+                                    <span class="glyphicon glyphicon-cog"></span>
+                                    Teacher Payment Configuration
+                                </a>
+                            </li>
+                            <li>
+                                <a class="ajax-link" href="@Url.Action("Index", "Chapter", new {   })">
+                                    <span class="glyphicon glyphicon-cog"></span>
+                                    Chapter Configuration
+                                </a>
+                            </li>
+                            <li>
+                                <a class="ajax-link" href="@Url.Action("ContactUsByMail", "GetInTouchByMail", new {   })">
+                                    <span class="glyphicon glyphicon-envelope"></span>
+                                    Contact Us By Mail
+                                </a>
+                            </li>
+                        </ul>
+                        }
+                        else if (ViewBag.type == 2)
+                        {
+                        <ul class="nav nav-pills nav-stacked main-menu">
+                            <li class="nav-header">Main</li>
+                            <li>
+                                <a class="ajax-link" href="@Url.Action("Index", "Student", new {   })">
+                                    <span class="glyphicon glyphicon-home"></span>
+                                    Dashboard
+                                </a>
+                            </li>
+                            <li>
+                                <a class="ajax-link" href="@Url.Action("Addsubject", "Student", new {   })">
+                                    <span class="glyphicon glyphicon-cog"></span>
+                                    Add New Subject
+                                </a>
+                            </li>
+                            <li>
+                                <a class="ajax-link" href="@Url.Action("JoinBatch", "Student", new {   })">
+                                    <span class="glyphicon glyphicon-cog"></span>
+                                    Join New Batch
+                                </a>
+                            </li>
+                            <li>
+                                <a class="ajax-link" href="@Url.Action("TeacherToBeAlloted", "Student", new {   })">
+                                    <span class="glyphicon glyphicon-cog"></span>
+                                    UnAlloted Class & Batch
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="ajax-link" href="@Url.Action("ContactUsByMail", "GetInTouchByMail", new {   })">
+                                    <span class="glyphicon glyphicon-cog"></span>
+                                    Contact Us By Mail
+                                </a>
+                            </li>
+
+                        </ul>
+                        }
+                        else if (ViewBag.type == 3)
+                        {
+                        <ul class="nav nav-pills nav-stacked main-menu">
+                            <li class="nav-header">Main</li>
+                            <li>
+                                <a class="ajax-link" href="@Url.Action("Dashboard", "Teacher", new {   })">
+                                    <span class="glyphicon glyphicon-home"></span>
+                                    Dashboard
+                                </a>
+                            </li>
+                            @*<li>
+            <a class="ajax-link" href="@Url.Action("Configuration", "Home", new {   })">
+                <span class="glyphicon glyphicon-cog"></span>
+                Configuration
+            </a>
+        </li>
+        <li>
+            <a class="ajax-link" href="@Url.Action("TeacherConfiguration", "Home", new {   })">
+                <span class="glyphicon glyphicon-cog"></span>
+                Teacher Configuration
+            </a>
+        </li>*@
+
+
+                            @*<li>@Html.ActionLink("Configuration", "Configuration", "Teacher", null, new { @class = "glyphicon glyphicon-cog ajax-link" })</li>*@
+
+                            <li>
+                                <a class="ajax-link" href="@Url.Action("ContactUsByMail", "GetInTouchByMail", new {   })">
+                                    <span class="glyphicon glyphicon-envelope"></span>
+                                    Contact Us By Mail
+                                </a>
+                            </li>
+                            <li>
+                                <a class="ajax-link" href="@Url.Action("Remuneration", "Teacher", new {   })">
+                                    <span class="glyphicon glyphicon-home"></span>
+                                    My Remuneration
+                                </a>
+                            </li>
+                        </ul>
+                        }
+
+                    </div>
+                </div>
+            </div>
+            <!--/span-->
+            <!-- left menu ends -->
+            <noscript>
+                <div class="alert alert-block col-md-12">
+                    <h4 class="alert-heading">Warning!</h4>
+                    <p>
+                        You need to have <a href="http://en.wikipedia.org/wiki/JavaScript" target="_blank">JavaScript</a>
+                        enabled to use this site.
+                    </p>
+                </div>
+            </noscript>
+            <div id="content" class="col-lg-10 col-sm-10">
+                <!-- content starts -->
+                <div>
+                    <ul class="breadcrumb">
+                        <li>
+                            <a href="#">Home</a>
+                        </li>
+                        <li>
+                            <a href="#">@ViewBag.title</a>
+                        </li>
+                    </ul>
+                </div>
+                @RenderBody()
+                <hr />
+                <footer class="row">
+                    <p class="col-md-9 col-sm-9 col-xs-12 copyright">
+                        &copy; <a href="http://usman.it" target="_blank">
+
+                        </a>
+                    </p>
+                    @*<p class="col-md-3 col-sm-3 col-xs-12 powered-by">
+                            Powered by: <a href="http://usman.it/free-responsive-admin-template">Charisma</a>
+                        </p>*@
+                </footer>
+            </div>
+        </div>
+    </div>
+    <environment include="Development">
+        @*<script src="~/lib/jquery/dist/jquery.js"></script>*@
+        @*<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>*@
+        <script src="~/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/bootstrap/dist/js/bootstrap-clockpicker.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="~/js/dncalendar.js"></script>
+        <script src="~/bootstrap/dist/js/common.js"></script>
+        @*<script src="~/js/dncalendar.min.js"></script>*@
+        <script src="~/bootstrap/js/bootstrap-datepicker.js" asp-append-version="true"></script>
+        <script src="~/js/jquery.dataTables.min.js"></script>
+        <script src="~/js/alertify.js"></script>
+    </environment>
+    <environment exclude="Development">
+        @*<script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
+        </script>*@
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+        @*<script src="~/lib/jquery/dist/jquery.js"></script>*@
+        <script src="~/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/bootstrap/dist/js/bootstrap-clockpicker.min.js"></script>
+        <script src="~/js/dncalendar.js"></script>
+        @*<script src="~/js/dncalendar.min.js"></script>*@
+        <script src="~/bootstrap/dist/js/common.js"></script>
+        <script src="~/js/jquery.dataTables.min.js"></script>
+        <script src="~/bootstrap/js/bootstrap-datepicker.js" asp-append-version="true"></script>
+        <script src="~/js/alertify.js"></script>
+    </environment>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

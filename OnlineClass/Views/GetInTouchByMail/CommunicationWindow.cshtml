@@ -1,0 +1,197 @@
+﻿@model Datalayer.BusinessLogic.contactByMail
+<link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css' integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' crossorigin='anonymous'>
+
+@*<div class="row" id="MailCommunication">
+        <input type="hidden" id="studentbatchtype" name="studentbatchtype" />
+        <div class="box col-md-12">
+            <div class="box-inner">
+                <div class="box-header well" data-original-title="">
+                    <h2>Mail Sent History</h2>
+
+                </div>
+                <div class="box-content">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Sent To</th>
+                                <th>Subject</th>
+                                <th>Body</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var cls in ViewBag.Detail)
+                            {
+                                <tr>
+                                    <td>@cls.SendDateTime</td>
+
+                                    <td>@cls.RecieverMailId</td>
+
+                                    <td>@cls.Subject</td>
+
+                                    <td>@cls.Body</td>
+                                    <td>
+
+
+                                        <a href="" class="btn btn-default btn-sm" data-toggle="modal" data-target="#composemail">
+                                            <i class="fas fa-reply" style='font-size:28px'></i>
+                                        </a>
+
+
+
+
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+
+
+
+
+<style>
+    .chat {
+        margin: 0 auto;
+        max-width: 800px;
+        padding: 0 20px;
+    }
+
+    .contain {
+        border: 2px solid #dedede;
+        background-color: #00ffff0f;
+        border-radius: 5px;
+        padding: 10px;
+        margin: 10px 0;
+    }
+
+    .darker {
+        border-color: #ccc;
+        background-color: #ddd;
+    }
+
+    .contain::after {
+        content: "";
+        clear: both;
+        display: table;
+    }
+
+    .contain img {
+        float: left;
+        max-width: 60px;
+        width: 100%;
+        margin-right: 20px;
+        border-radius: 50%;
+    }
+
+        .contain img.right {
+            float: right;
+            margin-left: 20px;
+            margin-right: 0;
+        }
+
+    .time-right {
+        float: right;
+        color: #aaa;
+    }
+
+    .time-left {
+        float: left;
+        color: #999;
+    }
+
+    .btn-sm {
+        float: right;
+    }
+</style>
+
+
+
+<h2>Chat Messages</h2>
+@using (Html.BeginForm("SubmitReplyMail", "GetInTouchByMail", FormMethod.Post))
+{
+
+    <div id="replyDiv" class="contain darker">
+
+        <div class="md-form mb-4 ">
+
+            @*@Html.Hidden("SenderMailId", (string)ViewBag.senderMail)*@
+            @*@Html.Hidden("SenderTypeId", (int)ViewBag.senderType)*@
+            @*@Html.Hidden("StudentId", (int)ViewBag.studentid)*@
+            @*@Html.Hidden("RecieverTypeId", (int)ViewBag.RecieverTypeId)*@
+            @Html.Hidden("RecieverMailId", (string)ViewBag.RecieverMailId)
+            @*@Html.Hidden("TeacherId", (long)ViewBag.Teacherid)*@
+
+
+            @Html.Label("Mail Subject")
+            @Html.TextBoxFor(e => e.Subject, new { @class = "form-control", style = " margin: 0px;width: 600px; height: 40px; " })
+            <span style="color:red;" id="errsubject"></span>
+
+
+        </div>
+        <div class="md-form mb-8 ">
+
+            @Html.Label("Mail Body")
+            @Html.TextAreaFor(e => e.Body, new { @class = "form-control", rows = 20 })
+            <span style="color:red;" id="errBody"></span>
+
+        </div>
+
+        <span class="time-left">@DateTime.Now</span>
+        <div id="submitbutton">
+            @*<a href="#" class="btn btn-default btn-sm" onclick="SubmitMail();">*@
+            <button class="fa fa-paper-plane" style='font-size:28px' type="submit" onclick="return SubmitMail();"></button>
+            @*<i class="fa fa-paper-plane" style='font-size:28px'></i>*@
+            @*</a>*@
+        </div>
+
+
+
+
+
+    </div>
+}
+<div id="Replybutton">
+    <a href="#" class="btn btn-default btn-sm" onclick="openReplybox();">
+        <i class="fas fa-reply" style='font-size:28px'></i>
+    </a>
+</div>
+
+
+
+@foreach (var cls in ViewBag.Detail)
+{
+    <div class="contain">
+
+        @*<img src="/w3images/bandmember.jpg" alt="Avatar" style="width:100%;">*@
+
+        <h>@cls.Teachername</h>
+        <p>@cls.Body</p>
+        <span class="time-right">@cls.SendDateTime</span>
+
+    </div>
+}
+
+
+
+<script>
+    $(document).ready(function () {
+
+        $('#replyDiv').hide();
+        $('#Replybutton').show();
+        $('#submitbutton').hide();
+
+
+    });
+    function openReplybox() {
+        $('#replyDiv').show();
+        $('#Replybutton').hide();
+        $('#submitbutton').show();
+
+    }
+</script>

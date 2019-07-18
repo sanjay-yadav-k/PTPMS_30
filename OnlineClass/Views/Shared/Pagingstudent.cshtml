@@ -1,0 +1,58 @@
+﻿@model ReflectionIT.Mvc.Paging.IPagingList
+@using ReflectionIT.Mvc.Paging
+@using Datalayer.BusinessLogic
+@{
+    var obj = (PagingList<tblstudentbatchmap>)ViewBag.studentmap;
+    var start = obj.StartPageIndex;
+    var stop = obj.StopPageIndex;
+}
+
+@if (obj.PageCount > 1)
+{
+    <ul class="pagination pagination-sm">
+
+        @if (start > 1)
+        {
+            <li>
+                <a href="@Url.Action(obj.Action,new {page=1,Isbatch=false } )" aria-label="First">
+                    <span aria-hidden="true">1</span>
+                </a>
+            </li>
+        }
+
+        @if (obj.PageIndex > 1)
+        {
+            <li>
+                <a href="@Url.Action(obj.Action,new {page=(obj.PageIndex - 1),Isbatch=false })" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+        }
+
+        @for (int i = start; i <= stop; i++)
+        {
+            <li class="@((obj.PageIndex == i) ? "active" : null)">
+                @Html.ActionLink(i.ToString(), obj.Action, new { page = i, Isbatch = false })
+            </li>
+        }
+
+        @if (obj.PageIndex < obj.PageCount)
+        {
+            <li>
+                <a href="@Url.Action(obj.Action, new { page =(obj.PageIndex + 1), Isbatch = false })" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        }
+
+        @if (stop < obj.PageCount)
+        {
+            <li>
+                <a href="@Url.Action(obj.Action, new { page =(obj.PageCount), Isbatch = false })" aria-label="Last">
+                    <span aria-hidden="true">@obj.PageCount</span>
+                </a>
+            </li>
+        }
+
+    </ul>
+}

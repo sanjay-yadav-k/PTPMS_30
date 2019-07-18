@@ -1,0 +1,448 @@
+﻿@model ReflectionIT.Mvc.Paging.PagingList<Datalayer.Models.TblBatch>
+@using Datalayer;
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int timemin = 0;
+}
+@*<style>
+        .dncalendar-note-list{
+            display:none;
+        }
+    </style*@
+<div class="row">
+   
+        <div class="box col-md-12">
+            <form method="get" class="form-inline">
+                <input name="filter" class="form-control" placeholder="Student Name"
+                       value="" />
+                <button type="submit" class="btn btn-info">
+                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+                </button>
+            </form>
+            <div class="box-inner">
+                <div class="box-header well" data-original-title="">
+                    <h2>Student Wise Class Time</h2>
+
+                </div>
+                <input type="hidden" id="isstartclass" name="isstartclass" />
+                <input type="hidden" id="isstartclassstudentmapid" name="isstartclassstudentmapid" />
+                <input type="hidden" id="isTypes" name="isTypes" />
+                <div class="box-content">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Student Name</th>
+                                <th>Class</th>
+                                <th>Subject</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        @foreach (var item in ViewBag.studentmap)
+                        {
+                            <tbody>
+                                <tr>
+                                    @*<td>@Html.Label(@item.StudentName, null, new { @onclick = "Showclander('" + @item.studentteacheridmap + "','" + @item.TeacherId + "','student')" }) </td>*@
+                                    <td>@item.StudentName</td>
+                                    <td class="center">
+                                        @item.ClassName
+                                    </td>
+                                    <td class="center">@item.Subject</td>
+
+
+                                    <td>@Html.Label("Show Class", null, new { @onclick = "Showclander('" + @item.studentteacheridmap + "','" + @item.TeacherId + "','student')" }) </td>
+                                    @if (@item.IsStartClass == true && item.IsCopletedClass != true)
+                                    {
+
+                                        <td colspan="4"><span id="hm_timer_student_@item.studentteacheridmap"></span></td>
+
+                                        <script>
+                                        $(document).ready(function () {
+                                            var dt = new Date();
+                                            var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+                                           // alert(time);
+                                            var start = time;
+                                            var end ='@item.Totime';
+                                            s = start.split(':');
+                                            e = end.split(':');
+                                            //alert(e[1]);
+                                            //alert(s[1]);
+                                            min = e[1] - s[1];
+                                            hour_carry = 0;
+                                            //if (min < 0) {
+                                            //    min += 60;
+                                            //    hour_carry += 1;
+                                            //}
+                                            hour = e[0] - s[0];
+                                            //min = ((min / 60) * 100).toString()
+                                            min = min.toString()
+                                            diff = hour + ":" + min.substring(0, 2);
+                                            totalmin = (e[0] * 60 + e[1]);
+                                            Currentmin = (s[0] * 60 + s[1]);
+                                            //alert(totalmin);
+                                           // alert(Currentmin);
+                                            if (totalmin > Currentmin ) {
+                                                $('#hm_timer_student_' + @item.studentteacheridmap).countdowntimer({
+                                                    hours: hour,
+                                                    minutes: min.substring(0, 2),
+                                                    size: "lg"
+                                                });
+                                                $('#isstartclassstudentmapid').val(@item.studentteacheridmap);
+                                                $('#isTypes').val('student');
+
+                                            }
+                                            else{
+                                                $("#stopclass_student_@item.studentteacheridmap").css({ display: "block" });
+                                            }
+
+                                        });
+                                        </script>
+
+                                        <td>
+                                            <div class="justify-content-center" id="stopclass_student_@item.studentteacheridmap" style="display:none">
+                                                <button class="btn btn-deep-orange" onclick="stopclasses('@item.studentteacheridmap','@item.TeacherId','student')">Stop Class</button>
+                                            </div>
+                                        </td>
+
+
+
+
+                                    }
+                                    else
+                                    {
+                                        <td colspan="4"><span id="hm_timer_@item.studentteacheridmap"></span></td>
+                                        <td></td>
+                                    }
+
+
+                                </tr>
+                            </tbody>
+                        }
+                    </table>
+                    <nav aria-label="">
+                        @Html.Partial("_Teacherpagination")
+                    </nav>
+                </div>
+            </div>
+        </div>
+  
+
+        <div class="box col-md-12">
+            <form method="get" class="form-inline">
+                <input name="filter" class="form-control" placeholder="Batch Name"
+                       value="" />
+                <button type="submit" class="btn btn-info">
+                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+                </button>
+            </form>
+            <div class="box-inner">
+                <div class="box-header well" data-original-title="">
+                    <h2>Batch Time</h2>
+
+                </div>
+                <div class="box-content">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Batch Name</th>
+                                <th>Class</th>
+                                @*<th>Date</th>*@
+                                <th>Subject name</th>
+                                <th>Teacher name</th>
+                                <th></th>
+
+                            </tr>
+                        </thead>
+                        @foreach (var item in ViewBag.batch)
+                        {
+                            <tbody>
+                                <tr>
+                                    <td>@item.BatchName</td>
+
+                                    <td class="center">
+                                        @item.ClassName
+                                    </td>
+
+                                    <td class="center">
+                                        @item.Subject
+                                    </td>
+                                    <td>
+                                        @item.Teacher
+                                    </td>
+
+
+                                    <td>@Html.Label("Show Class", null, new { @onclick = "Showclander('" + @item.teacherbatchid + "','" + @item.TeacherId + "','batch','" + @item.IsStartClass + "')" }) </td>
+                                    @if (@item.IsStartClass == true && item.IsCopletedClass != true)
+                                    {
+
+                                        <td colspan="4"><span id="hm_timerbatch_@item.teacherbatchid"></span></td>
+
+                                        <script>
+                                        $(document).ready(function () {
+                                            var dt = new Date();
+                                            var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+                                           // alert(time);
+                                            var start = time;
+                                            var end ='@item.Totime';
+                                            s = start.split(':');
+                                            e = end.split(':');
+                                            //alert(e[1]);
+                                            //alert(s[1]);
+                                            min = e[1] - s[1];
+                                            hour_carry = 0;
+                                            //if (min < 0) {
+                                            //    min += 60;
+                                            //    hour_carry += 1;
+                                            //}
+                                            hour = e[0] - s[0];
+                                            //min = ((min / 60) * 100).toString()
+                                            min = min.toString()
+                                            diff = hour + ":" + min.substring(0, 2);
+                                            totalmin = (e[0] * 60 + e[1]);
+                                            Currentmin = (s[0] * 60 + s[1]);
+                                            if (totalmin > Currentmin) {
+                                                $('#hm_timerbatch_' + @item.teacherbatchid).countdowntimer({
+                                                    hours: hour,
+                                                    minutes: min.substring(0, 2),
+                                                    size: "lg"
+                                                });
+                                                $('#isstartclassstudentmapid').val(@item.teacherbatchid);
+                                                $('#isTypes').val('batch');
+                                            }
+                                            else{
+                                                $("#stopclass_batch_@item.teacherbatchid").css({ display: "block" });
+                                            }
+
+                                        });
+                                        </script>
+
+                                        <td>
+                                            <div class="justify-content-center" id="stopclass_batch_@item.teacherbatchid" style="display:none">
+                                                <button class="btn btn-deep-orange" onclick="stopclasses('@item.teacherbatchid','@item.TeacherId','batch')">Stop Class</button>
+                                            </div>
+                                        </td>
+
+
+
+
+                                    }
+                                    else
+                                    {
+                                        <td colspan="4"><span id="hm_timerbatch_@item.teacherbatchid"></span></td>
+                                        <td></td>
+                                    }
+
+                                </tr>
+                            </tbody>
+                        }
+                    </table>
+                    <nav aria-label="">
+                        @Html.Partial("Batchpaging")
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+</div>
+<div class="modal fade" id="modalClassStart" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title w-100 font-weight-bold"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <input type="hidden" id="datforsend" name="dateforsend" />
+            <input type="hidden" id="Isbatch" name="Isbatch" />
+            <input type="hidden" id="teacherids" name="teacherids" />
+            <input type="hidden" id="studentteacheridmapids" name="studentteacheridmapids" />
+            <div class="modal-body mx-3">
+                <div class="row">
+                    <center>
+                        <div class="justify-content-center">
+                            <button class="btn btn-deep-orange" onclick="GetClassstart()">Class Start</button>
+                        </div>
+                    </center>
+                </div>
+                @*<div class="modal-footer d-flex justify-content-center">
+                        <button class="btn btn-deep-orange" onclick="GetClasssubject()">Submit</button>
+                    </div>*@
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalStudentclassForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div id="dncalendar-container">
+            </div>
+            <script type="text/javascript">
+                $(document).ready(function () {
+
+                    var my_calendar = $("#dncalendar-container").dnCalendar({
+                        minDate: "2019-01-15",
+                        maxDate: "2025-12-02",
+                        defaultDate: "2019-06-29",
+                        monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+                        monthNamesShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                        dayNames: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+                        dayNamesShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+                        dataTitles: { defaultDates: '', todays: '' },
+                        notes: [
+                            { "date": "2019-05-25", "note": ["Natal"] },
+                            { "date": "2019-05-12", "note": ["Tahun Baru"] }
+                        ],
+                        showNotes: true,
+                        startWeek: 'monday',
+                        dayClick: function (date, view) {
+                            $('#datforsend').val((date.getMonth() + 1) + "-" + date.getDate() + "-" + date.getFullYear());
+                            // alert(date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear());
+
+                            if ($(this).hasClass('note')) {
+                                $('#modalClassStart').modal("show");
+                                $('#modalStudentclassForm').modal("hide");
+                            }
+                        }
+                    });
+
+                    // init calendar
+                    my_calendar.build();
+
+                    // update calendar
+                    // my_calendar.update({
+                    // 	minDate: "2016-01-05",
+                    // 	defaultDate: "2016-05-04"
+                    // });
+                });
+            </script>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('#hm_timer').countdowntimer({
+            hours: 3,
+            minutes: 10,
+            size: "lg"
+        });
+    });
+</script>
+<script>
+    function GetClassstart() {
+      //  alert("oj");
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("Sendmail", "Teacher")',
+            datatype: "Json",
+            data: { id: $('#teacherids').val(), studentmapid: $('#studentteacheridmapids').val(), Date: $('#datforsend').val(), Type: $('#Isbatch').val()},
+            success: function (data) {
+                alertify.alert("Send successfully", function () { location.reload(); }).setHeader('Edu Solution');
+                $('#hm_timer_' + $('#studentteacheridmapids').val()).countdowntimer({
+                    hours: 3,
+                    minutes: 10,
+                    size: "lg"
+                });
+                var studentmapid = $('#studentteacheridmapids').val();
+                $('#isstartclassstudentmapid').val(studentmapid);
+            }
+
+        });
+    }
+
+    function UpdateStartclass(id) {
+       // alert(id);
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("Updateisclass", "Teacher")',
+            datatype: "Json",
+            data: { id: id },
+            success: function (data) {
+
+            }
+
+        });
+    }
+
+    function Showclander(studentteacheridmap, teacher, typess, IsStartClass) {
+        $('#isstartclass').val(IsStartClass);
+         $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetScheduleDate", "Teacher")',
+            datatype: "Json",
+             data: { id: studentteacheridmap, Teacherid: teacher, types: typess},
+             success: function (data) {
+                 //alert(typess);
+                $('#teacherids').val(teacher);
+                $('#studentteacheridmapids').val(studentteacheridmap);
+                $('#Isbatch').val(typess);
+
+                //    var Datearry = new Array();
+                //    $.each(data, function (i) {
+                //        var tempDate = data[i].date;
+                //        Datearry.push(tempDate);
+
+                //});
+                //dateselecte = Datearry;
+                //$('#datedata').val(Datearry.join());
+                //$('#TeacherStudentid').val(studentteacheridmap);
+                //$('#Teacherid').val(teacher);
+                $("#dncalendar-container").dnCalendar({
+
+                    notes: data,
+                    showNotes: true,
+                }).build();
+
+                   // my_calendar.build();
+                    $("#modalStudentclassForm").modal("show");
+
+                    // });
+                }
+                // location.reload();
+
+            //}
+
+            //  dateselecte = fetchdate.join();
+
+        });
+       // $("#modalStudentclassForm").modal("show");
+    }
+      function Stopclass() {
+       // alert(id);
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("StopWarning", "Teacher")',
+            datatype: "Json",
+            success: function (data) {
+                var studentsmapid = $('#isstartclassstudentmapid').val();
+                var istype = $('#isTypes').val();
+                $("#stopclass_" + istype +"_" + studentsmapid).css({ display: "block" });
+                alertify.alert("Please stop the class").setHeader('Edu Solution');
+
+            }
+
+        });
+    }
+    function stopclasses(studentteacheridmap, TeacherId, typess) {
+       // alert(id);
+
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("StopClass", "Teacher")',
+            datatype: "Json",
+            data: { id: studentteacheridmap, Teacherid: TeacherId, types: typess},
+            success: function (data) {
+                alertify.alert("Stop Sucessfully").setHeader('Edu Solution');
+
+                $("#stopclass_" + typess+"_" + studentteacheridmap).css({ display: "none" });
+            }
+
+        });
+    }
+
+
+</script>

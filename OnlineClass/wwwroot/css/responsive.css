@@ -1,0 +1,139 @@
+
+@media only screen 
+and (min-width : 320px) 
+and (max-width : 639px){
+h1{padding:10px 0; font-size:36px; line-height: 42px;}
+h2 {font-size: 30px;  line-height: 40px;}
+img{max-width:100%;}
+#header{padding-top:7px !important;}
+#header .container{width:100%; position:relative;}
+#header .col-sm-9{padding:0;}
+.logo{margin-top:0; float:none; width:50%;}
+.login{display:none;}
+
+.banner{}
+.banner .elementor-shape{display:none;}
+.caption {
+	width: 100%;
+	left: 0;
+	padding: 10px;
+	text-align: center;
+	top: 50%;
+	transform: translateY(-50%);
+}
+.caption h2{font-size: 20px; line-height: 24px;}
+.caption a{display:inline-block; font-size: 14px; line-height: 24px; padding: 8px 15px; margin:10px 0 0 0;}
+.caption a span{width:25px; height:25px; margin-left:15px;}
+.caption a span img{width:15px;}
+.owl-carousel .owl-item .caption img{width:10px !important;}
+.footer{text-align:center;}
+.footer h4{clear:both;}
+.footer ul li{width:70%;}
+.elementor-shape-top svg {height: 100px;}
+.footer p{margin:10px 0;}
+
+.login-bg{height:100%;}
+.login-box,.registration-box {width: 92%;}
+.login-box h1, .registration-box h1{font-size:30px; line-height:34px; margin-bottom:10px;}
+.form-fields,.registration-box .form-fields{padding:20px;}
+.registration-box h4 span{display:block; text-align:center;}
+}
+
+@media only screen 
+and (min-width : 640px) 
+and (max-width : 767px){
+h1{padding:10px 0; font-size:36px; line-height: 42px;}
+h2 {font-size: 30px;  line-height: 40px;}
+img{max-width:100%;}
+#header{padding-top:7px !important;}
+#header .container{width:100%;}
+#header .col-sm-9{padding:0;}
+.login{display:none;}
+
+.caption {
+	width: 100%;
+	left: 0;
+	padding: 10px;
+	text-align: center;
+	top: 50%;
+	transform: translateY(-50%);
+}
+.caption h2{text-align: center; font-size: 30px; line-height: 34px;}
+.caption a{display:inline-block; font-size: 18px; line-height: 22px; padding: 10px 15px; margin:10px 0 0 0;}
+.caption a span{width:25px; height:25px;}
+.banner{}
+.banner .elementor-shape{display:none;}
+.footer{text-align:center;}
+.footer h4{clear:both;}
+.footer ul.social-block li{float:none;}
+.footer ul li{width:70%;}
+
+.login-bg{height:100%;}
+.login-box,.registration-box {width: 92%;}
+.login-box h1, .registration-box h1{font-size:30px; line-height:34px; margin-bottom:10px;}
+.form-fields,.registration-box .form-fields{padding:20px;}
+.registration-box h4 span{display:block; text-align:center;}
+}
+
+
+@media only screen 
+and (min-width : 768px) 
+and (max-width : 1023px){
+.container,#header .container{width:100%;}
+h1{padding:10px 0; font-size:36px; line-height: 42px;}
+img{max-width:100%;}
+#header{padding:5px 0px 30px;}
+.banner{}
+.caption {
+	width: 100%;
+	left: 0;
+	padding: 10px;
+	text-align: center;
+	top: 50%;
+	transform: translateY(-50%);
+}
+.caption h2 {font-size: 40px; line-height: 45px;}
+.caption a{margin-top:10px; font-size: 20px; line-height: 30px; padding: 10px 20px;}
+
+.login {margin-top: -14px;}
+.footer ul.social-block li{padding-right:15px;}
+.footer ul li{width:78%;}
+
+.login-bg{height:80%;}
+.registration-box {width: 92%;}
+.login-box h1, .registration-box h1{font-size:30px; line-height:34px; margin-bottom:10px;}
+.form-fields,.registration-box .form-fields{padding:20px;}
+}
+
+@media only screen 
+and (min-width : 1024px) 
+and (max-width : 1169px){
+.container,#header .container{width:100%;}
+img{max-width:100%;}
+.caption {
+	left: 0;
+	padding: 10px;
+	text-align: center;
+	top: 50%;
+	transform: translateY(-50%);
+}
+.caption h2 {font-size: 50px; line-height: 55px;}
+.caption a{margin-top:10px; font-size: 24px; line-height: 30px; padding: 10px 20px;}
+
+
+}
+
+@media only screen 
+and (min-width : 1170px) 
+and (max-width : 1366px){
+.container,#header .container{width:100%;}
+}
+
+
+
+
+
+
+
+
+

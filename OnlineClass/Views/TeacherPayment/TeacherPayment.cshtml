@@ -1,0 +1,1034 @@
+﻿@model Datalayer.BusinessLogic.TeacherPaymentModel
+<style>
+    .modal-footer {
+        padding: 15px;
+        text-align: center;
+        border-top: 1px solid #e5e5e5;
+    }
+    .pac-container {
+        z-index: 1051 !important;
+    }
+</style>
+<div class=" row">
+    <div class="col-md-3 col-sm-3 col-xs-6">
+        <a data-toggle="tooltip" title="228 Total Class" class="well top-block" href="#" onclick="showTeacher()">
+            <i class="glyphicon glyphicon-star green"></i>
+            <div>Add New Teacher</div>
+            <div></div>
+
+        </a>
+    </div>
+    <div class="col-md-3 col-sm-3 col-xs-6">
+        <a data-toggle="tooltip" title="" class="well top-block" href="#" onclick="showTeachPayment()">
+            <i class="glyphicon glyphicon-star green"></i>
+            <div>Teacher Payment</div>
+            <div></div>
+
+        </a>
+    </div>
+    <div class="col-md-3 col-sm-3 col-xs-6">
+        <a data-toggle="tooltip" title="" class="well top-block" href="#" onclick="ShowTotalPayment()">
+            <i class="glyphicon glyphicon-star green"></i>
+            <div>Teacher Total Payment Configuration</div>
+            <div></div>
+
+        </a>
+    </div>
+</div>
+
+<div class="row" id="TeacherConfiguration">
+    <input type="hidden" id="studentbatchtype" name="studentbatchtype" />
+    <div class="box col-md-12">
+        <form action="TeacherPayment" method="get" class="form-inline">
+            <input name="filter" class="form-control" placeholder="Techer Name"
+                   value="" />
+            <input type="hidden" name="IsType" class="form-control" placeholder="Techer Name"
+                   value="1" />
+            <button type="submit" class="btn btn-info">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+            </button>
+        </form>
+        <div class="box-inner">
+            <div class="box-header well" data-original-title="">
+                <h2>Teacher's</h2>
+                <div class="box-icon">
+
+                    <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalTeacherForm">
+                        <i class="glyphicon glyphicon-plus"></i>
+                    </a>
+
+                </div>
+            </div>
+            <div class="box-content">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Teacher Name</th>
+                            <th>Email Id</th>
+                            <th>Contact No.</th>
+                            <th>State</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (ViewBag.Teacher != null)
+                        {
+                            @foreach (var cls in ViewBag.Teacher)
+                            {
+                                <tr>
+                                    <td>@cls.Fname  @cls.Lname</td>
+
+                                    <td>@cls.Email</td>
+
+                                    <td>@cls.MobileNo</td>
+
+                                    <td>@cls.State</td>
+                                    <td>
+
+
+                                        <a href=#; onclick="GetTeacherData(@cls.TeacherId);">
+                                            <i class="fa fa-edit" aria-hidden="true">Edit</i>
+                                        </a>
+                                    </td>
+
+                                    <td>
+
+
+                                        <a href=#; onclick="DeleteTeacher(@cls.TeacherId,'Teacher');">
+                                            <i class="fa fa-trash" aria-hidden="true">Delete</i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+                @if (ViewBag.Teacher != null)
+                {
+                    @Html.Partial("_Teacherlistpagination")
+                }
+                </div>
+        </div>
+    </div>
+</div>
+<div class="box col-md-12" id="teacherpaymentconfig">
+    <form action="TeacherPayment" method="get" class="form-inline">
+        <input name="filter" class="form-control" placeholder="Techer Name"
+               value="" />
+        <input type="hidden" name="IsType" class="form-control" placeholder="Techer Name"
+               value="2" />
+        <button type="submit" class="btn btn-info">
+            <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+        </button>
+    </form>
+    <div class="box-inner">
+        <div class="box-header well" data-original-title="">
+            <h2>Teacher Payment Configuration</h2>
+            <div class="box-icon">
+
+                <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalTeacherPayment">
+                    <i class="glyphicon glyphicon-plus"></i>
+                </a>
+            </div>
+
+        </div>
+        <div class="box-content">
+            <table class="table">
+                <thead>
+                    <tr>
+
+
+                        <th>Teacher Name</th>
+                        <th>Class</th>
+                        <th>Batch</th>
+                        <th>Subject</th>
+                        <th>Duration</th>
+                        <th>Amount</th>
+
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (ViewBag.TeacherPay != null)
+                    {
+                        @foreach (var cls in ViewBag.TeacherPay)
+                        {
+                            <tr>
+                                <td>@cls.TeacherName</td>
+                                <td>@cls.className</td>
+                                <td>@cls.batchName</td>
+                                <td>@cls.SubName</td>
+                                <td>@cls.Typename</td>
+                                <td>@cls.Amount</td>
+
+
+                                <td>
+                                    <a href=#; onclick="GetTeachPayment(@cls.Id);">
+                                        <i class="fa fa-edit" aria-hidden="true">Edit</i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="#" onclick="DeleteData(@cls.Id,'TeacherPayment');">
+                                        <i class="fa fa-trash" aria-hidden="true">Delete</i>
+                                    </a>
+                                </td>
+                            </tr>
+
+                        }
+                    }
+
+                </tbody>
+            </table>
+            @if (ViewBag.TeacherPay != null)
+            {
+                @Html.Partial("_TeacherPaymentlistpagination")
+            }
+            </div>
+    </div>
+</div>
+
+@using (Html.BeginForm("SaveTeacherPayment", "TeacherPayment", FormMethod.Post))
+{
+
+    <div class="modal fade" id="modalTeacherPayment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100 font-weight-bold">Add Teacher Payment</h4>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body mx-3">
+                    <div class="md-form mb-4 ">
+
+                        @Html.HiddenFor(model => model.TecherammountId)
+                        @Html.Label("Teacher")
+                        @Html.DropDownListFor(e => e.TeacherId, (SelectList)ViewBag.DDlTeacher, "Select Teacher", new { @class = "form-control ddlTeacher" })
+
+                    </div>
+                    <div class="md-form mb-4 ">
+
+                        @Html.RadioButtonFor(m => m.Isbatch, "true", new { onclick = "LoadBatch('Batch')", id = "bat" }) Batch
+                        @Html.RadioButtonFor(m => m.Isbatch, "false", new { onclick = "LoadBatch('Class')", id = "cla" }) Class
+                    </div>
+                    <div class="md-form mb-4 divbatch" style="display:none">
+
+
+                        @Html.Label("Batch")
+                        @Html.DropDownListFor(e => e.BatchId, (SelectList)ViewBag.DDLBatch, "Select Batch", new { @class = "form-control ddlbatch", onchange = "loadSubject(this.value,'Batch')" })
+
+                    </div>
+                    <div class="md-form mb-4 divClass" style="display:none">
+
+
+                        @Html.Label("Class")
+                        @Html.DropDownListFor(e => e.ClassId, (SelectList)ViewBag.ClassName, "Select Class", new { @class = "form-control ddlClass", onchange = "loadSubject(this.value,'Class')" })
+
+                    </div>
+                    <div class="md-form mb-4 divSub" style="display:none">
+
+
+                        @Html.Label("Subject")
+                        <select id="Subjectid" name="Subjectid" class="form-control"></select>
+                        @*@Html.DropDownListFor(e => e.SubjectName, null, "", new { @class = "form-control ddlSub" })*@
+
+
+                    </div>
+                    <div class="md-form mb-4 divType" style="display:none">
+
+
+                        @Html.Label("Duration Type")
+                        @Html.DropDownListFor(e => e.DurationTypeid, (SelectList)ViewBag.DDlType, "Select Duration", new { @class = "form-control ddlType" })
+
+                    </div>
+
+
+
+
+                    <div class="md-form mb-4 divAmount" style="display:none">
+
+
+                        @Html.Label("Amount")
+                        @Html.TextBoxFor(model => model.AmountTopay, new { @class = "form-control" })
+
+                    </div>
+
+
+
+
+
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button class="btn btn-deep-orange" type="submit">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@using (Html.BeginForm("TeacherDetail", "Home", FormMethod.Post, new { name = "teacher" }))
+{
+
+    @section Scripts
+        {
+
+
+
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJuu90YmKip1Hybu8PO-arizWncuHnp9M&v=3.exp&signed_in=true&libraries=places"></script>
+        <script type="text/javascript">
+            var placeSearch, autocomplete;
+            var componentForm = {
+                //street_number: 'short_name',
+                //route: 'long_name',
+                //  locality: 'long_name',
+                administrative_area_level_2: 'long_name',
+                administrative_area_level_1: 'long_name',
+                country: 'long_name',
+                // postal_code: 'short_name'
+            };
+            google.maps.event.addDomListener(window, 'load', function () {
+                //===========================Source==========================
+                var places = new google.maps.places.Autocomplete(document.getElementById('Address'));
+                google.maps.event.addListener(places, 'place_changed', function () {
+                   // //debugger
+                    var place = places.getPlace();
+                    console.log(place);
+                    var address = place.formatted_address;
+                    var value = address.split(",");
+                    count = value.length;
+                    country = value[count - 1];
+                    administrative_area_level_1 = value[count - 2];
+                    administrative_area_level_2 = value[count - 3];
+                    var z = administrative_area_level_1.split(" ");
+                    //document.getElementById("Country").value = country;
+                    var i = z.length;
+                    //document.getElementById("City").value = city;
+                    var latitude = place.geometry.location.lat();
+                    var longitude = place.geometry.location.lng();
+                    var mesg = address;
+                    document.getElementById("Address").value = mesg;
+                    var lati = latitude;
+                    console.log(lati);
+                    console.log(longi);
+                    //document.getElementById("Origin_Lat").value = lati;
+                    var longi = longitude;
+                    //document.getElementById("Origin_Long").value = longi;
+                    //GetAddress(lati, longi, 'FromPostCode');
+
+                    console.log(place.address_components);
+                    for (var i = 0; i < place.address_components.length; i++) {
+                        var addressType = place.address_components[i].types[0];
+
+                        if (componentForm[addressType]) {
+                            var val = place.address_components[i][componentForm[addressType]];
+                            document.getElementById(addressType).value = val;
+                        }
+                    }
+
+                });
+                //============================Destination========================
+
+            });
+        </script>
+
+    }
+
+    <div class="modal fade" id="modalTeacherForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100 font-weight-bold">Add Teacher</h4>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body mx-3">
+                    <div class="md-form mb-4 ">
+
+                        @Html.HiddenFor(model => model.Teacherid)
+                        @Html.Label("First Name", null, new { @class = "required" })
+                        @Html.TextBoxFor(model => model.Fname, new { @class = "form-control", onchange = "CheckValidation()" })
+                        <span style="color:red;" id="errFirst"></span>
+
+                    </div>
+
+                    <div class="md-form mb-4 ">
+
+
+                        @Html.Label("Last Name", null, new { @class = "required" })
+
+                        @Html.TextBoxFor(model => model.Lname, new { @class = "form-control", onchange = "CheckValidation()" })
+                        <span style="color:red;" id="errLast"></span>
+
+                    </div>
+                    <div class="md-form mb-4 ">
+
+
+                        @Html.Label("Email Id", null, new { @class = "required" })
+                        @Html.TextBoxFor(model => model.Email, new { @class = "form-control", onchange = "CheckValidation()" })
+                        <span style="color:red;" id="errEmail"></span>
+
+                    </div>
+
+                    <div class="md-form mb-4 ">
+
+
+                        @Html.Label("Contact No", null, new { @class = "required" })
+                        @Html.TextBoxFor(model => model.MobileNo1, new { @class = "form-control", onchange = "CheckValidation()" })
+                        <span style="color:red;" id="errMobile"></span>
+
+                    </div>
+
+                    <div class="md-form mb-4">
+
+                    </div>
+                    <div class="md-form mb-4">
+
+
+                        @Html.Label("Complete Address")
+                        @Html.TextBoxFor(model => model.Address, new { @class = "form-control" })
+                        <span style="color:red;" id="errAddress"></span>
+                    </div>
+
+                    <div class="md-form mb-4">
+
+
+                        @Html.Label("City")
+                        @Html.TextBoxFor(model => model.administrative_area_level_2, new { @class = "form-control" })
+                        <span style="color:red;" id="errDistrict"></span>
+                    </div>
+                    <div class="md-form mb-4">
+
+
+                        @Html.Label("State")
+                        @Html.TextBoxFor(model => model.administrative_area_level_1, new { @class = "form-control" })
+                        <span style="color:red;" id="errState"></span>
+                    </div>
+
+
+                    <div class="md-form mb-4">
+
+
+                        @Html.Label("Country")
+                        @Html.TextBoxFor(model => model.country, new { @class = "form-control" })
+                        <span style="color:red;" id="errState"></span>
+                    </div>
+                    <div class="md-form mb-4">
+
+
+                        @Html.Label("Pincode ", null, new { @class = "required" })
+                        @Html.TextBoxFor(model => model.postal_code, new { @class = "form-control", onchange = "CheckValidation()" })
+                        <span style="color:red;" id="errZipcode"></span>
+                    </div>
+
+                    <div class="md-form mb-4 usName">
+
+
+                        @Html.Label("UserName", null, new { @class = "required" })
+                        @Html.TextBoxFor(model => model.UserName, new { @class = "form-control ", onchange = "CheckValidation()" })
+                        <span style="color:red;" id="errUsername"></span>
+                        <span id="Status"></span>
+
+                    </div>
+                    <div class="md-form mb-4 usName1">
+
+
+                        @Html.Label("Password", null, new { @class = "required" })
+                        @Html.PasswordFor(model => model.Password, new { @class = "form-control ", onchange = "CheckValidation()" })
+                        <span style="color:red;" id="errfn"></span>
+
+                    </div>
+                    <div class="md-form mb-4 usName2">
+
+                        @Html.Label("Confirm Password ", null, new { @class = "required" })
+                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", onchange = "CheckValidation()" })
+
+                        <span style="color:red;" id="errConfirm"></span>
+                    </div>
+
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button class="btn btn-deep-orange" type="submit" onclick="return CheckValidation();">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*<script src="
+        https://maps.googleapis.com/maps/api/js?key=AIzaSyCkUOdZ5y7hMm0yrcCQoCvLwzdM6M8s5qk&libraries=places&callback=initAutocomplete"
+        async defer></script>*@
+
+
+
+
+}
+
+
+<div class="box col-md-12" id="teacherpaymentcalculation">
+    <div class="box-inner">
+        <div class="box-header well" data-original-title="">
+            <h2>Teacher Payment Calculation</h2>
+            @*<div class="box-icon">*@
+
+            @*<a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalTeacherCalculate">
+            <i class="glyphicon glyphicon-plus"></i>
+        </a>*@
+            <div class="box-content">
+                <table class="table">
+                    @using (Html.BeginForm("GetAllTeachersPayment", "TeacherPayment", FormMethod.Get)) //, new { id = "mainForm" }
+                    {
+                        <tr>
+
+
+                            <td style="text-align:center;padding-top:15px">
+                                <input type="hidden" name="IsType" class="form-control" placeholder="Techer Name"
+                                       value="3" />
+                                <span> Month :</span>
+                            </td>
+                            <td >
+                                <select class="form-control" id="month" name="month"></select>
+                            </td>
+                            <td style="text-align:center;padding-top:15px">
+                                <span>  Year : </span>
+                            </td>
+                            <td>
+                                <select class="form-control" id="year" name="year"></select>
+                            </td>
+                            <td>
+                                <input type="submit" class="btn btn-primary" value="Submit" id="btnpayment" />
+                            </td>
+
+                        </tr>
+                    }
+                </table>
+            </div>
+
+        </div>
+        <div class="box-content">
+
+            @*<table class="table">
+            <thead>
+                <tr>
+
+
+                    <th>Teacher Name</th>
+                    <th>Total Class</th>
+                    <th>Total Batch</th>
+                    <th>Amount</th>
+
+
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>*@
+            @if(ViewBag.teacherMain !=null){
+            @Html.Partial("_TeacherPaymentlisting")
+            }
+
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+
+    $(document).ready(function () {
+       
+        if (@ViewBag.Types== 0) {
+            $('#teacherpaymentcalculation').hide();
+            $('#teacherpaymentconfig').hide();
+            $('#TeacherConfiguration').hide()
+        }
+        else if (@ViewBag.Types== 1)
+        {
+            $('#teacherpaymentcalculation').hide();
+            $('#teacherpaymentconfig').hide();
+            $('#TeacherConfiguration').show()
+        }
+          else if (@ViewBag.Types== 2)
+        {
+            $('#teacherpaymentcalculation').hide();
+            $('#teacherpaymentconfig').show();
+            $('#TeacherConfiguration').hide()
+        }
+          else if (@ViewBag.Types== 3)
+        {
+            $('#teacherpaymentcalculation').show();
+            $('#teacherpaymentconfig').hide();
+            $('#TeacherConfiguration').hide()
+        }
+       //// For month and year populated in two dropdowns
+        var minOffset = -10, maxOffset = 17;
+        var thisYear = (new Date()).getFullYear();
+        var m_names = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        var month = 0;
+
+        for (var j = month; j <= 11; j++) {
+            var months = m_names[0 + j];//.slice(0, 3);
+            $('<option>', { value: months, text: months }).appendTo("#month");
+        }
+
+        for (var i = minOffset; i <= maxOffset; i++) {
+            var year = thisYear + i;
+            $('<option>', { value: year, text: year }).appendTo("#year");
+        }
+        var d = new Date(),
+
+            n = d.getMonth(),
+            
+            y = d.getFullYear();
+
+        var monthNum;
+
+        if (@ViewBag.mthnum!= 0) {
+            
+            monthNum = @ViewBag.mthnum-1;
+            n = monthNum;
+         }
+        debugger;
+            
+        //if (monthNum != null  && monthNum!='') {
+        //    n = monthNum;
+        //}
+        
+        //alert(monthNum)
+        //alert(n)
+        $('#month option:eq(' + n + ')').prop('selected', true);
+        $('#year option[value="' + y + '"]').prop('selected', true);
+
+            
+        //// End of population
+        //var mt = $("#month").val();
+        //alert(mt);
+
+        //$("#btnpayment").off().on('click', function () {
+        //    var mth = $("#month").val();
+        //    var yr = $("#year").val();
+        //    alert(mth);
+        //    alert(yr);
+        //    $.ajax({
+
+        //    })
+        //})
+
+    });
+
+
+    function showTeachPayment() {
+
+        $('#teacherpaymentconfig').show();
+        $('#teacherpaymentcalculation').hide();
+        $('#TeacherConfiguration').hide()
+    }
+
+        function ShowTotalPayment() {
+            $('#teacherpaymentcalculation').show();
+            $('#teacherpaymentconfig').hide();
+            $('#TeacherConfiguration').hide()
+
+
+    }
+    function showTeacher() {
+        $('#teacherpaymentcalculation').hide();
+        $('#teacherpaymentconfig').hide();
+        $('#TeacherConfiguration').show()
+    }
+
+
+    function GetTeachPayment(TeacherAmtId) {
+
+        ''//debugger
+              $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetteacherPayment", "TeacherPayment")',
+            datatype: "Json",
+                  data: { Id: TeacherAmtId },
+                  success: function (data) {
+                     // //debugger
+
+                     // alert(data);
+
+                     $(".ddlTeacher").val(data[0].teacherName[0].value);
+                        //  $('#ClassId').val(data[0].className),
+                      if (data[0].isBatch==false) {
+
+                          radiobtn = document.getElementById("cla");
+                          radiobtn.checked = true;
+                          $(".divClass").css('display', 'block');
+                          $(".divbatch").css('display', 'none');
+                          $(".ddlClass").val(data[0].className[0].value);
+
+                      }
+                      else if (data[0].isBatch == true)
+                      {
+                         // $('#Isbatch').checked = true;
+                          radiobtn = document.getElementById("bat");
+                          radiobtn.checked = true;
+                          $(".divbatch").css('display', 'block');
+                          $(".divClass").css('display', 'none');
+                          $(".ddlbatch").val(data[0].batchName[0].value);
+                      }
+                   //   $(".ddlbatch").val(data[0].batchName[0].value);
+                      $(".ddlType").val(data[0].planType[0].value);
+                    //  $('#Subjectid').val(SubjectName);
+
+                     var  s  = '<option value="' + data[0].subjectName[0].value + '">' + data[0].subjectName[0].text + '</option>';
+
+                      $("#Subjectid").html(s);
+                      $('#AmountTopay').val(data[0].amount);
+
+                      $('#modalTeacherPayment').modal('show');
+            }
+
+            });
+
+    }
+
+
+
+    function LoadBatch(obj) {
+        if (obj == 'Batch') {
+           // //debugger
+            $(".divbatch").css('display', 'block');
+            $(".divClass").css('display', 'none');
+            $(".divSub").css('display', 'block');
+            $(".divType").css('display', 'block');
+            $(".divAmount").css('display', 'block');
+
+        }
+       else  if (obj == 'Class') {
+
+            $(".divClass").css('display', 'block');
+            $(".divbatch").css('display', 'none');
+            $(".divSub").css('display', 'block');
+            $(".divType").css('display', 'block');
+            $(".divAmount").css('display', 'block');
+        }
+
+    }
+    function loadSubject(BatchClassId,str)
+    {
+       // alert(BatchClassId);
+      //  //debugger
+         $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetSubject", "TeacherPayment")',
+            datatype: "Json",
+             data: { id: BatchClassId, type: str},
+                  success: function (data) {
+                     // //debugger
+
+                      var s = '<option value="-1">Please Select a Subject</option>';
+                      for (var i = 0; i < data.length; i++) {
+                          s += '<option value="' + data[i].value + '">' + data[i].text + '</option>';
+                      }
+                      $("#Subjectid").html(s);
+
+
+
+            }
+
+            });
+    }
+
+
+    function DeleteData(id, type) {
+
+        var data1 = '@ViewBag.Message';
+
+    $.ajax({
+            type: "post",
+            url: "@Url.Action("DeleteConfirmed", "TeacherPayment")",
+            ajaxasync: true,
+        data: { Id:id, Tabletype: type },
+        success: function (data) {
+
+
+            var data1 = '@TempData["DeleteMsg"]';
+            alertify.alert(data, function () { location.reload(); }).setHeader('Edu Solution');
+                showClass();
+            },
+            error: function (data) {
+                alert("something went wrong");
+            }
+        });
+    }
+</script>
+
+
+<script>
+    function CheckValidation() {
+
+       //////debugger;
+       
+      var  fName = document.getElementById("Fname").value;
+       var lName = document.getElementById("Lname").value;
+        // var Mnumber = document.getElementById("MobileNo").value;
+        var Mnumber = $('#MobileNo1').val();
+      //  alert($('#MobileNo1').val());
+      //  alert(Mnumber);
+        var  zcode = document.getElementById("postal_code").value;
+        var  pswd = document.getElementById("Password").value;
+        var EmailId = document.getElementById("Email").value;
+        var userName = document.getElementById("UserName").value;
+        var conpswd = document.getElementById("ConfirmPassword").value;
+        /////////////First Name/////////////////////////
+        if (fName == '') {
+            document.getElementById("errFirst").innerHTML = "Please Enter First name";
+
+            document.getElementById("Fname").value ="";
+
+            return false;
+        }
+        if (fName != '') {
+
+            document.getElementById("errFirst").innerHTML = "";
+        }
+        /////////////Last Name/////////////////////////
+        if (lName == '') {
+            document.getElementById("errLast").innerHTML = "Please Enter Last name";
+            document.getElementById("Lname").value = "";
+
+            return false;
+        }
+        if (lName != '') {
+            document.getElementById("errLast").innerHTML = "";
+        }
+
+        /////////////Email/////////////////////////
+        if (EmailId == '') {
+            document.getElementById("errEmail").innerHTML = "Please Enter Email";
+            document.getElementById("Email").value = "";
+           // document.getElementById("Email").focus();
+          return false;
+        }
+        if (EmailId != '') {
+            if (isValidEmailAddress(EmailId)) {
+                //document.getElementById("errEmail").innerHTML = "Please provide a valid email address ";
+               document.getElementById("errEmail").innerHTML = "";
+
+            }
+            else {
+               document.getElementById("errEmail").innerHTML = "Please provide a valid email address ";
+           }
+
+        }
+
+        /////////////mobile no./////////////////////////
+        if (Mnumber == '' && Mnumber.length!=10) {
+            document.getElementById("errMobile").innerHTML = "Please Enter 10 digit number ";
+         //   document.getElementById("MobileNo").value = "";
+
+            return false;
+        }
+        if (Mnumber != '' && Mnumber.length == 10) {
+
+            document.getElementById("errMobile").innerHTML = "";
+        }
+       
+        /////////////district/////////////////////////
+        //if (district == '') {
+        //    document.getElementById("errDistrict").innerHTML = "Please Enter District ";
+        //    document.getElementById("Distict").value = "";
+        //    //document.getElementById("Distict").focus();
+        //    return false;
+        //}
+        //if (district != '') {
+        //    document.getElementById("errDistrict").innerHTML = "";
+        //}
+        /////////////State/////////////////////////
+        //if (states == '') {
+        //    document.getElementById("errState").innerHTML = "Please Choose State ";
+        //    document.getElementById("State").value = "";
+        //   // document.getElementById("State").focus();
+        //    return false;
+        //}
+        //if (states != '') {
+        //    document.getElementById("errState").innerHTML = "";
+
+
+        //}
+        /////////////zipcode/////////////////////////
+        if (zcode == '' && zcode.length!=6) {
+            document.getElementById("errZipcode").innerHTML = "Please Enter 6 digit Pincode ";
+            document.getElementById("postal_code").value = "";
+           // document.getElementById("Zipcode").focus();
+            return false;
+        }
+        if (zcode != '' && zcode.length == 6) {
+            document.getElementById("errZipcode").innerHTML = "";
+
+
+        }
+
+        /////////////Username/////////////////////////
+      
+        if ($('#Teacherid').val() == "") {
+              if (userName == '') {
+            document.getElementById("errUsername").innerHTML = "Please Provide UserName ";
+            document.getElementById("errUsername").value = "";
+            //document.document.getElementById("errUsername").focus();
+            return false;
+        }
+        if (userName != '') {
+            //debugger
+            var usr = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/
+            if (document.teacher.UserName.value.match(usr)) {
+
+
+                 $.ajax({
+            type: "GET",
+            url: '@Url.Action("CheckUserNamePassword", "Home")',
+            datatype: "Json",
+                     data: { username: userName },
+            success: function (data) {
+
+                if (data == null || data==0) {
+                    document.getElementById("errUsername").innerHTML() = "";
+                }
+                else {
+                    $("#UserName").css("border-color", "Red");
+                    document.getElementById("errUsername").innerHTML = "UserName already Exist Try another!";
+                    return false;
+                }
+            }
+        });
+            }
+            else
+            {
+                document.getElementById("errUsername").innerHTML = "Please Provide UserName having 6 to 20 characters which contain at least one numeric digit, one uppercase and one lowercase letter";
+            }
+
+        }
+
+        /////////////password/////////////////////////
+        if (pswd == '') {
+            document.getElementById("errPassword").innerHTML = "Please Provide Password ";
+            document.document.getElementById("Password").value = "";
+           // document.document.getElementById("Password").focus();
+            return false;
+        }
+        if (pswd != '') {
+            document.getElementById("errPassword").innerHTML = "";
+
+
+        }
+
+        /////////////Confirm password/////////////////////////
+        if (conpswd == '') {
+            document.getElementById("errConfirm").innerHTML = "Please Provide Confirm Password ";
+            document.document.getElementById("ConfirmPassword").value = "";
+           // document.document.getElementById("ConfirmPassword").focus();
+            return false;
+        }
+        if (conpswd != '') {
+            if (pswd == conpswd)
+            {
+               document.getElementById("errConfirm").innerHTML = "";
+            }
+            else
+            {
+                document.getElementById("errConfirm").innerHTML = "Password and Confirm Password should be same ";
+                document.document.getElementById("ConfirmPassword").value = "";
+                //document.document.getElementById("ConfirmPassword").focus();
+                return false;
+
+            }
+
+
+
+        }
+        }
+      
+    }
+
+
+    function EmailValid(email) {
+        //debugger
+        // var email = document.getElementById("Email");
+         var filter = /^[_a-z0-9-]+(\.[_a-z0-9-]+)@@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
+        //var filter = /^([\w-\.]+)@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+        if (!filter.test(email.value)) {
+            // alert('Please provide a valid email address');
+
+            email.focus;
+            return false;
+        }
+        return true;
+    }
+
+
+    function isValidEmailAddress(emailAddress) {
+        //debugger
+      //  var pattern = new RegExp(/^[_a-z0-9-]+(\.[_a-z0-9-]+)@@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/);
+       // var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
+      //  return pattern.test(emailAddress);
+
+
+        if (/^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(emailAddress))
+               {
+               return (true)
+                       }
+   // alert("You have entered an invalid email address!")
+    return (false)
+    }
+
+ function GetTeacherData(teacherid) {
+
+       // //debugger
+              $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetTeacher", "Home")',
+            datatype: "Json",
+                  data: { TeacherId: teacherid },
+                  success: function (data) {
+                      $('#Fname').val(data[0].firstname),
+                          $('#Lname').val(data[0].lastname),
+                          $('#Email').val(data[0].email),
+                          $('#MobileNo1').val(data[0].mobile),
+                          $('#Address').val(data[0].address),
+                          $('#country').val(data[0].country),
+                          $('#administrative_area_level_1').val(data[0].state),
+                          $('#administrative_area_level_2').val(data[0].city),
+                          $('#postal_code').val(data[0].pin),
+
+                          $('#Teacherid').val(teacherid)
+                      $(".usName").css('display', 'none');
+                      $(".usName1").css('display', 'none');
+                      $(".usName2").css('display', 'none');
+                      $('#modalTeacherForm').modal('show');
+            }
+
+            });
+
+    }
+
+
+    function DeleteTeacher(id, type) {
+       // alert(type);
+        var data1 = '@ViewBag.Message';
+       // //debugger
+
+    $.ajax({
+            type: "post",
+            url: "@Url.Action("DeleteConfirmed", "Home")",
+            ajaxasync: true,
+        data: { Id:id, Tabletype: type },
+        success: function (data) {
+
+
+            var data1 = '@TempData["DeleteMsg"]';
+            alertify.alert(data, function () { location.reload(); }).setHeader('Edu Solution');
+                showClass();
+            },
+            error: function (data) {
+                alert("something went wrong");
+            }
+        });
+    }
+</script>

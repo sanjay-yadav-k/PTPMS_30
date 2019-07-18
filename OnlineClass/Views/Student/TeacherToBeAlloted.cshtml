@@ -1,0 +1,195 @@
+﻿<div class=" row">
+    <div class="col-md-3 col-sm-3 col-xs-6">
+        <a data-toggle="tooltip" title="228 Total Class" class="well top-block" href="#" onclick="ShowNotalloted()">
+            <i class="glyphicon glyphicon-star green"></i>
+            <div>Teacher Need to Allot</div>
+            <div></div>
+
+        </a>
+    </div>
+    <div class="col-md-3 col-sm-3 col-xs-6">
+        <a data-toggle="tooltip" title="228 Total Class" class="well top-block" href="#" onclick="ShowTransaction()">
+            <i class="glyphicon glyphicon-star green"></i>
+            <div>Transaction History</div>
+            <div></div>
+
+        </a>
+    </div>
+</div>
+
+
+
+<div class="row" id="TeacherNeedToAllot">
+    <input type="hidden" id="studentbatchtype" name="studentbatchtype" />
+    <div class="box col-md-6">
+        <div class="box-inner">
+            <div class="box-header well" data-original-title="">
+                <h2>Teacher Allotment in Progress</h2>
+                @*<div class="box-icon">
+
+                    <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalTeacherForm">
+                        <i class="glyphicon glyphicon-plus"></i>
+                    </a>
+
+                </div>*@
+            </div>
+            <div class="box-content">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+
+                            <th>Batch/Subject Name</th>
+                            <th></th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in ViewBag.Subject)
+                        {
+                            <tr>
+                                <td>@item.subjectname</td>
+                                <td>In progress</td>
+                            </tr>
+                        }
+
+                        @foreach (var item2 in ViewBag.Batch)
+                        {
+                            <tr>
+                                <td>@item2.BatchName</td>
+                                <td>In progress</td>
+                            </tr>
+
+
+                        }
+
+                    </tbody>
+                </table>
+              
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="row" id="TransSubConfiguration">
+    <input type="hidden" id="studentbatchtype" name="studentbatchtype" />
+    <div class="box col-md-6">
+        <div class="box-inner">
+            <div class="box-header well" data-original-title="">
+                <h2>Subject Transaction History</h2>
+
+            </div>
+            <div class="box-content">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Subject Name</th>
+                            <th>Date Of Transaction</th>
+                            <th>Amount Paid</th>
+                            <th>Status</th>
+                            <th>Duration</th>
+                            <th>Period in Hr.</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var cls in ViewBag.subjectTransaction)
+                        {
+                            <tr>
+                                <td>@cls.SubjectName</td>
+
+                                <td>@cls.DateofTrans.ToShortDateString()</td>
+
+                                <td>@cls.Amount_Paid</td>
+
+                                <td>@cls.status</td>
+                                <td>@cls.duration</td>
+                                <td>@cls.period</td>
+
+
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+    <div class="box col-md-6">
+        <div class="box-inner">
+            <div class="box-header well" data-original-title="">
+                <h2>Batch Transaction History</h2>
+
+            </div>
+            <div class="box-content">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Batch Name</th>
+                            <th>Date Of Transaction</th>
+                            <th>Amount Paid</th>
+                            <th>Status</th>
+                            <th>Duration</th>
+                            @*<th>Period in Hr.</th>*@
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var cls in ViewBag.BatchTranscation)
+                        {
+                            <tr>
+                                <td>@cls.batchName</td>
+
+                                <td>@cls.DateofTrans.ToShortDateString()</td>
+
+                                <td>@cls.Amount_Paid</td>
+
+                                <td>@cls.status</td>
+                                <td>@cls.duration</td>
+                                @*<td>@cls.period</td>*@
+
+
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="row" id="TransBatchConfiguration">
+    <input type="hidden" id="studentbatchtype" name="studentbatchtype" />
+   
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#TeacherNeedToAllot').hide();
+        $('#TransSubConfiguration').hide();
+        $('#TransBatchConfiguration').hide();
+       
+    });
+    function ShowNotalloted() {
+        $('#TeacherNeedToAllot').show();
+        $('#TransSubConfiguration').hide();
+       $('#TransBatchConfiguration').hide();
+
+
+    }
+
+    function ShowTransaction() {
+        $('#TeacherNeedToAllot').hide();
+        $('#TransSubConfiguration').show();
+       $('#TransBatchConfiguration').hide();
+        
+
+
+    }
+</script>
